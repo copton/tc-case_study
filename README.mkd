@@ -80,6 +80,6 @@ The environment has the following configuration:
 
 * `fn_receive`: the path to the IPC socket for receiving data from the neighbor.
 * `fn_send`: the path to the IPC socket for sending data to the neighbor
-* `fn_sense`: the path to the IPC socket for reading from the sensor.
+* `fn_collect`: the path to the IPC socket for reading from the sensor.
 * `fn_flash`: to path to the file which simulates flash storage.
 
