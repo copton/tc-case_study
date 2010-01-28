@@ -7,7 +7,7 @@ typedef struct {
     int dt_send;
     char* fn_receive;
     char* fn_send;
-    char* fn_sense;
+    char* fn_collect;
     char* fn_flash;
 } Config;
 

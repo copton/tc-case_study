@@ -10,7 +10,7 @@ static Config defaultConfig = {
     4 * 1000,
     "/tmp/tc/receive.sock",
     "/tmp/tc/send.sock",
-    "/tmp/tc/sense.sock",
+    "/tmp/tc/collect.sock",
     "/tmp/tc/flash.dat"
 };
 
@@ -24,8 +24,8 @@ static void loadDefaultConfig()
 static void usage()
 {
     fprintf(stderr, 
-		"valid options: [-h] [-c dt_collect=%d] [-r dt_receive=%d] [-s dt_send=%d] [-i fn_receive='%s'] [-o fn_send='%s'] [-e fn_sense='%s'] [-f fn_flash='%s']\n", 
-		defaultConfig.dt_collect, defaultConfig.dt_receive, defaultConfig.dt_send, defaultConfig.fn_receive, defaultConfig.fn_send, defaultConfig.fn_sense, defaultConfig.fn_flash);
+		"valid options: [-h] [-c dt_collect=%d] [-r dt_receive=%d] [-s dt_send=%d] [-i fn_receive='%s'] [-o fn_send='%s'] [-e fn_collect='%s'] [-f fn_flash='%s']\n", 
+		defaultConfig.dt_collect, defaultConfig.dt_receive, defaultConfig.dt_send, defaultConfig.fn_receive, defaultConfig.fn_send, defaultConfig.fn_collect, defaultConfig.fn_flash);
 	exit(1);
 }
 
@@ -52,7 +52,7 @@ const Config* parseOptions(int argc, char** argv)
 			case 's': userConfig.dt_send = parseNumber(optarg); break;
 			case 'i': userConfig.fn_receive = optarg; break;
 			case 'o': userConfig.fn_send = optarg; break;
-			case 'e': userConfig.fn_sense = optarg; break;
+			case 'e': userConfig.fn_collect = optarg; break;
 			case 'f': userConfig.fn_flash = optarg; break;
 			default: usage();
 		}
