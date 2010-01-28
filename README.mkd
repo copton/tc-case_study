@@ -1,0 +1,84 @@
+Scenario
+========
+We simulate a mote which performs buffered data acquisition within a spanning
+tree topology of a wireless sensor network.
+
+In particular the mote performs the following tasks:
+
+* frequently collect data from the sensor and store it to flash.
+* freuqently receive data from neighbor motes and store it to flash.
+* frequently aggregate the data from flash and send the result to a different neighbor.
+
+Purpose
+=======
+We want to show how the code generation works and we want to measure how
+efficient the generated code is compared to hand-written code.
+
+For more information see [Threads for the Programmer, Events for the Machine](http://blogs.ethz.ch/copton/2010/01/20/threads-for-the-programmer-events-for-the-machine/)
+
+Project Structure
+=================
+The project consists of the following parts:
+
+* `environment`: the event-based runtime environment which simulates the operating system of the mote.
+* `implementation`: different implementations of the mote application
+    - `events`: hand-written, event-based implemenatation
+    - `threads`: hand-written, thread-based implementation 
+    - `generated`: manually generated, event-based implementation
+* `tests`: black box tests for the mote application.
+* `benchmark`: benchmarks for the three different implemenations.
+* `compiler`: implemenatation of the compiler
+    - `pal`: the platform abstraction layer for the runtime environment
+    - `transform`: the implemenatation of the transformation. Stays currently empty because we do the first case study by a manual transformation. 
+* `configuration`: configuration for the whole project.
+
+Environment
+===========
+The event-based runtime environment is implemented on top of the ANSI-C and
+POSIX of a Linux kernel. Communication between motes and communication to the
+sensor is done through local IPC sockets (aka. Unix domain sockets). The flash
+storage is simulated by a normal file.
+
+Implemenatation
+===============
+_more details will follow_
+
+Tests
+=====
+_more details will follow_
+
+Benchmarks
+==========
+_more details will follow_
+
+Compiler
+========
+Pal
+---
+_more details will follow_
+
+Transformation
+--------------
+The code generation is performed in the following steps:
+
+* determine all critical calls.
+* determine the state structure for every critical function.
+* replace access to automatic variables with access to the state structures.
+* transform the code into the equivalent GOTO program.
+* transform the GOTO program into the equivalent event-based program.
+
+Configuration
+=============
+The details of the mote's behavior is determined by the following config items:
+
+* `dt_collect`: the time delta between two consecutive readings from the sensor.
+* `dt_receive`: the time delta between two consecutive receivings from the neighbor.
+* `dt_send`: the time delta between two consecutive sendings to the neighbor.
+
+The environment has the following configuration:
+
+* `fn_receive`: the path to the IPC socket for receiving data from the neighbor.
+* `fn_send`: the path to the IPC socket for sending data to the neighbor
+* `fn_sense`: the path to the IPC socket for reading from the sensor.
+* `fn_flash`: to path to the file which simulates flash storage.
+
