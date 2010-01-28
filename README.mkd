@@ -25,12 +25,13 @@ The project consists of the following parts:
     - `events`: hand-written, event-based implemenatation
     - `threads`: hand-written, thread-based implementation 
     - `generated`: manually generated, event-based implementation
-* `tests`: black box tests for the mote application.
-* `benchmark`: benchmarks for the three different implemenations.
+* `tests`: black-box tests for the mote application.
+* `benchmark`: benchmarks for the three different implemenations
 * `compiler`: implemenatation of the compiler
     - `pal`: the platform abstraction layer for the runtime environment
     - `transform`: the implemenatation of the transformation. Stays currently empty because we do the first case study by a manual transformation. 
 * `configuration`: configuration for the whole project.
+* `mak`: build system files
 
 Environment
 ===========
@@ -71,9 +72,9 @@ Configuration
 =============
 The details of the mote's behavior is determined by the following config items:
 
-* `dt_collect`: the time delta between two consecutive readings from the sensor.
-* `dt_receive`: the time delta between two consecutive receivings from the neighbor.
-* `dt_send`: the time delta between two consecutive sendings to the neighbor.
+* `dt_collect`: the time delta in milliseconds between two consecutive readings from the sensor.
+* `dt_receive`: the time delta in milliseconds between two consecutive receivings from the neighbor.
+* `dt_send`: the time delta in milliseconds between two consecutive sendings to the neighbor.
 
 The environment has the following configuration:
 
