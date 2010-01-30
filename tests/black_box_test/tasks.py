@@ -14,9 +14,6 @@ class Task(Thread):
         self.fn = fn
         self.role = role
 
-        self.setup = Event()
-        self.setup.clear()
-
         self.shutdown = Event()
         self.shutdown.clear()
 
@@ -32,11 +29,9 @@ class Task(Thread):
             print self, "accessing socket: " + self.fn
             s.connect(self.fn)
             self.sock = s
-            self.setup.set()
         elif self.role == Role.SERVER:
             s.bind(self.fn)
             print self, "socket created: " + self.fn
-            self.setup.set()
             s.listen(1)
             self.sock, addr = s.accept()
             self.sock.settimeout(Config.sock_timeout)
@@ -46,9 +41,9 @@ class Task(Thread):
     def run(self):
         self.createSocket()
         while not self.shutdown.isSet():
+            sleep(self.dt)
             print self, "action"
             self.action()
-            sleep(self.dt)
 
     def start(self):
         print self, "starting..."

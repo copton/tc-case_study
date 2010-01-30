@@ -9,3 +9,7 @@ class Config(object):
 
     sock_timeout = 5 / 1000.0
     logic_maxCount = 10
+
+    @staticmethod
+    def minTimeDelta():
+        return min(dt_collect, dt_sent, dt_receive)

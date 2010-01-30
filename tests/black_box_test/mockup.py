@@ -91,12 +91,9 @@ send = Send(flash)
 receive = Receive(flash)
 collect = Collect(flash)
 
-send.start()
 receive.start()
 collect.start()
-
-print "sending signal to", os.getppid(), "from", os.getpid()
-os.kill(os.getppid(), signal.SIGUSR1)
+send.start()
 
 send.wait()
 
