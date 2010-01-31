@@ -1,110 +1,19 @@
+import parts
+import tasks
 from config import Config
-from tasks import Task, Role
-import logic
-
-from threading import Lock
-import struct
-import socket
-import os
-import sys
-import signal
-
-class Flash(object):
-    def __init__(self):
-        self.lock = Lock()
-        try:
-            os.remove(Config.fn_flash)
-        except OSError:
-            pass
-
-    def append(self, data):
-        self.lock.acquire()
-        f = open(Config.fn_flash, "a")
-        self.lock.release()
-
-    def reset(self):
-        self.lock.acquire()
-        if not os.path.exists(Config.fn_flash):
-            self.lock.release()
-            return []
-        f = open(Config.fn_flash, "r")
-        contents = f.read()
-        f.close()
-        os.remove(Config.fn_flash)
-        self.lock.release()
-        return contents
-
-class Receive(Task):
-    def __init__(self, flash):
-        Task.__init__(self, Config.fn_receive, Role.CLIENT)
-        self.flash = flash
-
-    def action(self):
-        sleep(Config.dt_receive)
-        self.socket.write("next")
-        self.socket.flush()
-        value = self.socket.read(1024)
-        self.flash.append(value)
-
-class Collect(Task):
-    def __init__(self, flash):
-        Task.__init__(self, Config.fn_collect, Role.CLIENT)
-        self.flash = flash
-
-    def action(self):
-        sleep(Config.dt_collect)
-        self.socket.write("next")
-        self.socket.flush()
-        value = self.socket.read(1024)
-        self.flash.append(value)
-
-class Send(Task):
-    def __init__(self, flash):
-        Task.__init__(self, Config.fn_send, Role.CLIENT)
-        self.flash = flash
-
-    def action(self):
-        sleep(Config.dt_send)
-        def getValues():
-            bytes = self.flash.reset()
-            sizeofInt = struct.calcsize("!i")
-            assert (len(bytes) % sizeofInt) == 0
-
-            values = [struct.unpack("!i", bytes[i:i+sizeofInt]) for i in range(0, len(bytes), sizeofInt)]
-            return values
-
-        def sendResult(values):
-            if values == []:
-                min = max = 0
-            else:
-                min = reduce(min, values)
-                max = reduce(max, values)
-            bytes = struct.pack("!ii", min, max) 
-            try:
-                self.sock.send(bytes)
-            except socket.error:
-                self.shutdown.set()
-            else:
-                self.sock.flush()
-
-        values = getValues()
-        sendResult(values)
 
 def run():
-    flash = Flash()
+    tasks = {
+        "receive" : tasks.MockupTask(Config.fn_receive, Config.fn_flash_receive),
+        "collect": tasks.MockupTask(Config.fn_collect, Config.fn_flash_collect),
+        "send" : tasks.MockupTask(Config.fn_flash_send, Config.fn_send)
+    }
 
-    send = Send(flash)
-    receive = Receive(flash)
-    collect = Collect(flash)
+    for task in tasks.values():
+        task.start()
 
-    receive.start()
-    collect.start()
-    send.start()
+    for task in tasks.values():
+        task.sync()
 
-    send.join()
-
-    print "shutting down"
-    collect.join(True)
-    receive.join(True)
-
-    print "exit"
+    for task in tasks.values():
+        task.join()

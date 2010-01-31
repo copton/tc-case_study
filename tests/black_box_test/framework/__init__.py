@@ -4,7 +4,7 @@ from logic import Logic
 def run():
     tasks = parts.getTasks()
 
-    for task in tasks.values()
+    for task in tasks.values():
         task.start()
 
     proc = application()
@@ -13,7 +13,6 @@ def run():
         task.sync()
 
     logic = Logic(tasks)
-    logic.wait()
 
     for task in tasks.values():
         task.join()

@@ -1,7 +1,8 @@
+import codec
+
 import random
-import time
+from time import time
 from threading import Lock
-from cStringIO import StringIO
 
 class Source(object):
     def __init__(self, gen):
@@ -9,71 +10,65 @@ class Source(object):
         self.gen = gen
 
     def getNext(self):
-        val = self.gen()
-        self.log.append((time.time(), val))
-        return val
+        vals = self.gen()
+        self.log.append((time(), vals))
+        return codec.encode(vals)
 
     def getLog(self):
         return self.log
 
 def randomGen():
-    yield random.randint(-30, 70)
-
-class NetSource(Source):
-    def __init__(self):
-        Source.__init__(self, randomGen())
-
-class SensorSource(Source):
-    def __init__(self):
-        Source.__init__(self, randomGen())
+    yield [random.randint(-30, 70)]
 
 class Sink(object):
     def __init__(self):
         self.log = []
 
-    def setNext(self, val):
-        self.log.append((time.time(), val))
+    def setNext(self, vals):
+        self.log.append((time(), codec.decode(vals)))
 
     def getLog(self):
         return self.log
 
-class NetSink(Sink):
-    pass
-
 class File(object):
     def __init__(self):
-        self.log = {}
-        self.contents = StringIO()
+        self.readLog = {}
+        self.writeLog = {}
+        self.contents = []
         self.lock = Lock()
 
-    def _log(self, id, val):
+    def register(self, id):
+        self.readLog[id] = []
+        self.writeLog[id] = []
+
+    def _log(self, id, vals):
         log = self.log.get(id, [])
-        log.append((time.time(), id, val))
+        log.append((time(), id, vals))
         self.log[id] = log
 
-    def write(self, id, val):
+    def write(self, id, bytes):
+        vals = codec.decode(bytes)
         self.lock.acquire()
-        self._log(id, val)
-        self.contents.write(val)
+        self.writeLog[id].append((time(), vals))
+        self.contents.append(vals)
         self.lock.release()
 
-    def read(self, id, val):
+    def read(self, id):
         self.lock.acquire()
-        self._log(id, val)
-        self.contents.seek(0)
-        contents = self.contents.read()
-        self.contents.close()
-        self.contents = StringIO()
+        self.readLog[id].append((time(), vals))
+        vals = codec.decode(self.contents)
+        self.contents = []
         self.lock.release()
-        return contents
+        return vals
 
 class FileHandle(object):
     def __init__(self, file, id):
         self.file = file
         self.id = id
+        self.file.register(id)
 
-    def setNext(self, val):
-        self.file.write(self.id, val)
+    def setNext(self, vals):
+        self.file.write(self.id, vals)
 
-    def getNext(self, val):
-        return self.file.read(self.id, val)
+    def getNext(self, vals):
+        return self.file.read(self.id, vals)

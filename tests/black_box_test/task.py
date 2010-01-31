@@ -1,19 +1,15 @@
 from threading import Thread, Event
 
 class Task(Thread):
+    shutdown = Event()
     def __init__(self):
         Thread.__init__(self)
-
-        self.shutdown = Event()
-        self.shutdown.clear()
-
         self.setup = Event()
-        self.setup.clear()
 
     def run(self):
         self.threadSetup()
         self.setup.set()
-        while not self.shutdown.isSet():
+        while not Task.shutdown.isSet():
             print self, "action"
             self.action()
 
@@ -24,7 +20,3 @@ class Task(Thread):
 
     def sync(self):
         self.setup.wait()
-
-    def join(self, shutdown=False):
-        self.shutdown.set()
-        Thread.join(self)

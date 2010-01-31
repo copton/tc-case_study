@@ -1,7 +1,7 @@
 from task imprt Task
-from socks import Server, Client
+from socks import Server
 
-class TestTask(Task, Server):
+class FrameworkTask(Task, Server):
     def __init__(self, fn):
         Task.__init__(self)
         Server.__init__(self, fn)
@@ -9,25 +9,26 @@ class TestTask(Task, Server):
     def threadSetup(self):
         self.createSocket()
 
-class Source(TestTask):
+class Source(FrameworkTask):
     def __init__(self, fn, source):
-        TestTask.__init__(self, fn)
+        FrameworkTask.__init__(self, fn)
         self.source = source
 
     def action(self):
         req = self.sock.recv(1024)
         assert req == "next"
-        self.sock.send(self.source.next())
+        data = self.source.getNext()
+        self.sock.send(data)
         self.sock.flush()
 
-class Sink(TestTask):
+class Sink(FrameworkTask):
     def __init__(self, fn, sink):
-        TestTask.__init__(self, fn)
+        FrameworkTask.__init__(self, fn)
         self.sink = sink
-        self.max = max
 
     def action(self):
-        self.sink.next(self.sock.recv(1024))
+        data = self.sock.recv(1024)
+        self.sink.setNext(data)
         
 class ControlSink(Sink):
     def __init__(self, fn, sink, max):
@@ -39,4 +40,4 @@ class ControlSink(Sink):
         Sink.action(self)
         self.counter += 1
         if self.counter == self.max:
-            self.shutdown.set()
+            Task.shutdown.set()

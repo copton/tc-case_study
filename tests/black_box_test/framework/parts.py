@@ -13,17 +13,13 @@ def application(command):
     proc = subprocess.Popen(command_line)
     return proc
 
-def netSource():
-    return test_tasks.Source(Config.fn_receive, data.NetSource())
-
-def sensorSource():
-    return test_tasks.Source(Config.fn_collect, data.SensorSource())
-
-def netSink():
-    return test_tasks.ConrolSink(Confi.fn_send, data.NetSink(), Config.testCount)
-
-
 def getTasks():
+    f = data.File()
     return {
-
+        "netSource" : tasks.Source(Config.fn_receive, data.Source(data.randomGen())),
+        "sensorSource" : tasks.Source(Config.fn_collect, data.Source(data.randomGen())),
+        "netSink" : tasks.ControlSink(Config.fn_send, data.Sink(), Config.testCount),
+        "flashReceiveSink" : tasks.Sink(Config.fn_flash_receive, data.FileHandle(f, 0)),
+        "flashCollectSink" : tasks.Sink(Config.fn_flash_collect, data.FileHanlde(f, 1)),
+        "flashSendSource" : tasks.Source(Config.fn_flash_source, data.FileHandle(f, 2)),
     }
