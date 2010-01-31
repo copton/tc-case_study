@@ -1,5 +1,3 @@
-#! /usr/bin/env python 
-
 from config import Config
 from tasks import Task, Role
 import logic
@@ -38,28 +36,35 @@ class Flash(object):
 
 class Receive(Task):
     def __init__(self, flash):
-        Task.__init__(self, Config.dt_receive, Config.fn_receive, Role.SERVER)
+        Task.__init__(self, Config.fn_receive, Role.CLIENT)
         self.flash = flash
 
     def action(self):
+        sleep(Config.dt_receive)
+        self.socket.write("next")
+        self.socket.flush()
         value = self.socket.read(1024)
         self.flash.append(value)
 
 class Collect(Task):
     def __init__(self, flash):
-        Task.__init__(self, Config.dt_collect, Config.fn_collect, Role.SERVER)
+        Task.__init__(self, Config.fn_collect, Role.CLIENT)
         self.flash = flash
 
     def action(self):
+        sleep(Config.dt_collect)
+        self.socket.write("next")
+        self.socket.flush()
         value = self.socket.read(1024)
         self.flash.append(value)
 
 class Send(Task):
     def __init__(self, flash):
-        Task.__init__(self, Config.dt_send, Config.fn_send, Role.CLIENT)
+        Task.__init__(self, Config.fn_send, Role.CLIENT)
         self.flash = flash
 
     def action(self):
+        sleep(Config.dt_send)
         def getValues():
             bytes = self.flash.reset()
             sizeofInt = struct.calcsize("!i")
@@ -85,21 +90,21 @@ class Send(Task):
         values = getValues()
         sendResult(values)
 
-flash = Flash()
+def run():
+    flash = Flash()
 
-send = Send(flash)
-receive = Receive(flash)
-collect = Collect(flash)
+    send = Send(flash)
+    receive = Receive(flash)
+    collect = Collect(flash)
 
-receive.start()
-collect.start()
-send.start()
+    receive.start()
+    collect.start()
+    send.start()
 
-send.wait()
+    send.join()
 
-print "shutting down"
-collect.join()
-receive.join()
-send.join()
+    print "shutting down"
+    collect.join(True)
+    receive.join(True)
 
-print "exit"
+    print "exit"
