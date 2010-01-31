@@ -10,8 +10,8 @@ class Task(Thread):
         self.threadSetup()
         self.setup.set()
         while not Task.shutdown.isSet():
-            print self, "action"
             self.action()
+        self.threadShutdown()
 
     def start(self):
         print self, "starting..."
@@ -20,3 +20,9 @@ class Task(Thread):
 
     def sync(self):
         self.setup.wait()
+        print self, "synced"
+
+    def join(self):
+        print self, "joining..."
+        Thread.join(self)
+        print self, "joined"

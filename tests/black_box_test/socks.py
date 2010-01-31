@@ -7,9 +7,8 @@ class Socket(object):
         self.sock = None
         self.fn = fn
 
-    def __del__(self):
-        if self.sock:
-            self.sock.close()
+    def closeSocket(self):
+        self.sock.close()
 
 class Server(Socket):
     def __init__(self, fn):

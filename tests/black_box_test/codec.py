@@ -14,7 +14,6 @@ def encode(vals):
 
 def decode(bytes):
     sizeofInt = struct.calcsize(format)
-    assert (len(bytes) % sizeofInt) == 0, "format error"
-    print "###", [(i,i+sizeofInt) for i in range(0, len(bytes), sizeofInt)], bytes
+    assert (len(bytes) % sizeofInt) == 0, "format error: %d" % len(bytes)
     return [struct.unpack(format, bytes[i:i+sizeofInt])[0] for i in range(0, len(bytes), sizeofInt)]
 

@@ -10,7 +10,7 @@ class Config(object):
     fn_flash_send = "/tmp/tc/flash-send.sock"
     fn_flash_collect = "/tmp/tc/flash-collect.sock"
 
-    testCount = 10
+    testCount = 3
 
     @staticmethod
     def minTimeDelta():

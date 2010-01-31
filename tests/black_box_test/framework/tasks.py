@@ -9,6 +9,9 @@ class FrameworkTask(Task, Server):
     def threadSetup(self):
         self.createSocket()
 
+    def threadShutdown(self):
+        self.closeSocket()
+
 class Source(FrameworkTask):
     def __init__(self, fn, source):
         FrameworkTask.__init__(self, fn)
@@ -18,7 +21,7 @@ class Source(FrameworkTask):
         req = self.sock.recv(1024)
         assert req == "next"
         data = self.source.getNext()
-        self.sock.send(data)
+        self.sock.sendall(data)
 
 class Sink(FrameworkTask):
     def __init__(self, fn, sink):
@@ -38,5 +41,6 @@ class ControlSink(Sink):
     def action(self):
         Sink.action(self)
         self.counter += 1
+        print self, "counter =", self.counter
         if self.counter == self.max:
             Task.shutdown.set()

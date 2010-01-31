@@ -51,16 +51,16 @@ class File(object):
         vals = codec.decode(bytes)
         self.lock.acquire()
         self.writeLog[id].append((time(), vals))
-        self.contents.append(vals)
+        self.contents += vals
         self.lock.release()
 
     def read(self, id):
         self.lock.acquire()
-        vals = codec.decode(self.contents)
-        self.readLog[id].append((time(), vals))
+        self.readLog[id].append((time(), self.contents))
+        bytes = codec.encode(self.contents)
         self.contents = []
         self.lock.release()
-        return vals
+        return bytes
 
 class FileHandle(object):
     def __init__(self, file, id):
