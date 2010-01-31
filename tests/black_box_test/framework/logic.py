@@ -6,11 +6,10 @@ class Logic(object):
         self.t0 = time()
         self.tasks = tasks
 
-    def check_frequency(self, dt, log):
+    def _check_frequency(self, dt, log):
         last = self.t0 + Config.first_dt
         for entry in log:
             assert entry[0] - last - dt < Config.max_dt_deviance
-            print entry[0] - last
             last = entry[0]
 
     def test(self):
@@ -22,11 +21,14 @@ class Logic(object):
         flashSendRead = self.tasks["flashSendSource"].source.getLog()
 
         
-        self.check_frequency(Config.dt_receive, receiveRead)
-        self.check_frequency(Config.dt_receive, flashReceiveWritten)
+        def check_frequency():
+            self._check_frequency(Config.dt_receive, receiveRead)
+            self._check_frequency(Config.dt_receive, flashReceiveWritten)
 
-        self.check_frequency(Config.dt_send, sendWritten)
-        self.check_frequency(Config.dt_send, flashSendRead)
-    
-        self.check_frequency(Config.dt_collect, collectRead)
-        self.check_frequency(Config.dt_collect, flashCollectWritten)
+            self._check_frequency(Config.dt_send, sendWritten)
+            self._check_frequency(Config.dt_send, flashSendRead)
+        
+            self._check_frequency(Config.dt_collect, collectRead)
+            self._check_frequency(Config.dt_collect, flashCollectWritten)
+
+        check_frequency()
