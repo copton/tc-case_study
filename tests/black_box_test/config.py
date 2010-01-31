@@ -11,6 +11,8 @@ class Config(object):
     fn_flash_collect = "/tmp/tc/flash-collect.sock"
 
     testCount = 3
+    max_dt_deviance = 0.01
+    first_dt = 0.1
 
     @staticmethod
     def minTimeDelta():

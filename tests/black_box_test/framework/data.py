@@ -33,43 +33,42 @@ class Sink(object):
 
 class File(object):
     def __init__(self):
-        self.readLog = {}
-        self.writeLog = {}
         self.contents = []
         self.lock = Lock()
 
-    def register(self, id):
-        self.readLog[id] = []
-        self.writeLog[id] = []
-
-    def _log(self, id, vals):
-        log = self.log.get(id, [])
-        log.append((time(), id, vals))
-        self.log[id] = log
-
-    def write(self, id, bytes):
+    def write(self, bytes, log):
         vals = codec.decode(bytes)
         self.lock.acquire()
-        self.writeLog[id].append((time(), vals))
+        log.append((time(), vals))
         self.contents += vals
         self.lock.release()
 
-    def read(self, id):
+    def read(self, log):
         self.lock.acquire()
-        self.readLog[id].append((time(), self.contents))
+        log.append((time(), self.contents))
         bytes = codec.encode(self.contents)
         self.contents = []
         self.lock.release()
         return bytes
 
-class FileHandle(object):
-    def __init__(self, file, id):
+class FileSource(object):
+    def __init__(self, file):
+        self.log = []
         self.file = file
-        self.id = id
-        self.file.register(id)
-
-    def setNext(self, vals):
-        self.file.write(self.id, vals)
 
     def getNext(self):
-        return self.file.read(self.id)
+        return self.file.read(self.log) 
+
+    def getLog(self):
+        return self.log
+
+class FileSink(object):
+    def __init__(self, file):
+        self.log = []
+        self.file = file
+
+    def setNext(self, bytes):
+        self.file.write(bytes, self.log)
+
+    def getLog(self):
+        return self.log

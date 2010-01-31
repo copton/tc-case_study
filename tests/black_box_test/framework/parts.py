@@ -14,12 +14,12 @@ def application(command):
     return proc
 
 def getTasks():
-    f = data.File()
+    file = data.File()
     return {
         "netSource" : tasks.Source(Config.fn_receive, data.Source(data.randomGen())),
         "sensorSource" : tasks.Source(Config.fn_collect, data.Source(data.randomGen())),
         "netSink" : tasks.ControlSink(Config.fn_send, data.Sink(), Config.testCount),
-        "flashReceiveSink" : tasks.Sink(Config.fn_flash_receive, data.FileHandle(f, 0)),
-        "flashCollectSink" : tasks.Sink(Config.fn_flash_collect, data.FileHandle(f, 1)),
-        "flashSendSource" : tasks.Source(Config.fn_flash_send, data.FileHandle(f, 2)),
+        "flashReceiveSink" : tasks.Sink(Config.fn_flash_receive, data.FileSink(file)),
+        "flashCollectSink" : tasks.Sink(Config.fn_flash_collect, data.FileSink(file)),
+        "flashSendSource" : tasks.Source(Config.fn_flash_send, data.FileSource(file)),
     }
