@@ -1,6 +1,7 @@
 from task import Task
-from sock import Client
+from socks import Client
 import codec
+from time import sleep
 
 class MockupTask(Task):
     def __init__(self, fn_source, fn_sink, dt):
@@ -16,15 +17,24 @@ class MockupTask(Task):
     def action(self):
         sleep(self.dt)
         vals = self.read()
-        self.write(vals)
+        new_vals = self.map(vals)
+        self.write(new_vals)
+
+    def map(self, vals):
+        return vals
 
     def read(self):
-        self.source.sock.write("next")
-        self.source.sock.flush()
-        bytes = self.source.sock.read(1024)
+        self.source.sock.send("next")
+        bytes = self.source.sock.recv(1024)
         return codec.decode(bytes)
 
     def write(self, vals):
         bytes = codec.encode(vals)
-        self.sink.sock.write(bytes)
-        self.sink.sock.flush()
+        self.sink.sock.send(bytes)
+
+class Aggregator(MockupTask):
+    def __init__(self, fn_source, fn_sink, dt):
+        MockupTask.__init__(self, fn_source, fn_sink, dt)
+        
+    def map(self, vals):
+        return [reduce(vals, min), reduce(vals, max)]

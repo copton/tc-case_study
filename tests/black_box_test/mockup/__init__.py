@@ -1,12 +1,11 @@
-import parts
-import tasks
+from tasks import MockupTask, Aggregator
 from config import Config
 
 def run():
     tasks = {
-        "receive" : tasks.MockupTask(Config.fn_receive, Config.fn_flash_receive),
-        "collect": tasks.MockupTask(Config.fn_collect, Config.fn_flash_collect),
-        "send" : tasks.MockupTask(Config.fn_flash_send, Config.fn_send)
+        "receive" : MockupTask(Config.fn_receive, Config.fn_flash_receive, Config.dt_receive),
+        "collect": MockupTask(Config.fn_collect, Config.fn_flash_collect, Config.dt_collect),
+        "send" : Aggregator(Config.fn_flash_send, Config.fn_send, Config.dt_send)
     }
 
     for task in tasks.values():

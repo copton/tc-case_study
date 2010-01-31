@@ -10,7 +10,7 @@ class Source(object):
         self.gen = gen
 
     def getNext(self):
-        vals = self.gen()
+        vals = self.gen.next()
         self.log.append((time(), vals))
         return codec.encode(vals)
 
@@ -18,7 +18,8 @@ class Source(object):
         return self.log
 
 def randomGen():
-    yield [random.randint(-30, 70)]
+    while True:
+        yield [random.randint(-30, 70)]
 
 class Sink(object):
     def __init__(self):
@@ -55,8 +56,8 @@ class File(object):
 
     def read(self, id):
         self.lock.acquire()
-        self.readLog[id].append((time(), vals))
         vals = codec.decode(self.contents)
+        self.readLog[id].append((time(), vals))
         self.contents = []
         self.lock.release()
         return vals
@@ -70,5 +71,5 @@ class FileHandle(object):
     def setNext(self, vals):
         self.file.write(self.id, vals)
 
-    def getNext(self, vals):
-        return self.file.read(self.id, vals)
+    def getNext(self):
+        return self.file.read(self.id)

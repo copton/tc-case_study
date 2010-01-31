@@ -4,8 +4,8 @@ import data
 import tasks
 
 def application(command):
-    config_values = [Config.dt_collect, Config.dt_receive, Config.dt_send, Config.fn_receive, Config.fn_send, Config.fn_collect, Config.fn_flash]
-    config_options = map(lambda o: "-"+o, "crsioef")
+    config_values = [Config.dt_collect, Config.dt_receive, Config.dt_send, Config.fn_receive, Config.fn_send, Config.fn_collect, Config.fn_flash_receive, Config.fn_flash_collect, Config.fn_flash_send]
+    config_options = map(lambda o: "-%d" % o, range(len(config_values)))
     assert len(config_values) == len(config_options)
     params = [str(t[i]) for t in zip(config_options, config_values) for i in range(2)]
     command_line = [command] + params
@@ -20,6 +20,6 @@ def getTasks():
         "sensorSource" : tasks.Source(Config.fn_collect, data.Source(data.randomGen())),
         "netSink" : tasks.ControlSink(Config.fn_send, data.Sink(), Config.testCount),
         "flashReceiveSink" : tasks.Sink(Config.fn_flash_receive, data.FileHandle(f, 0)),
-        "flashCollectSink" : tasks.Sink(Config.fn_flash_collect, data.FileHanlde(f, 1)),
-        "flashSendSource" : tasks.Source(Config.fn_flash_source, data.FileHandle(f, 2)),
+        "flashCollectSink" : tasks.Sink(Config.fn_flash_collect, data.FileHandle(f, 1)),
+        "flashSendSource" : tasks.Source(Config.fn_flash_send, data.FileHandle(f, 2)),
     }

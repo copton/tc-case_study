@@ -1,4 +1,4 @@
-from task imprt Task
+from task import Task
 from socks import Server
 
 class FrameworkTask(Task, Server):
@@ -19,7 +19,6 @@ class Source(FrameworkTask):
         assert req == "next"
         data = self.source.getNext()
         self.sock.send(data)
-        self.sock.flush()
 
 class Sink(FrameworkTask):
     def __init__(self, fn, sink):
