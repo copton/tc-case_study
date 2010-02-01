@@ -13,15 +13,6 @@ class Socket(object):
 class Server(Socket):
     def __init__(self, fn):
         Socket.__init__(self, fn)
-        path, name = os.path.split(fn)
-        try:
-            os.makedirs(path)
-        except OSError:
-            pass
-        try:
-            os.remove(fn)
-        except OSError:
-            pass
         
     def createSocket(self):
         s = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
