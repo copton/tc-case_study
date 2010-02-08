@@ -30,4 +30,4 @@ module-distclean: clean
 module-depend: depend.mak
 
 depend.mak:
-	$(CC) $(CFLAGS) -M $(SRC_FILES) -o $@
+	$(CC) $(CFLAGS) -M $(SRC_FILES) > $@ || rm -f $@
