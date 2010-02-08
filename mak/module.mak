@@ -2,7 +2,7 @@
 
 -include depend.mak
 
-CFLAGS += -Wall #-std=c99 -pedantic
+CFLAGS += -I$(ROOT)/src -Wall #-std=c99 -pedantic
 
 AR=/usr/bin/ar
 RANLIB=/usr/bin/ranlib

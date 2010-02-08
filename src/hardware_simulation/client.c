@@ -10,7 +10,7 @@
 #include <unistd.h>
 
 
-#include "error.h"
+#include "lib/error.h"
 
 int hs_open(const char* path)
 {
