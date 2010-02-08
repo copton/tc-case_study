@@ -1,16 +1,16 @@
-#depends on module.mak
+#depends on module.mak for $(TARGET)
 
 .PHONY: app-all app-clean
 
 LD=/usr/bin/gcc
-LDFLAGS=-L$(ROOT)
+LDFLAGS += 
+
+APP=$(shell basename $(shell pwd))
 
 app-all: $(APP)
 
-$(APP): $(TARGETS) $(DEPS)
+$(APP): $(TARGET) $(DEPS)
 	$(LD) $(LDFLAGS) -o $@ $^
 
 app-clean:
 	rm -fr app
-
-app-distclean: app-clean
