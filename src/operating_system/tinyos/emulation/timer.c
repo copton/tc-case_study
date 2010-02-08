@@ -168,7 +168,7 @@ static struct timespec getAbsTime(Handle* handle)
     struct timespec abstime;
     uint64_t then = getNow() + handle->settings.t0;
     abstime.tv_sec = then / 1000;
-    abstime.tv_nsec = (then % 1000) * 1000;
+    abstime.tv_nsec = (then % 1000) * 1000 * 1000;
     return abstime;
 }
 
