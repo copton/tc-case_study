@@ -1,20 +1,24 @@
 #include "receive.h"
 
 #include <stdio.h>
+#include <assert.h>
 
 #include "timer.h"
+#include "infra/debug.h"
 
-void* handle = NULL;
+void* receive_handle = NULL;
 
 static void fired(void* handle)
 {
-    printf("fired\n");
+    printf("receive::fired(%p)\n", handle);
+	assert (handle == receive_handle);
 }
 
 timer_Callback callback = {&fired};
 
 void receive_init()
 {
-    handle = timer_wire(&callback);
-    timer_startPeriodic(handle, 1000);
+	DEBUGOUT("receive_init()\n");
+    receive_handle = timer_wire(&callback);
+    timer_startPeriodic(receive_handle, 1000);
 }

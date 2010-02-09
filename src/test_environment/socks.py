@@ -13,14 +13,13 @@ class Socket(object):
 class Server(Socket):
     def __init__(self, fn):
         Socket.__init__(self, fn)
+        self.lsock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+        self.lsock.bind(self.fn)
+        self.lsock.listen(1)
+        print self, "socket created: " + self.fn
         
     def createSocket(self):
-        s = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-        s.bind(self.fn)
-        print self, "socket created: " + self.fn
-        s.listen(1)
-        self.sock, addr = s.accept()
-        self.setup.set()
+        self.sock, addr = self.lsock.accept()
 
 class Client(Socket):
     def __init__(self, fn):

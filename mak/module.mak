@@ -2,7 +2,7 @@
 
 -include depend.mak
 
-CFLAGS += -DDEBUG
+CFLAGS += -DDEBUG -g -O0
 
 CFLAGS += -I$(ROOT)/src -Wall #-std=c99 -pedantic
 

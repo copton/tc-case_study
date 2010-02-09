@@ -1,4 +1,7 @@
 #include "time_types.h"
+#include "timer.h"
+
+typedef timer_Callback Callback;
 
 typedef struct {
     RelTime dt;
@@ -9,34 +12,37 @@ typedef struct {
 } Shared;
 
 #include "component.h"
-#include "timer.h"
 
 #include <time.h>
 
 static AbsTime getNow();
-
-static void setup(Shared* shared)
-{
-    shared->dt = rt_create(0);
-	shared->t0 = rt_create(0);
-	shared->run = FALSE;
-	shared->newSettings = FALSE;
-	shared->oneShot = FALSE;
-}
+static void* run(void* handle);
 
 void* timer_wire(timer_Callback* callback)
 {
-	return component_wire(callback);
+	Handle* handle = malloc(sizeof(Handle));
+	handle->callback = callback;
+
+    handle->shared.dt = rt_create(0);
+	handle->shared.t0 = rt_create(0);
+	handle->shared.run = FALSE;
+	handle->shared.newSettings = FALSE;
+	handle->shared.oneShot = FALSE;
+
+    setupThread(handle);
+
+    return handle;
 }
 
-void timer_startPeriodic(void* handle, uint32_t dt)
+void timer_startPeriodic(void* h, uint32_t dt)
 {
-    timer_startPeriodicAt(handle, timer_getNow(handle), dt);
+	DEBUGOUT("timer_startPeriodic(%p, %u)\n", h, dt);
+    timer_startPeriodicAt(h, timer_getNow(h), dt);
 }
 
-void timer_startOneShot(void* handle, uint32_t dt)
+void timer_startOneShot(void* h, uint32_t dt)
 {
-    timer_startOneShotAt(handle, timer_getNow(handle), dt);
+    timer_startOneShotAt(h, timer_getNow(h), dt);
 }
 
 void timer_stop(void* h)
@@ -72,6 +78,7 @@ bool timer_isOneShot(void* h)
 
 void timer_startPeriodicAt(void* h, uint32_t t0, uint32_t dt)
 {
+	DEBUGOUT("timer_startPeriodicAt(%p, %u, %u)\n", h, t0, dt);
     HANDLE;
     LOCK;
     handle->shared.t0 = rt_create(t0);
@@ -152,6 +159,7 @@ static struct timespec toTimeSpec(Handle* handle)
 
 static void* run(void* h)
 {
+	DEBUGOUT("timer::run(%p)\n", h);
     HANDLE;
     LOCK;
     SIGNAL;
@@ -168,7 +176,7 @@ static void* run(void* h)
         } else {
             cb_lock_acquire();
             handle->shared.t0 = rt_plus(handle->shared.t0, handle->shared.dt);
-            ((timer_Callback*)handle->callback)->fired(handle);
+            handle->callback->fired(handle);
             cb_lock_release();
 
             if (handle->shared.oneShot) {

@@ -1,4 +1,7 @@
+#include "sensor.h"
 #include "infra/types.h"
+
+typedef sensor_Callback Callback;
 
 typedef struct {
 	bool running;
@@ -6,29 +9,27 @@ typedef struct {
 } Shared;
 
 #include "component.h"
-#include "sensor.h"
 
 #include "hardware_simulation/client.h"
-
 #include <assert.h>
 
 void* sensor_wire(sensor_Callback* callback, const char* device)
 {
-	DEBUGOUT("sensor_wire\n");
-	void* h = component_wire(callback);
-	HANDLE;
+	DEBUGOUT("sensor_wire(%p, %s)\n", callback, device);
+	Handle* handle = malloc(sizeof(Handle));
+	handle->callback = callback;
+
+	handle->shared.running = FALSE;
 	handle->shared.fd = hs_open(device);
+
+	setupThread(handle);
+
 	return handle;
-}
-
-
-static void setup(Shared* shared)
-{
-	shared->running = FALSE;
 }
 
 error_t sensor_read(void* h)
 {
+	DEBUGOUT("sensor_read(%p)\n", h);
 	HANDLE;
 	error_t res;
 	LOCK;
@@ -40,6 +41,7 @@ error_t sensor_read(void* h)
 		res = SUCCESS;
 	}
 	UNLOCK;
+	DEBUGOUT("sensor_read(...) -> %d\n", res);
 	return res;
 }
 
@@ -53,10 +55,11 @@ static sensor_val_t read(int fd)
 
 static void* run(void* h)
 {
+	DEBUGOUT("sensor::run(%p)\n", h);
     HANDLE;
-	int fd = handle->shared.fd;
     LOCK;
     SIGNAL;
+	int fd = handle->shared.fd;
     while(1) {
 		handle->shared.running = FALSE;
 		WAIT;
@@ -66,7 +69,7 @@ static void* run(void* h)
 
 		LOCK;
 		cb_lock_acquire();
-		((sensor_Callback*)handle->callback)->readDone(handle, SUCCESS, val);
+		handle->callback->readDone(handle, SUCCESS, val);
 		cb_lock_release();
 	}
 	UNLOCK;

@@ -1,5 +1,5 @@
 class Config(object):
-    applicationCommand = "application/collect_and_forward/mockup/main.py"
+    applicationCommand = "application/collect_and_forward/event-based/event-based"
     logfileName = "/tmp/tc/log.pickle"
     
     path = "/tmp/tc/"

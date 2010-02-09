@@ -21,6 +21,7 @@ class Task(Thread):
         print self, "started"
 
     def sync(self):
+        print self, "syncing..."
         self.setup.wait()
         print self, "synced"
 
@@ -47,7 +48,7 @@ class SourceTask(ServerTask):
 
     def action(self):
         req = self.sock.recv(1024)
-        assert req == "next"
+        assert req == "next", req
         data = self.source.getNext()
         self.sock.sendall(data)
 

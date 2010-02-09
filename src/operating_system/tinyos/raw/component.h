@@ -14,7 +14,7 @@ typedef struct {
 } Thread;
 
 typedef struct {
-    void* callback;
+    Callback* callback;
     Shared shared;
     Thread thread;
 } Handle;
@@ -25,28 +25,16 @@ typedef struct {
 #define WAIT if (pthread_cond_wait(&handle->thread.cond, &handle->thread.mutex) != 0) { errorExit("cond_wait"); }
 #define HANDLE Handle* handle = (Handle*)h;
 
-
-static void setup(Shared* shared);
 static void* run(void* handle);
 
-static void* component_wire(void* callback)
+static void setupThread(Handle* handle)
 {
-    Handle* handle = malloc(sizeof(Handle));
-    handle->callback = callback;
-
-    setup(&handle->shared);
-
     pthread_cond_init(&handle->thread.cond, NULL);
     pthread_mutex_init(&handle->thread.mutex, NULL);
-    pthread_create(&handle->thread.thread, NULL, run, handle);
-
-    // sync with new thread
     LOCK;
-    pthread_cond_wait(&handle->thread.cond, &handle->thread.mutex);
+    pthread_create(&handle->thread.thread, NULL, run, handle);
+    WAIT;
     UNLOCK;
-
-    return handle;
-
 }
 
 #endif

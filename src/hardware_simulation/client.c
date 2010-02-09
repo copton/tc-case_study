@@ -19,8 +19,9 @@ int hs_open(const char* path)
     struct sockaddr_un strAddr;
     socklen_t lenAddr;
     int fd;
-    if ((fd=socket(PF_UNIX, SOCK_STREAM, 0)) < 0)
+    if ((fd=socket(PF_UNIX, SOCK_STREAM, 0)) < 0) {
         errorExit("socket");
+    }
 
     strAddr.sun_family=AF_UNIX;
     strcpy(strAddr.sun_path, path);
@@ -28,16 +29,19 @@ int hs_open(const char* path)
     if (connect(fd, (struct sockaddr*)&strAddr, lenAddr) !=0 )
         errorExit("connect");
 
+    DEBUGOUT("hs_open() -> %d\n", fd);
     return fd;
 }
 
 void hs_close(int fd)
 {
+    DEBUGOUT("hs_close(%d)\n", fd);
     close(fd);
 }
 
 void hs_send(int fd, unsigned* data, size_t len)
 {
+    DEBUGOUT("hs_send(%d, %p, %ld)\n", fd, data, len);
     while(1) {
         ssize_t res = send(fd, (void*)data, len, MSG_NOSIGNAL); 
         if (res == -1) {
@@ -54,6 +58,7 @@ void hs_send(int fd, unsigned* data, size_t len)
 
 size_t hs_receive(int fd, unsigned* data, size_t len)
 {
+    DEBUGOUT("hs_receive(%d, %p, %ld)\n", fd, data, len);
     const char next[] = "next";
     hs_send(fd, (unsigned*)next, sizeof(next));
 
