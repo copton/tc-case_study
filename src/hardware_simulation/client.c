@@ -60,7 +60,7 @@ size_t hs_receive(int fd, unsigned* data, size_t len)
 {
     DEBUGOUT("hs_receive(%d, %p, %ld)\n", fd, data, len);
     const char next[] = "next";
-    hs_send(fd, (unsigned*)next, sizeof(next));
+    hs_send(fd, (unsigned*)next, sizeof(next)-1);
 
     while(1) {
         ssize_t res = recv(fd, (void*) data, len, 0);

@@ -1,7 +1,7 @@
 #include "collect.h"
 
-#include "timer.h"
-#include "sensor.h"
+#include "Timer.h"
+#include "Sensor.h"
 
 #include "infra/debug.h"
 

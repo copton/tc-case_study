@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <assert.h>
 
-#include "timer.h"
+#include "Timer.h"
 #include "infra/debug.h"
 
 void* receive_handle = NULL;

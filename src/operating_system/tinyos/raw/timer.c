@@ -1,5 +1,5 @@
 #include "time_types.h"
-#include "timer.h"
+#include "Timer.h"
 
 typedef timer_Callback Callback;
 
