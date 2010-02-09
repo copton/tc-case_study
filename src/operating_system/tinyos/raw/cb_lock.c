@@ -1,7 +1,7 @@
 #include "cb_lock.h"
 
 #include <pthread.h>
-#include "lib/error.h"
+#include "infra/error.h"
 
 pthread_mutex_t mutex;
 

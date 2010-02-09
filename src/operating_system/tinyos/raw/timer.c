@@ -5,8 +5,8 @@
 
 #include <stdlib.h>
 
-#include "lib/error.h"
-#include "lib/debug.h"
+#include "infra/error.h"
+#include "infra/debug.h"
 #include "cb_lock.h"
 
 #include "time_types.h"

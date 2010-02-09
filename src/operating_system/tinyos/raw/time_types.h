@@ -1,7 +1,7 @@
 #ifndef AIGHAIHIJEINOHHEEMIU
 #define AIGHAIHIJEINOHHEEMIU
 
-#include "lib/types.h"
+#include "infra/types.h"
 #include <sys/time.h>
 
 typedef struct {

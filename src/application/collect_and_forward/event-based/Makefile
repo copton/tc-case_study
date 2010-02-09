@@ -5,9 +5,9 @@ clean: module-clean app-clean
 depend: module-depend
 distclean: module-distclean
 
-CFLAGS = -I$(ROOT)/src/operating_system/tinyos/emulation
+CFLAGS = -I$(ROOT)/src/operating_system/tinyos/raw
 include ../../../../mak/module.mak
 
 LDFLAGS=-lpthread
-DEPS=$(ROOT)/src/operating_system/tinyos/emulation/libemulation.a $(ROOT)/src/lib/liblib.a
+DEPS=$(ROOT)/src/operating_system/tinyos/raw/libraw.a $(ROOT)/src/infra/libinfra.a
 include ../../../../mak/app.mak
