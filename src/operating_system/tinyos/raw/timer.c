@@ -10,7 +10,6 @@ typedef struct {
 
 #include "component.h"
 #include "timer.h"
-#include "cb_lock.h"
 
 #include <time.h>
 

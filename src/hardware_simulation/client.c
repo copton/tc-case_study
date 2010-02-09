@@ -11,9 +11,11 @@
 
 
 #include "infra/error.h"
+#include "infra/debug.h"
 
 int hs_open(const char* path)
 {
+    DEBUGOUT("hs_open(%s)\n", path);
     struct sockaddr_un strAddr;
     socklen_t lenAddr;
     int fd;
@@ -50,24 +52,19 @@ void hs_send(int fd, unsigned* data, size_t len)
     }
 }
 
-void hs_receive(int fd, unsigned** data, size_t* len)
+size_t hs_receive(int fd, unsigned* data, size_t len)
 {
     const char next[] = "next";
     hs_send(fd, (unsigned*)next, sizeof(next));
 
-    size_t bufsize = 512;
-    unsigned* buffer = malloc(bufsize);
-    //TODO grow receive buffer if message is longer
     while(1) {
-        ssize_t res = recv(fd, (void*) buffer, bufsize, 0);
+        ssize_t res = recv(fd, (void*) data, len, 0);
         if (res == -1) {
             if (errno == EINTR) {
                 continue;
             }
         }
-        *len = res;
-        *data = buffer;
-        return;
+        return (size_t)res;
     }
 }
 

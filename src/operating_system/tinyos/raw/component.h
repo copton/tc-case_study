@@ -3,6 +3,7 @@
 
 #include "infra/error.h"
 #include "infra/debug.h"
+#include "cb_lock.h"
 #include <pthread.h>
 #include <stdlib.h>
 
@@ -28,7 +29,7 @@ typedef struct {
 static void setup(Shared* shared);
 static void* run(void* handle);
 
-inline void* component_wire(void* callback)
+static void* component_wire(void* callback)
 {
     Handle* handle = malloc(sizeof(Handle));
     handle->callback = callback;
