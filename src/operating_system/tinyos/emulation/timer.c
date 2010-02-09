@@ -1,17 +1,21 @@
 #include "timer.h"
+
+#include <time.h>
 #include <pthread.h>
 
-#include <sys/time.h>
 #include <stdlib.h>
 
 #include "lib/error.h"
+#include "lib/debug.h"
 #include "cb_lock.h"
 
+#include "time_types.h"
+
 typedef struct {
-    uint32_t dt;
-    uint32_t t0;
+    RelTime dt;
+    RelTime t0;
     bool run;
-    bool canceled;
+    bool newSettings;
     bool oneShot;
 } Settings;
 
@@ -33,7 +37,7 @@ typedef struct {
 #define HANDLE Handle* handle = (Handle*)h;
 
 static void* run(void* h);
-static uint32_t getNow();
+static AbsTime getNow();
 
 void* timer_wire(timer_Callback* callback)
 {
@@ -41,10 +45,10 @@ void* timer_wire(timer_Callback* callback)
     handle->callback = callback;
 
     // predefine settings
-    handle->settings.dt = 0;
-    handle->settings.t0 = 0;
+    handle->settings.dt = rt_create(0);
+    handle->settings.t0 = rt_create(0);
     handle->settings.run = FALSE;
-    handle->settings.canceled = FALSE;
+    handle->settings.newSettings = FALSE;
     handle->settings.oneShot = FALSE;
     
     // init new timer thread
@@ -76,7 +80,7 @@ void timer_stop(void* h)
     LOCK;
     handle->settings.run = FALSE;
     handle->settings.oneShot = FALSE;
-    handle->settings.canceled = TRUE;
+    handle->settings.newSettings = TRUE;
     SIGNAL;
     UNLOCK;
 }
@@ -105,11 +109,11 @@ void timer_startPeriodicAt(void* h, uint32_t t0, uint32_t dt)
 {
     HANDLE;
     LOCK;
-    handle->settings.t0 = t0;
-    handle->settings.dt = dt;
+    handle->settings.t0 = rt_create(t0);
+    handle->settings.dt = rt_create(dt);
     handle->settings.oneShot = FALSE;
     handle->settings.run = TRUE;
-    handle->settings.canceled = TRUE;
+    handle->settings.newSettings = TRUE;
     SIGNAL;
     UNLOCK;
 }
@@ -118,11 +122,11 @@ void timer_startOneShotAt(void* h, uint32_t t0, uint32_t dt)
 {
     HANDLE;
     LOCK;
-    handle->settings.t0 = t0;
-    handle->settings.dt = dt;
+    handle->settings.t0 = rt_create(t0);
+    handle->settings.dt = rt_create(dt);
     handle->settings.oneShot = TRUE;
     handle->settings.run = TRUE;
-    handle->settings.canceled = TRUE;
+    handle->settings.newSettings = TRUE;
     SIGNAL;
     UNLOCK;
 }
@@ -130,7 +134,7 @@ void timer_startOneShotAt(void* h, uint32_t t0, uint32_t dt)
 uint32_t timer_getNow(void* h)
 {
 	(void)h;
-    return getNow();
+    return rt_unpack(at_to_rt(getNow()));
 }
 
 uint32_t timer_gett0(void* h)
@@ -138,7 +142,7 @@ uint32_t timer_gett0(void* h)
     HANDLE;
     uint32_t res;
     LOCK;
-    res = handle->settings.t0;
+    res = rt_unpack(handle->settings.t0);
     UNLOCK;
     return res;
 }
@@ -148,28 +152,37 @@ uint32_t timer_getdt(void* h)
     HANDLE;
     uint32_t res;
     LOCK;
-    res = handle->settings.dt;
+    res = rt_unpack(handle->settings.dt);
     UNLOCK;
     return res;
 }
 
-static uint32_t getNow()
+static AbsTime getNow()
 {
     struct timeval tv;
     int res = gettimeofday(&tv, NULL);
     if (res == -1) {
         errorExit("gettimeofday");
     }
-    return tv.tv_sec * 1000 + tv.tv_usec / 1000;
+	return at_create(tv);
 }
 
-static struct timespec getAbsTime(Handle* handle)
+static struct timespec toTimeSpec(Handle* handle)
 {
-    struct timespec abstime;
-    uint64_t then = getNow() + handle->settings.t0;
-    abstime.tv_sec = then / 1000;
-    abstime.tv_nsec = (then % 1000) * 1000 * 1000;
-    return abstime;
+	AbsTime now_abs = getNow();	
+	RelTime now_rel = at_to_rt(now_abs);
+	AbsTime frame = at_getFrame(now_abs);
+	AbsTime then;
+	if (rt_le(handle->settings.t0, now_rel)) {
+		then = at_plus(at_plus(frame, handle->settings.t0), handle->settings.dt);
+	} else {
+		AbsTime prevFrame = at_prevFrame(frame);
+		then = at_plus(at_plus(prevFrame, handle->settings.t0), handle->settings.dt);
+	}
+	struct timespec res;
+    res.tv_sec = at_unpack(then) / 1000;
+    res.tv_nsec = (at_unpack(then) % 1000) * 1000 * 1000;
+    return res;
 }
 
 static void* run(void* h)
@@ -179,17 +192,17 @@ static void* run(void* h)
     SIGNAL;
     while(1) {
         if (handle->settings.run) {
-            struct timespec abstime = getAbsTime(handle);
+            struct timespec abstime = toTimeSpec(handle);
             pthread_cond_timedwait(&handle->thread.cond, &handle->thread.mutex, &abstime);    
         } else {
             pthread_cond_wait(&handle->thread.cond, &handle->thread.mutex);
         }
 
-        if (handle->settings.canceled) {
-            handle->settings.canceled = FALSE;
+        if (handle->settings.newSettings) {
+            handle->settings.newSettings = FALSE;
         } else {
             cb_lock_acquire();
-            handle->settings.t0 = getNow();
+            handle->settings.t0 = rt_plus(handle->settings.t0, handle->settings.dt);
             handle->callback->fired(handle);
             cb_lock_release();
 

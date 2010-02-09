@@ -3,3 +3,4 @@
 .*.swp
 *.o
 lib*.a
+depend.mak

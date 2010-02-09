@@ -2,6 +2,8 @@
 
 -include depend.mak
 
+CFLAGS += -DDEBUG
+
 CFLAGS += -I$(ROOT)/src -Wall #-std=c99 -pedantic
 
 AR=/usr/bin/ar
