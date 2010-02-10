@@ -3,22 +3,22 @@
 #include <stdio.h>
 #include <assert.h>
 
-#include "Timer.h"
+#include "Receive.h"
 #include "infra/debug.h"
 
 void* receive_handle = NULL;
 
-static void fired(void* handle)
+static net_message_t* receive(void* handle, net_message_t* msg, void* payload, uint8_t len)
 {
-    printf("receive::fired(%p)\n", handle);
+    printf("receive::receive(%p, ...)\n", handle);
 	assert (handle == receive_handle);
+    return msg;
 }
 
-timer_Callback callback = {&fired};
+receive_Callback callback = {&receive};
 
-void receive_init()
+void receive_init(const char* channel, const char* file)
 {
-	DEBUGOUT("receive_init()\n");
-    receive_handle = timer_wire(&callback);
-    timer_startPeriodic(receive_handle, 1000);
+	DEBUGOUT("receive_init(%s, %s)\n", channel, file);
+    receive_handle = receive_wire(&callback, channel);
 }

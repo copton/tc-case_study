@@ -1,7 +1,7 @@
 #ifndef NENAWEIZEEQUITIECEIX
 #define NENAWEIZEEQUITIECEIX
 
-// from tos/types/TinyError.h
+#include "infra/types.h"
 
 typedef enum {
   SUCCESS        =  0,

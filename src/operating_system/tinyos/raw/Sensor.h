@@ -3,7 +3,7 @@
 
 // from tos/interfaces/Reader.nc
 
-#include "types.h"
+#include "Types.h"
 
 typedef int sensor_val_t;
 

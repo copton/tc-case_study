@@ -1,5 +1,4 @@
 #include "Sensor.h"
-#include "infra/types.h"
 
 typedef sensor_Callback Callback;
 

@@ -4,7 +4,7 @@
 // from tos/lib/timer/Timer.nc
 // a unit is a millisecond
 
-#include "infra/types.h"
+#include "Types.h"
 
 typedef struct {
     /**
