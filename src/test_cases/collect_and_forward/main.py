@@ -1,5 +1,5 @@
 import test_environment
-from test_environment.tasks import SourceTask, SinkTask, ControlSinkTask
+from test_environment.tasks import SourceTask, SinkTask, PushTask, ControlSinkTask
 from test_environment.io import Source, Sink
 from test_environment.file import File, FileSink, FileSource
 import codec
@@ -32,12 +32,12 @@ def _random():
 def getTasks():
     file = File(codec)
     return {
-#        "netSource" : SourceTask(Config.fn_receive, Source(codec, _random())),
+        "netSource" : PushTask(Config.fn_receive, Source(codec, _random()), Config.dt_receive),
         "sensorSource" : SourceTask(Config.fn_collect, Source(codec, _random())),
-#        "netSink" : ControlSinkTask(Config.fn_send, Sink(codec), Config.testCount),
-#        "flashReceiveSink" : SinkTask(Config.fn_flash_receive, FileSink(file)),
-#        "flashCollectSink" : SinkTask(Config.fn_flash_collect, FileSink(file)),
-#        "flashSendSource" : SourceTask(Config.fn_flash_send, FileSource(file)),
+        "netSink" : ControlSinkTask(Config.fn_send, Sink(codec), Config.testCount),
+        "flashReceiveSink" : SinkTask(Config.fn_flash_receive, FileSink(file)),
+        "flashCollectSink" : SinkTask(Config.fn_flash_collect, FileSink(file)),
+        "flashSendSource" : SourceTask(Config.fn_flash_send, FileSource(file)),
     }
     
 def createLog(t0, tasks):

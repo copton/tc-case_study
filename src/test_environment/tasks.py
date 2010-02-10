@@ -1,5 +1,7 @@
 from socks import Server
 from threading import Thread, Event
+from time import sleep
+from traceback import print_exc
 
 class Task(Thread):
     shutdown = Event()
@@ -11,8 +13,13 @@ class Task(Thread):
     def run(self):
         self.threadSetup()
         self.setup.set()
-        while not Task.shutdown.isSet():
-            self.action()
+        try:
+            while not Task.shutdown.isSet():
+                self.action()
+        except:
+            print_exc()
+            print self, "caught exception. Shutting down"
+            Task.shutdown.set()
         self.threadShutdown()
 
     def start(self):
@@ -60,6 +67,17 @@ class SinkTask(ServerTask):
     def action(self):
         data = self.sock.recv(1024)
         self.sink.setNext(data)
+
+class PushTask(ServerTask):
+    def __init__(self, fn, source, dt):
+        ServerTask.__init__(self, fn)
+        self.source = source
+        self.dt = dt
+
+    def action(self):
+        sleep(self.dt)
+        data = self.source.getNext()
+        self.sock.sendall(data) 
         
 class ControlSinkTask(SinkTask):
     def __init__(self, fn, sink, max):
