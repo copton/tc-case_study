@@ -16,11 +16,13 @@ typedef struct {
     * @param error SUCCESS if it was transmitted successfully, FAIL if
     *              it was not, ECANCEL if it was cancelled via <tt>cancel</tt>
     */ 
-    void (*sendDone)(net_message_t* msg, error_t error);
+    void (*sendDone)(void* handle, net_message_t* msg, error_t error);
 
 } send_Callback;
 
-void* send_wire(net_Callback* callback, const char* channel);
+// emulation of nesc wire statements
+// the returned handle must be passed to all commands and is passed to all events
+void* send_wire(send_Callback* callback, const char* channel);
 
 /** 
 * Send a packet with a data payload of <tt>len</tt>. To determine
@@ -40,7 +42,7 @@ void* send_wire(net_Callback* callback, const char* channel);
 *                  if the stack is in a state that cannot accept requests
 *                  (e.g., it's off).
 */ 
-error_t net_send(void* handle, net_message_t* msg, uint8_t len);
+error_t send_send(void* handle, net_message_t* msg, uint8_t len);
 
 /**
 * Cancel a requested transmission. Returns SUCCESS if the 
@@ -54,7 +56,7 @@ error_t net_send(void* handle, net_message_t* msg, uint8_t len);
 * @return         SUCCESS if the packet was successfully cancelled, FAIL
 *                 otherwise
 */
-error_t net_cancel(void* handle, net_message_t* msg);
+error_t send_cancel(void* handle, net_message_t* msg);
 
 /**
 * Return the maximum payload length that this communication layer
@@ -65,7 +67,7 @@ error_t net_cancel(void* handle, net_message_t* msg);
 * @return  the maximum payload length
 */
 
-uint8_t net_maxPayloadLength(void* handle);
+uint8_t send_maxPayloadLength(void* handle);
 
 
 /**
@@ -78,8 +80,6 @@ uint8_t net_maxPayloadLength(void* handle);
 * @param   'net_message_t* ONE msg'    the packet
 * @return  'void* COUNT_NOK(len)'  a pointer to the packet's payload
 */
-void* net_getPayload(void* handle, net_message_t* msg, uint8_t len);
-
-
+void* send_getPayload(void* handle, net_message_t* msg, uint8_t len);
 
 #endif

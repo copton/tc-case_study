@@ -15,9 +15,6 @@ typedef struct {
 
 #include <time.h>
 
-static AbsTime getNow();
-static void* run(void* handle);
-
 void* timer_wire(timer_Callback* callback)
 {
 	Handle* handle = malloc(sizeof(Handle));
@@ -102,6 +99,8 @@ void timer_startOneShotAt(void* h, uint32_t t0, uint32_t dt)
     SIGNAL;
     UNLOCK;
 }
+
+static AbsTime getNow();
 
 uint32_t timer_getNow(void* h)
 {
