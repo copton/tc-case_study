@@ -4,6 +4,7 @@
 #include "infra/error.h"
 #include "infra/debug.h"
 #include "cb_lock.h"
+#include "os.h"
 #include <pthread.h>
 #include <stdlib.h>
 
@@ -31,11 +32,9 @@ static void setupThread(Handle* handle)
 {
     pthread_cond_init(&handle->thread.cond, NULL);
     pthread_mutex_init(&handle->thread.mutex, NULL);
-    LOCK;
     pthread_create(&handle->thread.thread, NULL, run, handle);
     DEBUGOUT("started thread %lu", handle->thread.thread);
-    WAIT;
-    UNLOCK;
+    os_sem_up();
 }
 
 #endif

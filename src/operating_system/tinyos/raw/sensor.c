@@ -57,8 +57,8 @@ static void* run(void* h)
 {
 	DEBUGOUT("sensor::run(%p)", h);
     HANDLE;
+    os_sem_down();
     LOCK;
-    SIGNAL;
 	int fd = handle->shared.fd;
     while(1) {
 		handle->shared.running = FALSE;

@@ -14,6 +14,7 @@ typedef struct {
 
 void* send_wire(send_Callback* callback, const char* channel)
 {
+	DEBUGOUT("send_wire(%p)", callback);
 	Handle* handle = malloc(sizeof(Handle));
 	handle->callback = callback;
 
@@ -22,6 +23,7 @@ void* send_wire(send_Callback* callback, const char* channel)
     handle->shared.len = 0;
 
     setupThread(handle);
+	DEBUGOUT("send_wire(...) -> %p", handle);
     return handle;
 }
 
@@ -71,8 +73,8 @@ static void* run(void* h)
 {
 	DEBUGOUT("send::run(%p)", h);
     HANDLE;
+    os_sem_down();
     LOCK;
-    SIGNAL;
     while(1) {
 		handle->shared.msg = NULL;
 		WAIT;

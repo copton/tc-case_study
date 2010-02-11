@@ -69,8 +69,8 @@ static void* run(void* h)
 {
 	DEBUGOUT("logw::run(%p)", h);
     HANDLE;
+    os_sem_down();
     LOCK;
-    SIGNAL;
     while(1) {
 		handle->shared.buf = NULL;
 		WAIT;

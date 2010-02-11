@@ -13,12 +13,14 @@ typedef struct {
 
 void* receive_wire(receive_Callback* callback, const char* channel)
 {
+	DEBUGOUT("receive_wire(%p)", callback);
     Handle* handle = malloc(sizeof(Handle));
     handle->callback = callback;
 
     handle->shared.fd = hs_open(channel);
 
     setupThread(handle);
+	DEBUGOUT("receive_wire(...) -> %p", handle);
     return handle;
 }
 
@@ -26,8 +28,9 @@ static void* run(void* h)
 {
 	DEBUGOUT("sensor::run(%p)", h);
     HANDLE;
-    LOCK;
-    SIGNAL;
+	os_sem_down();
+
+	LOCK;
 	int fd = handle->shared.fd;
 	UNLOCK;
 	net_message_t first_msg;

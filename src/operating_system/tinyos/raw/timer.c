@@ -17,6 +17,7 @@ typedef struct {
 
 void* timer_wire(timer_Callback* callback)
 {
+	DEBUGOUT("timer_wire(%p)", callback);
 	Handle* handle = malloc(sizeof(Handle));
 	handle->callback = callback;
 
@@ -28,6 +29,7 @@ void* timer_wire(timer_Callback* callback)
 
     setupThread(handle);
 
+	DEBUGOUT("timer_wire(...) -> %p", handle);
     return handle;
 }
 
@@ -173,8 +175,8 @@ static void* run(void* h)
 {
 	DEBUGOUT("timer::run(%p)", h);
     HANDLE;
+    os_sem_down();
     LOCK;
-    SIGNAL;
     while(1) {
         if (handle->shared.run) {
             struct timespec abstime = toTimeSpec(handle);

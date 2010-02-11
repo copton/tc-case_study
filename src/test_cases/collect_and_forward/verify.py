@@ -31,7 +31,7 @@ def verify(logs):
         def select(lst, idx):
             return [entry[idx] for entry in lst]
 
-        assert len(logs.flashSendRead) - 1 == len(logs.sendWritten), (logs.flashSendRead, logs.sendWritten)
+        assert len(logs.flashSendRead) == len(logs.sendWritten), (logs.flashSendRead, logs.sendWritten)
 
         vals_in = select(logs.flashSendRead, 1)
         vals_out = select(logs.sendWritten, 1)
