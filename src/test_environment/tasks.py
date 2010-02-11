@@ -1,7 +1,7 @@
 from socks import Server
 from threading import Thread, Event
 from time import sleep
-from traceback import print_exc
+from debug import debugout
 
 class Task(Thread):
     shutdown = Event()
@@ -13,29 +13,24 @@ class Task(Thread):
     def run(self):
         self.threadSetup()
         self.setup.set()
-        try:
-            while not Task.shutdown.isSet():
-                self.action()
-        except:
-            print_exc()
-            print self, "caught exception. Shutting down"
-            Task.shutdown.set()
+        while not Task.shutdown.isSet():
+            self.action()
         self.threadShutdown()
 
     def start(self):
-        print self, "starting..."
+        debugout(self, "starting...")
         Thread.start(self)
-        print self, "started"
+        debugout(self, "started")
 
     def sync(self):
-        print self, "syncing..."
+        debugout(self, "syncing...")
         self.setup.wait()
-        print self, "synced"
+        debugout(self, "synced")
 
     def join(self):
-        print self, "joining..."
+        debugout(self, "joining...")
         Thread.join(self)
-        print self, "joined"
+        debugout(self, "joined")
 
 class ServerTask(Task, Server):
     def __init__(self, fn):
@@ -54,10 +49,11 @@ class SourceTask(ServerTask):
         self.source = source
 
     def action(self):
-        req = self.sock.recv(1024)
-        assert req == "next", req
-        data = self.source.getNext()
-        self.sock.sendall(data)
+        req = self.recv()
+        if req:
+            assert req == "next", req
+            data = self.source.getNext()
+            self.send(data)
 
 class SinkTask(ServerTask):
     def __init__(self, fn, sink):
@@ -65,8 +61,9 @@ class SinkTask(ServerTask):
         self.sink = sink
 
     def action(self):
-        data = self.sock.recv(1024)
-        self.sink.setNext(data)
+        data = self.recv()
+        if data:
+            self.sink.setNext(data)
 
 class PushTask(ServerTask):
     def __init__(self, fn, source, dt):
@@ -75,19 +72,24 @@ class PushTask(ServerTask):
         self.dt = dt
 
     def action(self):
-        sleep(self.dt)
         data = self.source.getNext()
-        self.sock.sendall(data) 
+        self.send(data)
+        sleep(self.dt)
         
-class ControlSinkTask(SinkTask):
-    def __init__(self, fn, sink, max):
-        SinkTask.__init__(self, fn, sink)
+class ControlSinkTask(ServerTask):
+    def __init__(self, fn, sink, max, notify):
+        ServerTask.__init__(self, fn)
+        self.sink = sink
         self.max = max
         self.counter = 0
+        self.notify = notify
 
     def action(self):
-        SinkTask.action(self)
-        self.counter += 1
-        print self, "counter =", self.counter
-        if self.counter == self.max:
-            Task.shutdown.set()
+        data = self.recv()
+        if data:
+            self.sink.setNext(data)
+            self.counter += 1
+            debugout(self, "counter", self.counter)
+            if self.counter == self.max:
+                Task.shutdown.set()
+                self.notify()

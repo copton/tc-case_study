@@ -1,4 +1,5 @@
 import subprocess
+from debug import debugout
 
 class Application(object):
     def  __init__(self, command, params):
@@ -14,8 +15,11 @@ class Application(object):
             cmdline.append("-" + k)
             cmdline.append(str(v))
 
-        print "starting application", cmdline
+        debugout("starting application", cmdline)
         self.proc = subprocess.Popen(cmdline)
 
     def wait(self):
         self.proc.wait()
+
+    def kill(self):
+        self.proc.kill()

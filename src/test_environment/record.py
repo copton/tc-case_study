@@ -3,13 +3,14 @@ from application import Application
 import pickle
 import shutil
 import os
+import tasks
 
 def cmd(test):
     shutil.rmtree(test.getTmpDir(), ignore_errors=True)
     os.makedirs(test.getTmpDir())
 
-    tasks = test.getTasks()
     app = Application(test.getApplicationCommand(), test.getApplicationParameter())
+    tasks = test.getTasks(app.kill)
 
     t0 = run(tasks, app)
 
@@ -29,9 +30,9 @@ def run(tasks, application):
 
     t0 = time()
 
+    application.wait()
+
     for task in tasks.values():
         task.join()
-
-    application.wait()
 
     return t0

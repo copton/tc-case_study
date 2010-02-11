@@ -1,5 +1,6 @@
 from test_environment.tasks import Task
 from test_environment.socks import Client
+from test_environment.debug import debugout
 
 import test_cases.collect_and_forward.codec as codec
 
@@ -28,12 +29,12 @@ class MockupTask(Task):
         return vals
 
     def read(self):
-        bytes = self.source.sock.recv(1024)
+        bytes = self.source.recv()
         return codec.decode(bytes)
 
     def write(self, vals):
         bytes = codec.encode(vals)
-        self.sink.sock.sendall(bytes)
+        self.sink.send(bytes)
 
 class Collect(MockupTask):
     def __init__(self, fn_source, fn_sink, dt):
@@ -45,7 +46,7 @@ class Collect(MockupTask):
         return MockupTask.action(self)
         
     def read(self):
-        self.source.sock.sendall("next")
+        self.source.send("next")
         return MockupTask.read(self)
 
 class Receive(MockupTask):
@@ -62,7 +63,7 @@ class Send(MockupTask):
         return MockupTask.action(self)
         
     def read(self):
-        self.source.sock.sendall("next")
+        self.source.send("next")
         return MockupTask.read(self)
 
     def map(self, vals):

@@ -18,12 +18,12 @@ void debugout(const char* format, ...)
 {
     va_list ap;
     va_start(ap, format);
+    time_t now = time(NULL);
+    pthread_t id = pthread_self();
+
     if (pthread_mutex_lock(&mutex) != 0) { 
         errorExit("lock"); 
     }
-
-    time_t now = time(NULL);
-    pthread_t id = pthread_self();
 
     printf("%lu: %lu: ", now, id);
     vprintf(format, ap);
