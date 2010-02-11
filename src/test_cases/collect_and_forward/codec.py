@@ -1,7 +1,8 @@
 import struct
 from cStringIO import StringIO
+from test_environment.debug import debugout
 
-format="!i"
+format="@i"
 sizeofInt = struct.calcsize(format)
 assert (sizeofInt == 4)
 

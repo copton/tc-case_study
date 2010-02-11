@@ -39,12 +39,12 @@ void hs_close(int fd)
     close(fd);
 }
 
-void hs_write(int fd, unsigned* data, size_t len)
+void hs_write(int fd, unsigned char* data, size_t len)
 {
     return hs_send(fd, data, len);
 }
 
-void hs_send(int fd, unsigned* data, size_t len)
+void hs_send(int fd, unsigned char* data, size_t len)
 {
     DEBUGOUT("hs_send(%d, %p, %ld)", fd, data, len);
     while(1) {
@@ -61,16 +61,16 @@ void hs_send(int fd, unsigned* data, size_t len)
     }
 }
 
-size_t hs_read(int fd, unsigned* data, size_t len)
+size_t hs_read(int fd, unsigned char* data, size_t len)
 {
     DEBUGOUT("hs_receive(%d, %p, %ld)", fd, data, len);
     const char next[] = "next";
-    hs_send(fd, (unsigned*)next, sizeof(next)-1);
+    hs_send(fd, (unsigned char*)next, sizeof(next)-1);
 
     return hs_receive(fd, data, len);
 }
 
-size_t hs_receive(int fd, unsigned* data, size_t len)
+size_t hs_receive(int fd, unsigned char* data, size_t len)
 {
     DEBUGOUT("hs_receive(%d, %p, %ld)", fd, data, len);
     while(1) {

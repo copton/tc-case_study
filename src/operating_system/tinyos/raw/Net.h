@@ -5,7 +5,7 @@
 
 typedef struct {
     // XXX
-    unsigned buffer[net_buffer_size];
+    unsigned char buffer[net_buffer_size];
 } net_message_t;
 
 #endif

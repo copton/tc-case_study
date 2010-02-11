@@ -8,7 +8,6 @@
 
 #include <assert.h>
 #include <string.h>
-#include <arpa/inet.h>
 
 static void* timer_handle = NULL;
 static void* send_handle = NULL;
@@ -46,21 +45,21 @@ static void readDone(void* handle, void* buf, storage_len_t len, error_t error)
 	assert(len >= 0 && len <= sizeof(buffer));
 	assert(error == SUCCESS);
 
+	unsigned char* buffer = (unsigned char*)buf;
+
 	assert((len % sizeof(int32_t)) == 0);
+
 	int32_t min = 0x7FFFFFFF;
 	int32_t max = 0xFFFFFFFF;
 	{ int i;
 		for (i=0; i< len / sizeof(int32_t); i++) {
 			int32_t tmp;
-			memcpy(&tmp, (unsigned*)buf + i * 4, sizeof(int32_t));
-			tmp = ntohl(tmp);
+			memcpy(&tmp, buffer + i * sizeof(int32_t), sizeof(int32_t));
 			if (tmp < min) min = tmp;
 			if (tmp > max) max = tmp;	
 		}
 	}
 	
-	min = htonl(min);
-	max = htonl(max);
 	memcpy(message.buffer, &min, sizeof(int32_t));
 	memcpy(message.buffer + sizeof(int32_t), &max, sizeof(int32_t));
 	

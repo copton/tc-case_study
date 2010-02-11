@@ -5,7 +5,7 @@ def verify(logs):
         def _check_frequency(dt, log):
             last = logs.t0 + Config.first_dt
             for entry in log:
-                assert entry[0] - last - dt < Config.max_dt_deviance
+                assert entry[0] - last - dt < Config.max_dt_deviance, (entry[0], last, entry[0] - last, dt, Config.max_dt_deviance)
                 last = entry[0]
 
         _check_frequency(Config.dt_receive, logs.receiveRead)
@@ -19,7 +19,9 @@ def verify(logs):
 
     def check_flow():
         def _check_flow(log1, log2):
-            assert len(log1) == len(log2), (log1, log2)
+            if len(log1) == len(log2) + 1:
+                log1.pop()
+            assert len(log1) == len(log2), (len(log1), len(log2), log1, log2)
             pairs = zip(log1, log2)
             for pair in pairs:
                 assert pair[0][1] == pair[1][1], pair
@@ -31,7 +33,7 @@ def verify(logs):
         def select(lst, idx):
             return [entry[idx] for entry in lst]
 
-        assert len(logs.flashSendRead) == len(logs.sendWritten), (logs.flashSendRead, logs.sendWritten)
+        assert len(logs.flashSendRead) == len(logs.sendWritten), (len(logs.flashSendRead), len(logs.sendWritten), logs.flashSendRead, logs.sendWritten)
 
         vals_in = select(logs.flashSendRead, 1)
         vals_out = select(logs.sendWritten, 1)

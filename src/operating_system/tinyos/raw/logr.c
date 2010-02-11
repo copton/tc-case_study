@@ -82,7 +82,7 @@ static void* run(void* h)
         uint8_t len = handle->shared.len;
 		UNLOCK;
 
-        size_t res = hs_read(fd, (unsigned*)buf, len);
+        size_t res = hs_read(fd, (unsigned char*)buf, len);
 
 		LOCK;
 		cb_lock_acquire();

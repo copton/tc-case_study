@@ -12,4 +12,5 @@ def debugout(*what):
 
     l.acquire()
     sys.stdout.write(out)
+    sys.stdout.flush()
     l.release()

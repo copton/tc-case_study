@@ -31,6 +31,11 @@ class Server(Socket):
             return self.sock.recv(250)
         except socket.timeout:
             return None
+        except socket.error, e:
+            if e.errno == 104: #Connection reset by peer
+                return None
+            else:
+                raise
 
 class Client(Socket):
     def __init__(self, fn):

@@ -81,7 +81,7 @@ static void* run(void* h)
         uint8_t len = handle->shared.len;
 		UNLOCK;
 
-        hs_send(fd, (unsigned*)buf, len);
+        hs_send(fd, (unsigned char*)buf, len);
 
 		LOCK;
 		cb_lock_acquire();

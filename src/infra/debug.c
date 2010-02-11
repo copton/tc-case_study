@@ -28,6 +28,7 @@ void debugout(const char* format, ...)
     printf("%lu: %lu: ", now, id);
     vprintf(format, ap);
     printf("\n");
+	fflush(stdout);
 
     if (pthread_mutex_unlock(&mutex) != 0) { 
         errorExit("lock"); 

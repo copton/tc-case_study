@@ -36,7 +36,7 @@ static void* run(void* h)
 	net_message_t first_msg;
     net_message_t* msg = &first_msg;
     while(1) {
-		size_t res = hs_receive(fd, (unsigned*)msg, sizeof(net_message_t));
+		size_t res = hs_receive(fd, (unsigned char*)msg, sizeof(net_message_t));
 		cb_lock_acquire();
 		msg = handle->callback->receive(handle, msg, &msg->buffer, res);
 		cb_lock_release();

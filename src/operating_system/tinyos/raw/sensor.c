@@ -11,7 +11,6 @@ typedef struct {
 
 #include "hardware_simulation/client.h"
 #include <assert.h>
-#include <arpa/inet.h>
 
 void* sensor_wire(sensor_Callback* callback, const char* device)
 {
@@ -48,9 +47,9 @@ error_t sensor_read(void* h)
 static sensor_val_t read(int fd)
 {
 	sensor_val_t val;
-	size_t res = hs_read(fd, (unsigned*)&val, sizeof(sensor_val_t));
+	size_t res = hs_read(fd, (unsigned char*)&val, sizeof(sensor_val_t));
 	assert (res == sizeof(sensor_val_t));
-	return ntohl(val);
+	return val;
 }
 
 static void* run(void* h)
