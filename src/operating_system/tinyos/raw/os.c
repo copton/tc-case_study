@@ -2,8 +2,8 @@
 #include "cb_lock.h"
 #include <pthread.h>
 
-pthread_mutex_t mutex;
-pthread_cond_t cond;
+static pthread_mutex_t mutex;
+static pthread_cond_t cond;
 
 void os_init()
 {

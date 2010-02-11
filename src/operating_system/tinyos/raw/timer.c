@@ -39,11 +39,13 @@ void timer_startPeriodic(void* h, uint32_t dt)
 
 void timer_startOneShot(void* h, uint32_t dt)
 {
+	DEBUGOUT("timer_startOneShot(%p, %u)", h, dt);
     timer_startOneShotAt(h, timer_getNow(h), dt);
 }
 
 void timer_stop(void* h)
 {
+	DEBUGOUT("timer_stop(%p)", h);
     HANDLE;
     LOCK;
     handle->shared.run = FALSE;
@@ -55,21 +57,25 @@ void timer_stop(void* h)
 
 bool timer_isRunning(void* h)
 {
+	DEBUGOUT("timer_isRunning(%p)", h);
     HANDLE;
     bool res;
     LOCK;
     res = handle->shared.run == TRUE;
     UNLOCK;
+	DEBUGOUT("timer_isRunning(...) -> %d", res);
     return res;
 }
 
 bool timer_isOneShot(void* h)
 {
+	DEBUGOUT("timer_isOneShot(%p)", h);
     HANDLE;
     bool res;
     LOCK;
     res = handle->shared.oneShot;
     UNLOCK;
+	DEBUGOUT("timer_isOneShot(...) -> %d", res);
     return res;
 }
 
@@ -89,6 +95,7 @@ void timer_startPeriodicAt(void* h, uint32_t t0, uint32_t dt)
 
 void timer_startOneShotAt(void* h, uint32_t t0, uint32_t dt)
 {
+	DEBUGOUT("timer_startOneShotAt(%p, %u, %u)", h, t0, dt);
     HANDLE;
     LOCK;
     handle->shared.t0 = rt_create(t0);
@@ -104,27 +111,33 @@ static AbsTime getNow();
 
 uint32_t timer_getNow(void* h)
 {
-	(void)h;
-    return rt_unpack(at_to_rt(getNow()));
+	DEBUGOUT("timer_getNow(%p)", h);
+	uint32_t res = rt_unpack(at_to_rt(getNow()));
+	DEBUGOUT("timer_getNow(...) -> %u", res);
+	return res;
 }
 
 uint32_t timer_gett0(void* h)
 {
+	DEBUGOUT("timer_gett0(%p)", h);
     HANDLE;
     uint32_t res;
     LOCK;
     res = rt_unpack(handle->shared.t0);
     UNLOCK;
+	DEBUGOUT("timer_gett0(...) -> %u", res);
     return res;
 }
 
 uint32_t timer_getdt(void* h)
 {
+	DEBUGOUT("timer_getdt(%p)", h);
     HANDLE;
     uint32_t res;
     LOCK;
     res = rt_unpack(handle->shared.dt);
     UNLOCK;
+	DEBUGOUT("timer_getdt(...) -> %u", res);
     return res;
 }
 
@@ -173,8 +186,8 @@ static void* run(void* h)
         if (handle->shared.newSettings) {
             handle->shared.newSettings = FALSE;
         } else {
-            cb_lock_acquire();
             handle->shared.t0 = rt_plus(handle->shared.t0, handle->shared.dt);
+            cb_lock_acquire();
             handle->callback->fired(handle);
             cb_lock_release();
 

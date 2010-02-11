@@ -33,6 +33,7 @@ static void setupThread(Handle* handle)
     pthread_mutex_init(&handle->thread.mutex, NULL);
     LOCK;
     pthread_create(&handle->thread.thread, NULL, run, handle);
+    DEBUGOUT("started thread %lu", handle->thread.thread);
     WAIT;
     UNLOCK;
 }

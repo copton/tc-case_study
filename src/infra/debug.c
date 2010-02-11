@@ -7,7 +7,7 @@
 #include "debug.h"
 #include "error.h"
 
-pthread_mutex_t mutex;
+static pthread_mutex_t mutex;
 
 void debug_init()
 {

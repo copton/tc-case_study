@@ -24,6 +24,7 @@ static uint8_t cur_len;
 static net_message_t* receive(void* handle, net_message_t* msg, void* payload, uint8_t len)
 {
     DEBUGOUT("receive::receive(%p, %p, %p, %u)", handle, msg, payload, len);
+	DEBUGOUT("receive::receive: state = %d", state);
 	assert (state == WAIT_RECEIVE);
 	assert (handle == receive_handle);
 	assert (len == 2 * sizeof(uint32_t));
