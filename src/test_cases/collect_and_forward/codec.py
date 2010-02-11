@@ -2,6 +2,8 @@ import struct
 from cStringIO import StringIO
 
 format="!i"
+sizeofInt = struct.calcsize(format)
+assert (sizeofInt == 4)
 
 def encode(vals):
     buf = StringIO()
@@ -13,7 +15,6 @@ def encode(vals):
     return bytes
 
 def decode(bytes):
-    sizeofInt = struct.calcsize(format)
     assert (len(bytes) % sizeofInt) == 0, "format error: %d" % len(bytes)
     return [struct.unpack(format, bytes[i:i+sizeofInt])[0] for i in range(0, len(bytes), sizeofInt)]
 

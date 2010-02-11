@@ -7,13 +7,15 @@
 #include "infra/debug.h"
 
 #include <assert.h>
+#include <string.h>
+#include <arpa/inet.h>
 
-void* timer_handle = NULL;
-void* send_handle = NULL;
-void* logr_handle = NULL;
+static void* timer_handle = NULL;
+static void* send_handle = NULL;
+static void* logr_handle = NULL;
 
-unsigned buffer[250];
-net_message_t message;
+static unsigned buffer[250];
+static net_message_t message;
 
 typedef enum {
 	WAIT_TIMER,
@@ -21,7 +23,7 @@ typedef enum {
 	WAIT_SEND
 } State;
 
-State state;
+static State state;
 
 static void fired(void* handle)
 {
@@ -44,7 +46,23 @@ static void readDone(void* handle, void* buf, storage_len_t len, error_t error)
 	assert(len >= 0 && len <= sizeof(buffer));
 	assert(error == SUCCESS);
 
-	// XXX aggregate
+	assert((len % sizeof(int32_t)) == 0);
+	int32_t min = 0x7FFFFFFF;
+	int32_t max = 0xFFFFFFFF;
+	{ int i;
+		for (i=0; i< len / sizeof(int32_t); i++) {
+			int32_t tmp;
+			memcpy(&tmp, (unsigned*)buf + i * 4, sizeof(int32_t));
+			tmp = ntohl(tmp);
+			if (tmp < min) min = tmp;
+			if (tmp > max) max = tmp;	
+		}
+	}
+	
+	min = htonl(min);
+	max = htonl(max);
+	memcpy(message.buffer, &min, sizeof(int32_t));
+	memcpy(message.buffer + sizeof(int32_t), &max, sizeof(int32_t));
 	
 	error_t res = send_send(send_handle, &message, 2 * sizeof(uint32_t));
 	assert(res == SUCCESS);
@@ -63,9 +81,9 @@ static void sendDone(void* handle, net_message_t* msg, error_t error)
 	state = WAIT_TIMER;
 }
 
-timer_Callback timer_callback = {&fired};
-logr_Callback logr_callback = {&readDone, NULL};
-send_Callback send_callback = {&sendDone};
+static timer_Callback timer_callback = {&fired};
+static logr_Callback logr_callback = {&readDone, NULL};
+static send_Callback send_callback = {&sendDone};
 
 void send_init(const char* channel, const char* file, unsigned dt)
 {

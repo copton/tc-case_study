@@ -29,10 +29,16 @@ def _random():
     while True:
         yield [random.randint(-30, 70)]
 
+def _random_tuple():
+    while True:
+        min = random.randint(-30, 70)
+        max = random.randint(min, 70)
+        yield [min, max]
+
 def getTasks():
     file = File(codec)
     return {
-        "netSource" : PushTask(Config.fn_receive, Source(codec, _random()), Config.dt_receive),
+        "netSource" : PushTask(Config.fn_receive, Source(codec, _random_tuple()), Config.dt_receive),
         "sensorSource" : SourceTask(Config.fn_collect, Source(codec, _random())),
 #        "netSink" : ControlSinkTask(Config.fn_send, Sink(codec), Config.testCount),
         "flashReceiveSink" : SinkTask(Config.fn_flash_receive, FileSink(file)),
