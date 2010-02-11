@@ -20,7 +20,6 @@ class MockupTask(Task):
         self.sink.closeSocket()
 
     def action(self):
-        self.preAction()
         vals = self.read()
         new_vals = self.map(vals)
         self.write(new_vals)
@@ -29,7 +28,6 @@ class MockupTask(Task):
         return vals
 
     def read(self):
-        self.preRead()
         bytes = self.source.sock.recv(1024)
         return codec.decode(bytes)
 
@@ -37,30 +35,35 @@ class MockupTask(Task):
         bytes = codec.encode(vals)
         self.sink.sock.sendall(bytes)
 
-class FrequentTask(MockupTask):
+class Collect(MockupTask):
     def __init__(self, fn_source, fn_sink, dt):
         MockupTask.__init__(self, fn_source, fn_sink)
         self.dt = dt
 
-    def preAction(self):
+    def action(self):
         sleep(self.dt)
+        return MockupTask.action(self)
         
-    def preRead(self):
+    def read(self):
         self.source.sock.sendall("next")
+        return MockupTask.read(self)
 
-class OnDemandTask(MockupTask):
+class Receive(MockupTask):
     def __init__(self, fn_source, fn_sink):
         MockupTask.__init__(self, fn_source, fn_sink)
 
-    def preAction(self):
-        pass
-
-    def preRead(self):
-        pass
-
-class Aggregator(FrequentTask):
+class Send(MockupTask):
     def __init__(self, fn_source, fn_sink, dt):
-        FrequentTask.__init__(self, fn_source, fn_sink, dt)
+        MockupTask.__init__(self, fn_source, fn_sink)
+        self.dt = dt
+
+    def action(self):
+        sleep(self.dt)
+        return MockupTask.action(self)
         
+    def read(self):
+        self.source.sock.sendall("next")
+        return MockupTask.read(self)
+
     def map(self, vals):
         return [reduce(min, vals), reduce(max, vals)]

@@ -24,7 +24,7 @@ void* receive_wire(receive_Callback* callback, const char* channel)
 
 static void* run(void* h)
 {
-	DEBUGOUT("sensor::run(%p)\n", h);
+	DEBUGOUT("sensor::run(%p)", h);
     HANDLE;
     LOCK;
     SIGNAL;

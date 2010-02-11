@@ -15,7 +15,7 @@ typedef struct {
 
 void* sensor_wire(sensor_Callback* callback, const char* device)
 {
-	DEBUGOUT("sensor_wire(%p, %s)\n", callback, device);
+	DEBUGOUT("sensor_wire(%p, %s)", callback, device);
 	Handle* handle = malloc(sizeof(Handle));
 	handle->callback = callback;
 
@@ -29,7 +29,7 @@ void* sensor_wire(sensor_Callback* callback, const char* device)
 
 error_t sensor_read(void* h)
 {
-	DEBUGOUT("sensor_read(%p)\n", h);
+	DEBUGOUT("sensor_read(%p)", h);
 	HANDLE;
 	error_t res;
 	LOCK;
@@ -41,7 +41,7 @@ error_t sensor_read(void* h)
 		res = SUCCESS;
 	}
 	UNLOCK;
-	DEBUGOUT("sensor_read(...) -> %d\n", res);
+	DEBUGOUT("sensor_read(...) -> %d", res);
 	return res;
 }
 
@@ -55,7 +55,7 @@ static sensor_val_t read(int fd)
 
 static void* run(void* h)
 {
-	DEBUGOUT("sensor::run(%p)\n", h);
+	DEBUGOUT("sensor::run(%p)", h);
     HANDLE;
     LOCK;
     SIGNAL;

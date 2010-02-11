@@ -33,7 +33,7 @@ void* timer_wire(timer_Callback* callback)
 
 void timer_startPeriodic(void* h, uint32_t dt)
 {
-	DEBUGOUT("timer_startPeriodic(%p, %u)\n", h, dt);
+	DEBUGOUT("timer_startPeriodic(%p, %u)", h, dt);
     timer_startPeriodicAt(h, timer_getNow(h), dt);
 }
 
@@ -75,7 +75,7 @@ bool timer_isOneShot(void* h)
 
 void timer_startPeriodicAt(void* h, uint32_t t0, uint32_t dt)
 {
-	DEBUGOUT("timer_startPeriodicAt(%p, %u, %u)\n", h, t0, dt);
+	DEBUGOUT("timer_startPeriodicAt(%p, %u, %u)", h, t0, dt);
     HANDLE;
     LOCK;
     handle->shared.t0 = rt_create(t0);
@@ -158,7 +158,7 @@ static struct timespec toTimeSpec(Handle* handle)
 
 static void* run(void* h)
 {
-	DEBUGOUT("timer::run(%p)\n", h);
+	DEBUGOUT("timer::run(%p)", h);
     HANDLE;
     LOCK;
     SIGNAL;

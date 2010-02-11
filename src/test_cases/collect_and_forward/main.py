@@ -40,7 +40,7 @@ def getTasks():
     return {
         "netSource" : PushTask(Config.fn_receive, Source(codec, _random_tuple()), Config.dt_receive),
         "sensorSource" : SourceTask(Config.fn_collect, Source(codec, _random())),
-#        "netSink" : ControlSinkTask(Config.fn_send, Sink(codec), Config.testCount),
+        "netSink" : ControlSinkTask(Config.fn_send, Sink(codec), Config.testCount),
         "flashReceiveSink" : SinkTask(Config.fn_flash_receive, FileSink(file)),
         "flashCollectSink" : SinkTask(Config.fn_flash_collect, FileSink(file)),
         "flashSendSource" : SourceTask(Config.fn_flash_send, FileSource(file)),

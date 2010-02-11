@@ -1,5 +1,5 @@
-#ifndef AILAIGHAHGHAOFEESHAH
-#define AILAIGHAHGHAOFEESHAH
+#ifndef IEZAEKOHDEISHIEQUEIN
+#define IEZAEKOHDEISHIEQUEIN
 
 void send_init(const char* channel, const char* file, unsigned dt);
 

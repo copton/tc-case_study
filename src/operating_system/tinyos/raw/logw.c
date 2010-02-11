@@ -14,6 +14,7 @@ typedef struct {
 
 void* logw_wire(logw_Callback* callback, const char* file)
 {
+	DEBUGOUT("logw_wire(%p, %s)", callback, file);
 	Handle* handle = malloc(sizeof(Handle));
 	handle->callback = callback;
 
@@ -22,12 +23,14 @@ void* logw_wire(logw_Callback* callback, const char* file)
     handle->shared.len = 0;
 
     setupThread(handle);
+
+	DEBUGOUT("logw_wire(...) -> %p", handle);
     return handle;
 }
 
 error_t logw_append(void* h, void* buf, storage_len_t len)
 {
-	DEBUGOUT("logw_append(%p, %p, %u)\n", h, buf, len);
+	DEBUGOUT("logw_append(%p, %p, %u)", h, buf, len);
     HANDLE;
     error_t res;
     LOCK;
@@ -40,7 +43,7 @@ error_t logw_append(void* h, void* buf, storage_len_t len)
         res = SUCCESS;
     }
     UNLOCK;
-	DEBUGOUT("logw_append(...) -> %d\n", res);
+	DEBUGOUT("logw_append(...) -> %d", res);
     return res;
 }
 
@@ -64,7 +67,7 @@ error_t logw_sync(void* h)
 
 static void* run(void* h)
 {
-	DEBUGOUT("logw::run(%p)\n", h);
+	DEBUGOUT("logw::run(%p)", h);
     HANDLE;
     LOCK;
     SIGNAL;

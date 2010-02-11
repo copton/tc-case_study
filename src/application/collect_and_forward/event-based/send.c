@@ -27,7 +27,7 @@ static State state;
 
 static void fired(void* handle)
 {
-	DEBUGOUT("send::fired(%p)\n", handle);
+	DEBUGOUT("send::fired(%p)", handle);
 	assert(state == WAIT_TIMER);
     assert(handle == timer_handle);
 
@@ -39,7 +39,7 @@ static void fired(void* handle)
 
 static void readDone(void* handle, void* buf, storage_len_t len, error_t error)
 {
-	DEBUGOUT("send::readDone(%p, %p, %u, %d)\n", handle, buf, len, error);
+	DEBUGOUT("send::readDone(%p, %p, %u, %d)", handle, buf, len, error);
 	assert(state == WAIT_LOGR);
     assert(handle == logr_handle);
 	assert(buffer == buf);
@@ -72,7 +72,7 @@ static void readDone(void* handle, void* buf, storage_len_t len, error_t error)
 
 static void sendDone(void* handle, net_message_t* msg, error_t error)
 {
-    DEBUGOUT("send::sendDone(%p, %p, %d)\n", handle, msg, error);
+    DEBUGOUT("send::sendDone(%p, %p, %d)", handle, msg, error);
 	assert(state == WAIT_SEND);
 	assert(handle == send_handle);
 	assert(msg == &message);
@@ -87,7 +87,7 @@ static send_Callback send_callback = {&sendDone};
 
 void send_init(const char* channel, const char* file, unsigned dt)
 {
-	DEBUGOUT("send_init(%s, %s, %u)\n", channel, file, dt);
+	DEBUGOUT("send_init(%s, %s, %u)", channel, file, dt);
 
     timer_handle = timer_wire(&timer_callback);
     send_handle = send_wire(&send_callback, channel);

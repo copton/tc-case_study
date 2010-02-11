@@ -15,7 +15,7 @@
 
 int hs_open(const char* path)
 {
-    DEBUGOUT("hs_open(%s)\n", path);
+    DEBUGOUT("hs_open(%s)", path);
     struct sockaddr_un strAddr;
     socklen_t lenAddr;
     int fd;
@@ -29,13 +29,13 @@ int hs_open(const char* path)
     if (connect(fd, (struct sockaddr*)&strAddr, lenAddr) !=0 )
         errorExit("connect");
 
-    DEBUGOUT("hs_open() -> %d\n", fd);
+    DEBUGOUT("hs_open() -> %d", fd);
     return fd;
 }
 
 void hs_close(int fd)
 {
-    DEBUGOUT("hs_close(%d)\n", fd);
+    DEBUGOUT("hs_close(%d)", fd);
     close(fd);
 }
 
@@ -46,7 +46,7 @@ void hs_write(int fd, unsigned* data, size_t len)
 
 void hs_send(int fd, unsigned* data, size_t len)
 {
-    DEBUGOUT("hs_send(%d, %p, %ld)\n", fd, data, len);
+    DEBUGOUT("hs_send(%d, %p, %ld)", fd, data, len);
     while(1) {
         ssize_t res = send(fd, (void*)data, len, MSG_NOSIGNAL); 
         if (res == -1) {
@@ -63,7 +63,7 @@ void hs_send(int fd, unsigned* data, size_t len)
 
 size_t hs_read(int fd, unsigned* data, size_t len)
 {
-    DEBUGOUT("hs_receive(%d, %p, %ld)\n", fd, data, len);
+    DEBUGOUT("hs_receive(%d, %p, %ld)", fd, data, len);
     const char next[] = "next";
     hs_send(fd, (unsigned*)next, sizeof(next)-1);
 
@@ -72,7 +72,7 @@ size_t hs_read(int fd, unsigned* data, size_t len)
 
 size_t hs_receive(int fd, unsigned* data, size_t len)
 {
-    DEBUGOUT("hs_receive(%d, %p, %ld)\n", fd, data, len);
+    DEBUGOUT("hs_receive(%d, %p, %ld)", fd, data, len);
     while(1) {
         ssize_t res = recv(fd, (void*) data, len, 0);
         if (res == -1) {

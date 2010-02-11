@@ -69,7 +69,7 @@ void* send_getPayload(void* handle, net_message_t* msg, uint8_t len)
 
 static void* run(void* h)
 {
-	DEBUGOUT("send::run(%p)\n", h);
+	DEBUGOUT("send::run(%p)", h);
     HANDLE;
     LOCK;
     SIGNAL;

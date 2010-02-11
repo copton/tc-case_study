@@ -15,7 +15,7 @@ typedef struct {
 
 void* logr_wire(logr_Callback* callback, const char* file)
 {
-	DEBUGOUT("sensor_wire(%p, %s)\n", callback, file);
+	DEBUGOUT("logr_wire(%p, %s)", callback, file);
 	Handle* handle = malloc(sizeof(Handle));
 	handle->callback = callback;
 
@@ -25,12 +25,13 @@ void* logr_wire(logr_Callback* callback, const char* file)
 
 	setupThread(handle);
 
+	DEBUGOUT("logr_wire(...) -> %p", handle);
 	return handle;
 }
 
 error_t logr_read(void* h, void* buf, storage_len_t len)
 {
-	DEBUGOUT("logr_read(%p, %p, %u)\n", h, buf, len);
+	DEBUGOUT("logr_read(%p, %p, %u)", h, buf, len);
 	HANDLE;
 	error_t res;
 	LOCK;
@@ -43,7 +44,7 @@ error_t logr_read(void* h, void* buf, storage_len_t len)
 		res = SUCCESS;
 	}
 	UNLOCK;
-	DEBUGOUT("logr_read(...) -> %d\n", res);
+	DEBUGOUT("logr_read(...) -> %d", res);
 	return res;
 }
 
@@ -67,7 +68,7 @@ storage_len_t logr_getSize(void* h)
 
 static void* run(void* h)
 {
-	DEBUGOUT("sensor::run(%p)\n", h);
+	DEBUGOUT("sensor::run(%p)", h);
     HANDLE;
     LOCK;
     SIGNAL;
