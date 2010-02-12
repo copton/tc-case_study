@@ -36,14 +36,16 @@ def _random_tuple():
         yield [min, max]
 
 def getTasks(notify):
-    file = File(codec)
+    file_receive = File(codec)
+    file_collect = File(codec)
     return {
         "netSource" : PushTask(Config.fn_receive, Source(codec, _random_tuple()), Config.dt_receive),
         "sensorSource" : SourceTask(Config.fn_collect, Source(codec, _random())),
         "netSink" : ControlSinkTask(Config.fn_send, Sink(codec), Config.testCount, notify),
-        "flashReceiveSink" : SinkTask(Config.fn_flash_receive, FileSink(file)),
-        "flashCollectSink" : SinkTask(Config.fn_flash_collect, FileSink(file)),
-        "flashSendSource" : SourceTask(Config.fn_flash_send, FileSource(file)),
+        "flashReceiveSink" : SinkTask(Config.fn_flash_receive_sink, FileSink(file_receive)),
+        "flashCollectSink" : SinkTask(Config.fn_flash_collect_sink, FileSink(file_collect)),
+        "flashReceiveSource" : SourceTask(Config.fn_flash_receive_source, FileSource(file_receive)),
+        "flashCollectSource" : SourceTask(Config.fn_flash_collect_source, FileSource(file_collect)),
     }
     
 def createLog(t0, tasks):

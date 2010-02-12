@@ -6,6 +6,5 @@ class Logs(object):
         self.sendWritten = tasks["netSink"].sink.getLog()
         self.flashReceiveWritten = tasks["flashReceiveSink"].sink.getLog()
         self.flashCollectWritten = tasks["flashCollectSink"].sink.getLog()
-        self.flashSendRead = tasks["flashSendSource"].source.getLog()
-
-
+        self.flashReceiveRead = tasks["flashReceiveSource"].source.getLog()
+        self.flashCollectRead = tasks["flashCollectSource"].source.getLog()

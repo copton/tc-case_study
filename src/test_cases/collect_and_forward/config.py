@@ -1,6 +1,6 @@
 class Config(object):
-    applicationCommand = "application/collect_and_forward/event-based/event-based"
-#    applicationCommand = "application/collect_and_forward/mockup/main.py"
+#    applicationCommand = "application/collect_and_forward/event-based/event-based"
+    applicationCommand = "application/collect_and_forward/mockup/main.py"
 
     logfileName = "/tmp/tc/log.pickle"
     
@@ -9,9 +9,10 @@ class Config(object):
     fn_receive = path + "receive.sock"
     fn_send = path + "send.sock"
     fn_collect =path + "collect.sock"
-    fn_flash_receive = path + "flash-receive.sock"
-    fn_flash_send = path + "flash-send.sock"
-    fn_flash_collect = path + "flash-collect.sock"
+    fn_flash_receive_source = path + "flash-receive-source.sock"
+    fn_flash_collect_source = path + "flash-collect-source.sock"
+    fn_flash_receive_sink = path + "flash-receive-sink.sock"
+    fn_flash_collect_sink = path + "flash-collect-sink.sock"
 
     testCount = 3
     max_dt_deviance = 0.01

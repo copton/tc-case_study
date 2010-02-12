@@ -12,7 +12,8 @@ def verify(logs):
         _check_frequency(Config.dt_receive, logs.flashReceiveWritten)
 
         _check_frequency(Config.dt_send, logs.sendWritten)
-        _check_frequency(Config.dt_send, logs.flashSendRead)
+        _check_frequency(Config.dt_send, logs.flashReceiveRead)
+        _check_frequency(Config.dt_send, logs.flashCollectRead)
     
         _check_frequency(Config.dt_collect, logs.collectRead)
         _check_frequency(Config.dt_collect, logs.flashCollectWritten)
@@ -33,13 +34,17 @@ def verify(logs):
         def select(lst, idx):
             return [entry[idx] for entry in lst]
 
-        assert len(logs.flashSendRead) == len(logs.sendWritten), (len(logs.flashSendRead), len(logs.sendWritten), logs.flashSendRead, logs.sendWritten)
+        assert len(logs.flashReceiveRead) == len(logs.sendWritten)
+        assert len(logs.flashCollectRead) == len(logs.sendWritten)
 
-        vals_in = select(logs.flashSendRead, 1)
+        vals_receive_in = select(logs.flashReceiveRead, 1)
+        vals_collect_in = select(logs.flashCollectRead, 1)
         vals_out = select(logs.sendWritten, 1)
-        for pair in zip(vals_in, vals_out):
-            result = [reduce(min, pair[0]), reduce(max, pair[0])]
-            assert pair[1] == result, (pair[1], result)
+
+        for i in range(len(vals_out)):
+            res_min = reduce(min, vals_receive_in[i] + vals_collect_in[i])
+            res_max = reduce(max, vals_receive_in[i] + vals_collect_in[i])
+            assert [res_min, res_max] == vals_out[i]
             
     check_frequency()
     check_flow()
