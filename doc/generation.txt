@@ -1,0 +1,19 @@
+- on call of blocking functions, parameters which go to the state struct anyway
+  are directly stored there by the caller instead of passing them as normal
+  parameters.
+
+- first writing the PAL then generate the code.
+
+PAL
+====
+- PAL must be generated because it depends on the number of threads
+- no guarantee that callee returns before continuation is called!
+- meta-information, which parameter remains in the parameter list.
+
+
+optimization
+============
+ - sometimes caller can operate directly on the state struct of the callee instead of instantiating it's own copies of the variable.
+ - thread-id mapping can omitted if there is only one caller
+ - storing the continuation can be omitted if there is only one caller
+ - lookup for
