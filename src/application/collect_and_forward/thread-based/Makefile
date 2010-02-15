@@ -5,9 +5,9 @@ clean: module-clean app-clean
 depend: module-depend
 distclean: module-distclean
 
-CFLAGS = -I$(ROOT)/src/operating_system/tinyos/raw
+CFLAGS = -I$(ROOT)/src/operating_system/tinyos/threads
 include ../../../../mak/module.mak
 
 LDFLAGS=-lpthread
-DEPS=$(ROOT)/src/operating_system/tinyos/raw/libraw.a $(ROOT)/src/hardware_simulation/libhardware_simulation.a $(ROOT)/src/infra/libinfra.a
+DEPS=$(ROOT)/src/operating_system/tinyos/threads/libthreads.a $(ROOT)/src/hardware_simulation/libhardware_simulation.a $(ROOT)/src/infra/libinfra.a 
 include ../../../../mak/app.mak

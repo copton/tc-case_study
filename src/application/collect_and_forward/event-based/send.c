@@ -73,10 +73,11 @@ static void readDone(void* handle, void* buf, storage_len_t len, error_t error)
         assert (res == SUCCESS);
         state = WAIT_LOGR_2;
     } else {
-        memcpy(message.buffer, &min, sizeof(int32_t));
-        memcpy(message.buffer + sizeof(int32_t), &max, sizeof(int32_t));
+		unsigned char* payload = send_getPayload(send_handle, &message, 2 * sizeof(int32_t));
+        memcpy(payload, &min, sizeof(int32_t));
+        memcpy(payload + sizeof(int32_t), &max, sizeof(int32_t));
         
-        error_t res = send_send(send_handle, &message, 2 * sizeof(uint32_t));
+        error_t res = send_send(send_handle, &message, 2 * sizeof(int32_t));
         assert(res == SUCCESS);
 
         state = WAIT_SEND;
