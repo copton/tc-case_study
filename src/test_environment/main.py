@@ -9,7 +9,7 @@ import record
 import verify
 
 def usage(whatswrong=None):
-    sys.stderr.write("usage: %s: -t test_case (-r|-v) [-h]\n" % sys.argv[0])
+    sys.stderr.write("usage: %s: -t test_case (-r|-v) [-h] [-- <test case parameters>]\n" % sys.argv[0])
     sys.stderr.write("-r: record\n")
     sys.stderr.write("-v: verify\n")
     sys.stderr.write("-h: help\n")
@@ -49,6 +49,7 @@ def run():
         usage()
 
     test_main = load_code("test_cases." + test + ".main")
+    test_main.setArgs(args)
 
     command(test_main)
 

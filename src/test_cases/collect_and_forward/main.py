@@ -7,17 +7,15 @@ import codec
 from config import Config
 from logs import Logs
 
-from verify import verify
-
 import os
 import os.path
 import random
-
+         
 def getLogfileName():
     return Config.logfileName
 
 def getApplicationCommand():
-    return os.path.join(os.environ["ROOT"], "src", Config.applicationCommand)
+    return os.path.join(os.environ["ROOT"], "src", Config.applicationCommands[Args.application])
 
 def getApplicationParameter():
     return {}
@@ -50,3 +48,7 @@ def getTasks(notify):
     
 def createLog(t0, tasks):
     return Logs(t0, tasks) 
+
+from verify import verify
+from args import Args, setArgs
+
