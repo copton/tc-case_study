@@ -1,2 +1,2 @@
-DIRS = raw
+DIRS = raw threads
 include ../../../mak/recurse.mak
