@@ -1,4 +1,5 @@
 #include "collect.h"
+#include "log.h"
 #include "Sensor.h"
 #include "LogWrite.h"
 #include "Timer.h"
@@ -20,13 +21,6 @@ void collect_run(const char* sensor, const char* file, unsigned dt)
             assert (res == SUCCESS);
         }
 
-        {
-            bool recordsLost;
-            storage_len_t len;
-            error_t res = logw_append(logw_handle, &val, sizeof(sensor_val_t), &len, &recordsLost);
-
-            assert (res == SUCCESS);
-            assert (len == sizeof(sensor_val_t));
-        }
+        log_to(logw_handle, &val, sizeof(sensor_val_t));
     }
 }

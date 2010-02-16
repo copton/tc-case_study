@@ -1,4 +1,5 @@
 #include "receive.h"
+#include "log.h"
 #include "LogWrite.h"
 #include "Receive.h"
 #include <assert.h>
@@ -17,12 +18,6 @@ void receive_run(const char* channel, const char* file)
             assert (res == SUCCESS);
         }
 
-        {
-            storage_len_t res_len;
-            bool recordsLost;
-            error_t res = logw_append(logw_handle, payload, len, &res_len, &recordsLost);
-            assert (res == SUCCESS);
-            assert (res_len == len);
-        }
+		log_to(logw_handle, payload, len);
     }
 }
