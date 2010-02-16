@@ -1,5 +1,5 @@
-#ifndef QUERAEREITAEKAIXOHKU
-#define QUERAEREITAEKAIXOHKU
+#ifndef UECHAIMIECOOKUKEECHE
+#define UECHAIMIECOOKUKEECHE
 
 const char* fn_receive = "/tmp/tc/receive.sock";
 const char* fn_send = "/tmp/tc/send.sock";

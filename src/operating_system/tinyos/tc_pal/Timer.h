@@ -9,9 +9,9 @@
 //void timer_sleep(uint64_t until);
 typedef struct {
     tc_continuation_t tc_continuation;
-} tc_timer_sleep_t;
+} tc_struct_timer_sleep;
 void tc_pal_timer_sleep(uint64_t until);
-extern tc_timer_sleep_t tc_state_timer_sleep[];
+extern tc_struct_timer_sleep tc_state_timer_sleep[];
 unsigned tc_map_timer_sleep();
 
 /**

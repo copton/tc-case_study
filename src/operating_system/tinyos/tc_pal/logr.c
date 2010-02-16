@@ -21,18 +21,6 @@ static void readDone(void* handle, void* buf, storage_len_t len, error_t error)
     tc_state_logr_read[idx].tc_continuation();
 }
 
-static logr_Callback callback = {&readDone, NULL};
-
-void tc_pal_logr_wire(const char* file)
-{
-    unsigned idx = tc_map_logr_wire();
-
-    void* handle = logr_wire(&callback, file);
-
-    tc_state_logr_wire[idx].tc_result = handle;
-    tc_state_logr_wire[idx].tc_continuation();
-}
-
 void tc_pal_logr_read(void* handle, storage_len_t len)
 {
     unsigned idx = tc_map_logr_read();
@@ -43,5 +31,12 @@ void tc_pal_logr_read(void* handle, storage_len_t len)
     } else {
         setHandle(handle);
     }
+}
+
+static logr_Callback callback = {&readDone, NULL};
+
+void* pal_logr_wire(const char* file)
+{
+    return logr_wire(&callback, file);
 }
 

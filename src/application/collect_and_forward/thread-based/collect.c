@@ -16,10 +16,8 @@ void collect_run(const char* sensor, const char* file, unsigned dt)
         now += dt;
 
         sensor_val_t val;
-        {
-            error_t res = sensor_read(sensor_handle, &val);
-            assert (res == SUCCESS);
-        }
+		error_t res = sensor_read(sensor_handle, &val);
+		assert (res == SUCCESS);
 
         log_to(logw_handle, &val, sizeof(sensor_val_t));
     }

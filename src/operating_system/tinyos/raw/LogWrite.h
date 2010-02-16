@@ -1,5 +1,5 @@
-#ifndef XOREECEOBEKENGIEQUID
-#define XOREECEOBEKENGIEQUID
+#ifndef EIXAHZUOWAXUINGIEPHO
+#define EIXAHZUOWAXUINGIEPHO
 
 #include "Types.h"
 #include "Log.h"

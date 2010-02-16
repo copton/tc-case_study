@@ -21,18 +21,6 @@ static void appendDone(void* handle, void* buf, storage_len_t len, bool recordsL
     tc_state_logw_append[idx].tc_continuation();
 }
 
-static logw_Callback callback = {&appendDone, NULL, NULL};
-
-void tc_pal_logw_wire(const char* file)
-{
-    unsigned idx = tc_map_logw_wire();
-
-    void* handle = logw_wire(&callback, file);
-
-    tc_state_logw_wire[idx].tc_result = handle;
-    tc_state_logw_wire[idx].tc_continuation();
-}
-
 void tc_pal_logw_append(void* handle, storage_len_t len)
 {
     unsigned idx = tc_map_logw_append();
@@ -44,3 +32,11 @@ void tc_pal_logw_append(void* handle, storage_len_t len)
         setHandle(handle);
     }
 } 
+
+static logw_Callback callback = {&appendDone, NULL, NULL};
+
+void* pal_logw_wire(const char* file)
+{
+    return logw_wire(&callback, file);
+}
+

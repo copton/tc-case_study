@@ -1,7 +1,18 @@
-- on call of blocking functions, parameters which go to the state struct anyway
-  are directly stored there by the caller instead of passing them as normal
-  parameters.
+problems
+========
+- aliasing: compiler can not see, that payload is a pointer to the msg object.
+  msg must be saved in state struct, although it is not accessed after the
+  blocking call! What to do? 
+  - Conservatie approach: keep everything in state struct. 
+  - add variables which are passed by pointer to a blocking function to the state struct.
+  - provide meta-information to the blocking functions.
 
+- not only variables which are written to before and read from after a blocking
+  call must be saved in the state struct. Additionally variables which are used
+  in more than one sub-function must be in the state struct.
+
+argumentation
+=============
 - first writing the PAL then generate the code.
 
 PAL
@@ -13,7 +24,19 @@ PAL
 
 optimization
 ============
- - sometimes caller can operate directly on the state struct of the callee instead of instantiating it's own copies of the variable.
- - thread-id mapping can omitted if there is only one caller
- - storing the continuation can be omitted if there is only one caller
- - lookup for
+- sometimes caller can operate directly on the state struct of the callee instead of instantiating it's own copies of the variable.
+- thread-id mapping can omitted if there is only one caller
+- storing the continuation can be omitted if there is only one caller
+- on call of blocking functions, parameters which go to the state struct anyway
+  are directly stored there by the caller instead of passing them as normal
+  parameters.
+- sub-functions which do nothing but call another sub-function can be omitted (e.g. receive_run_4)
+
+open questions
+==============
+ - order of code/generation of forward declarations.
+ - if tc-input is output from cpp, then some magic is already applied. For
+   example assert is expanded to a line including the line number. In ec-code
+   this line number is no longer valid. How to fix this?
+    - maybe provide a different implementation for assert?
+

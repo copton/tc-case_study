@@ -18,18 +18,15 @@ static net_message_t* receive(void* handle, net_message_t* msg, void* payload, u
     return msg;
 }
 
-static receive_Callback callback = {&receive};
-
-void tc_pal_receive_wire(const char* channel)
-{
-    unsigned idx = tc_map_receive_wire();
-    void* handle = receive_wire(&callback, channel);
-
-    tc_state_receive_wire[idx].tc_result = handle;
-    tc_state_receive_wire[idx].tc_continuation();
-}
-
 void tc_pal_receive_receive(void* handle)
 {
     setHandle(handle);
 } 
+
+static receive_Callback callback = {&receive};
+
+void* pal_receive_wire(const char* channel)
+{
+    return receive_wire(&callback, channel);
+}
+

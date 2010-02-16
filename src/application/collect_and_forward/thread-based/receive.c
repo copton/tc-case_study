@@ -13,10 +13,8 @@ void receive_run(const char* channel, const char* file)
         unsigned char* payload;
         uint8_t len;
 
-        {
-            error_t res = receive_receive(receive_handle, &msg, (void**)&payload, &len);
-            assert (res == SUCCESS);
-        }
+		error_t res = receive_receive(receive_handle, &msg, (void**)&payload, &len);
+		assert (res == SUCCESS);
 
 		log_to(logw_handle, payload, len);
     }

@@ -10,16 +10,16 @@ threads
 call graph
 ==========
 
-| call           | task    |  index |
-+----------------+---------+--------+
-| timer_*        | collect |   0    |
-| timer_*        | send    |   1    |
-| logw_*         | collect |   0    |
-| logw_*         | receive |   1    |
-| receive_*      | receive |   0    |
-| logr_*         | send    |   0    |
-| send_*         | send    |   0    |
-| collect_run    | collect |   0    | 
-| receive_run    | receive |   0    | 
-| aggretage_from | send    |   0    |
-| send_via       | send    |   0    |
+| call            | task    |  index |
++-----------------+---------+--------+
+| timer_sleep     | collect |   0    |
+| timer_sleep     | send    |   1    |
+| logw_append     | collect |   0    |
+| logw_append     | receive |   1    |
+| receive_receive | receive |   0    |
+| logr_read       | send    |   0    |
+| send_send       | send    |   0    |
+| collect_run     | collect |   0    | 
+| receive_run     | receive |   0    | 
+| aggretage_from  | send    |   0    |
+| send_via        | send    |   0    |
