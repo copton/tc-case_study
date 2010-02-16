@@ -1,6 +1,7 @@
 #include "Timer.h"
 #include "raw/Timer.h"
 #include <assert.h>
+#include "timer_init.h"
 
 static void* timer_handle;
 

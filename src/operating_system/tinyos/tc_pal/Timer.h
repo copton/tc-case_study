@@ -6,8 +6,6 @@
 #include "raw/Types.h"
 #include "tc.h"
 
-void timer_init();
-
 //void timer_sleep(uint64_t until);
 typedef struct {
     tc_continuation_t tc_continuation;
