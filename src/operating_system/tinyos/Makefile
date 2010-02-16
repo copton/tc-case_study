@@ -1,2 +1,2 @@
-DIRS = raw threads
+DIRS = raw threads tc_pal
 include ../../../mak/recurse.mak

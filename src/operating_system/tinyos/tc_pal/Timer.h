@@ -1,21 +1,25 @@
-#ifndef BOHSHOHKOXUMEETACHAI
-#define BOHSHOHKOXUMEETACHAI
+#ifndef PHOHSHOONAEGEEPOHFEE
+#define PHOHSHOONAEGEEPOHFEE
 
-// from tos/lib/timer/Timer.nc
 // a unit is a millisecond
 
-#include "Types.h"
+#include "raw/Types.h"
+#include "tc.h"
 
-/**
- * sleep until a future point in time.
- *
- */
-void timer_sleep(uint64_t until);
+void timer_init();
+
+//void timer_sleep(uint64_t until);
+typedef struct {
+    tc_continuation_t tc_continuation;
+} tc_timer_sleep_t;
+void tc_pal_timer_sleep(uint64_t until);
+extern tc_timer_sleep_t tc_state_timer_sleep[];
+unsigned tc_map_timer_sleep();
 
 /**
 * Return the current time.
 * @return Current time.
 */
-uint64_t timer_getNow();
+uint64_t tc_pal_timer_getNow();
 
 #endif

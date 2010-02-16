@@ -1,24 +1,30 @@
-#ifndef UQUOOFULEEBEIKAIGHAI
-#define UQUOOFULEEBEIKAIGHAI
+#ifndef CHAUQUAIHEIZIESAOVOH
+#define CHAUQUAIHEIZIESAOVOH
 
 // from tos/interfaces/Reader.nc
 
-#include "Types.h"
+#include "raw/Types.h"
+#include "tc.h"
+#include "raw/Sensor.h"
 
-typedef uint32_t sensor_val_t;
+//void* sensor_wire(const char* device);
+typedef struct {
+    tc_continuation_t tc_continuation;
+    void* tc_result;
+} tc_sensor_wire_t;
+void tc_pal_sensor_wire(const char* device);
+extern tc_sensor_wire_t tc_state_sensor_wire[];
+unsigned tc_map_sensor_wire();
 
-// emulation of nesc wire statements
-// the returned handle must be passed to all commands
-void* sensor_wire(const char* device);
 
-/**
-* Read the value.
-*
-* @param val the value that has been read
-* @return 
-*   <li>SUCCESS if the read() was successful
-*   <li>EBUSY if a request is already being processed.
-*/
-error_t sensor_read(void* handle, sensor_val_t* val);
+//error_t sensor_read(void* handle, sensor_val_t* val);
+typedef struct {
+    tc_continuation_t tc_continuation;
+    error_t  tc_result;
+    sensor_val_t* val;
+} tc_sensor_read_t;
+void tc_pal_sensor_read(void* handle);
+extern tc_sensor_read_t tc_state_sensor_read[];
+unsigned tc_map_sensor_read();
 
 #endif

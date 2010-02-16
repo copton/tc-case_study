@@ -9,7 +9,7 @@ PAL
 - PAL must be generated because it depends on the number of threads
 - no guarantee that callee returns before continuation is called!
 - meta-information, which parameter remains in the parameter list.
-
+- PAL can become inefficient, but this depends on the OS' API, not on the general concept of code generation
 
 optimization
 ============

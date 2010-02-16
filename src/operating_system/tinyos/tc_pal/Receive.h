@@ -1,26 +1,29 @@
 #ifndef AFAECHOHSIEVIJEEWEVA
 #define AFAECHOHSIEVIJEEWEVA
 
-// from tos/interfaces/Receive.nc
+#include "raw/Types.h"
+#include "raw/Net.h"
+#include "tc.h"
 
-#include "Types.h"
-#include "Net.h"
+//void* receive_wire(const char* channel);
+typedef struct {
+    tc_continuation_t tc_continuation;
+    void* tc_result;
+} tc_receive_wire_t;
+void tc_pal_receive_wire(const char* channel);
+extern tc_receive_wire_t tc_state_receive_wire[];
+unsigned tc_map_receive_wire();
 
-// emulation of nesc wire statements
-// the returned handle must be passed to all commands
-void* receive_wire(const char* channel);
 
-/**
-* Receive a packet buffer
-*
-* @param  'net_message_t* ONE msg'        the receied packet
-* @param  'void* COUNT(len) payload'  a pointer to the packet's payload
-* @param  len      the length of the data region pointed to by payload
-*                  received packet.
-* @return 
-*   <li>SUCCESS if the receive() was successful
-*   <li>EBUSY if a request is already being processed.
-*/
-error_t receive_receive(void* handle, net_message_t* msg, void** payload, uint8_t* len);
+//void receive_receive(void* handle, net_message_t** msg, void** payload, uint8_t* len);
+typedef struct {
+    tc_continuation_t tc_continuation;
+    net_message_t** msg;
+    void** payload;
+    uint8_t* len;
+} tc_receive_receive_t;
+void tc_pal_receive_receive(void* handle);
+extern tc_receive_receive_t tc_state_receive_receive[];
+unsigned tc_map_receive_receive();
 
 #endif
