@@ -4,6 +4,7 @@
 #include <assert.h>
 #include "infra/types.h"
 #include "config.h"
+#include "compiler/tc.h"
 
 static void run_send()
 {

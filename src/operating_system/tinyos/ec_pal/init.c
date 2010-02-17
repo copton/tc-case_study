@@ -1,7 +1,7 @@
 #include "Init.h"
 #include "timer_init.h"
 
-void tc_init()
+void ec_init()
 {
     timer_init();
 }

@@ -11,16 +11,17 @@ problems
   call must be saved in the state struct. Additionally variables which are used
   in more than one sub-function must be in the state struct.
 
-argumentation
-=============
-- first writing the PAL then generate the code.
-
 PAL
 ====
-- PAL must be generated because it depends on the number of threads
+- PAL must be partially generated because it depends on the number of threads
 - no guarantee that callee returns before continuation is called!
 - meta-information, which parameter remains in the parameter list.
 - PAL can become inefficient, but this depends on the OS' API, not on the general concept of code generation
+- PAL API may differ from thread API if semantics of raw API and thread API do not (efficiently) fit together.
+  - example: receive_receive: the provider of the raw API returns a pointer to
+    a message and the user of the thread API provides a differnt pointer, to
+	store the message in. The PAL impl provides the thread API but uses the raw
+    API. Without copying there is no way to do so.
 
 optimization
 ============

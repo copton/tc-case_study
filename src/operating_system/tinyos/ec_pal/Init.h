@@ -1,6 +1,6 @@
 #ifndef IIWOHTHAIJEESINAICUX
 #define IIWOHTHAIJEESINAICUX
 
-void tc_init();
+void ec_init();
 
 #endif
