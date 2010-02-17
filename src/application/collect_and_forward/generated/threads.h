@@ -2,9 +2,9 @@
 #define THEYEILOCETUUNGOOJAA
 
 typedef enum {
-    TC_TID_COLLECT = 0,
-    TC_TID_RECEIVE,
-    TC_TID_SEND
+    EC_TID_COLLECT = 0,
+    EC_TID_RECEIVE,
+    EC_TID_SEND
 } threads;
 
 #endif

@@ -5,7 +5,7 @@
 
 #include "Types.h"
 
-typedef uint32_t sensor_val_t;
+#include "SensorTypes.h"
 
 typedef struct {
     /**

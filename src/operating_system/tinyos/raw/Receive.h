@@ -4,7 +4,7 @@
 // from tos/interfaces/Receive.nc
 
 #include "Types.h"
-#include "Net.h"
+#include "NetTypes.h"
 
 typedef struct {
     /**

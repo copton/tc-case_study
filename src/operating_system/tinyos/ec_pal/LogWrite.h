@@ -10,6 +10,8 @@ void* pal_logw_wire(const char* file);
 //error_t logw_append(void* handle, void* buf, storage_len_t len, storage_len_t* res_len, bool* recordsLost);
 typedef struct {
     ec_continuation_t ec_continuation;
+    
+    //signature
     error_t ec_result;    
     void* buf;
     storage_len_t* res_len;

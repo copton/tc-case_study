@@ -2,7 +2,7 @@
 #define OHPOODIEMIEPHEECEIVU
 
 #include "raw/Types.h"
-#include "raw/Net.h"
+#include "raw/NetTypes.h"
 #include "compiler/ec.h"
 
 void* pal_send_wire(const char* channel);

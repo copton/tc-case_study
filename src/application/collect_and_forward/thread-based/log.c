@@ -1,4 +1,4 @@
-#include "log.h"
+#include "Log.h"
 #include <assert.h>
 #include "infra/types.h"
 #include "LogWrite.h"
