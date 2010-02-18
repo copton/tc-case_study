@@ -32,6 +32,9 @@ optimization
   are directly stored there by the caller instead of passing them as normal
   parameters.
 - sub-functions which do nothing but call another sub-function can be omitted (e.g. receive_run_4)
+- for the union optimization, map should return the pointer to the state
+  struct, because different elements of an array could go into different
+  unions.
 
 open questions
 ==============

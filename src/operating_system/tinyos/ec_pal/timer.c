@@ -42,7 +42,7 @@ void ec_pal_timer_sleep(uint64_t until)
     timer_startOneShot(timer_handle, until - timer_getNow(timer_handle));
 }
 
-uint64_t ec_pal_timer_getNow()
+uint64_t pal_timer_getNow()
 {
 	return timer_getNow(timer_handle);
 }

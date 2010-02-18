@@ -18,6 +18,6 @@ unsigned ec_map_timer_sleep();
 * Return the current time.
 * @return Current time.
 */
-uint64_t ec_pal_timer_getNow();
+uint64_t pal_timer_getNow();
 
 #endif

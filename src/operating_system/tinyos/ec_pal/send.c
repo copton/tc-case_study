@@ -38,3 +38,7 @@ void* pal_send_wire(const char* channel)
     return send_wire(&callback, channel);
 }
 
+void* pal_send_getPayload(void* handle, net_message_t* msg, uint8_t len)
+{
+    return send_getPayload(handle, msg, len);
+}
