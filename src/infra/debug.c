@@ -5,7 +5,12 @@
 #include <stdlib.h>
 
 #include "debug.h"
+#include "debug_init.h"
 #include "error.h"
+
+#ifndef DEBUG_PREFIX
+#define DEBUG_PREFIX "appl"
+#endif
 
 static pthread_mutex_t mutex;
 
@@ -25,7 +30,7 @@ void debugout(const char* format, ...)
         errorExit("lock"); 
     }
 
-    printf("%lu: %lu: ", now, id);
+    printf("%s: %lu: %lu: ", DEBUG_PREFIX, now, id);
     vprintf(format, ap);
     printf("\n");
 	fflush(stdout);

@@ -1,12 +1,27 @@
 #include "ec.h"
 #include <stdarg.h>
+#include "infra/debug.h"
 
-ec_tid_t ec_tid;
+static ec_tid_t tid;
+
+ec_tid_t ec_tid()
+{
+    return tid;
+}
+
+void ec_set_tid(ec_tid_t t)
+{
+    DEBUGOUT("%d: setting tid to %d", tid, t);
+    tid = t;
+}
+
+void ec_set_tid(ec_tid_t tid);
+
 
 static void run_thread(ec_continuation_t run)
 {
     static ec_tid_t tid = 0;
-    ec_tid = tid;
+    ec_set_tid(tid);
     run();
     tid++;
 }

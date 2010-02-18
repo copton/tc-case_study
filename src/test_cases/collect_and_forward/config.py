@@ -3,6 +3,7 @@ class Config(object):
         "events": "application/collect_and_forward/event-based/event-based",
         "mockup": "application/collect_and_forward/mockup/main.py",
         "threads": "application/collect_and_forward/thread-based/thread-based",
+        "generated": "application/collect_and_forward/generated/generated",
     }
 
     logfileName = "/tmp/tc/log.pickle"

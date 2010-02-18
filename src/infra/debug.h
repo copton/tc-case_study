@@ -1,7 +1,6 @@
 #ifndef AHFOSESUEPAESHEIBEIB
 #define AHFOSESUEPAESHEIBEIB
 
-void debug_init();
 void debugout(const char* format, ...);
 
 #ifdef DEBUG

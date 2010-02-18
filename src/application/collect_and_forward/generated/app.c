@@ -12,8 +12,7 @@
 #include "Timer.h"
 #include "Receive.h"
 #include "Send.h"
-#include "Init.h"
-#include "Run.h"
+#include "Pal.h"
 #include <assert.h>
 #include <string.h>
 
@@ -32,8 +31,8 @@ ec_struct_log_to ec_state_log_to[2];
 
 inline unsigned ec_map_log_to()
 {
-	assert (ec_tid == EC_TID_COLLECT || ec_tid == EC_TID_RECEIVE);
-	return ec_tid;	
+	assert (ec_tid() == EC_TID_COLLECT || ec_tid() == EC_TID_RECEIVE);
+	return ec_tid();	
 }
 
 void ec_sub2_log_to();
@@ -80,7 +79,7 @@ ec_struct_collect_run ec_state_collect_run[1];
 
 inline unsigned ec_map_collect_run()
 {
-	assert (ec_tid == EC_TID_COLLECT);
+	assert (ec_tid() == EC_TID_COLLECT);
 	return 0;
 }
 
@@ -165,7 +164,7 @@ ec_struct_aggregate_from ec_state_aggregate_from[1];
 
 inline unsigned ec_map_aggregate_from()
 {
-	assert (ec_tid == EC_TID_SEND);
+	assert (ec_tid() == EC_TID_SEND);
 	return 0;
 }
 
@@ -211,7 +210,7 @@ ec_struct_send_via ec_state_send_via[1];
 
 inline unsigned ec_map_send_via()
 {
-	assert (ec_tid == EC_TID_SEND);
+	assert (ec_tid() == EC_TID_SEND);
 	return 0;
 }
 
@@ -259,7 +258,7 @@ typedef struct {
 ec_struct_send_run ec_state_send_run[1];
 inline unsigned ec_map_send_run()
 {
-	assert (ec_tid == EC_TID_SEND);
+	assert (ec_tid() == EC_TID_SEND);
 	return 0;
 }
 
@@ -357,7 +356,7 @@ ec_struct_receive_run ec_state_receive_run[1];
 
 inline unsigned ec_map_receive_run()
 {
-	assert (ec_tid == EC_TID_RECEIVE);
+	assert (ec_tid() == EC_TID_RECEIVE);
 	return 0;
 }
 

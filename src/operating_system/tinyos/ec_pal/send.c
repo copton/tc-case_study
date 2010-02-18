@@ -7,20 +7,22 @@
 
 static void sendDone(void* handle, net_message_t* msg, error_t error)
 {
-    ec_tid = findThread(handle);
-    assert (ec_tid != invalid_tid);
-    unsigned idx = ec_map_send_send(ec_tid);
+    ec_set_tid(findThread(handle));
+    assert (ec_tid() != invalid_tid);
+    unsigned idx = ec_map_send_send(ec_tid());
 
     if (error == SUCCESS) {
         assert (msg == ec_state_send_send[idx].msg);
     }
 
     ec_state_send_send[idx].ec_result = error;
+	DEBUGOUT("%d: ec_pal_send_send(...) returns", ec_tid());
     ec_state_send_send[idx].ec_continuation();
 }
 
 void ec_pal_send_send(void* handle, uint8_t len)
 {
+	DEBUGOUT("%d: ec_pal_send_send(...) called", ec_tid());
     unsigned idx = ec_map_send_send();
     error_t res = send_send(handle, ec_state_send_send[idx].msg, len);
     if (res != SUCCESS) {

@@ -7,9 +7,9 @@
 
 static void appendDone(void* handle, void* buf, storage_len_t len, bool recordsLost, error_t error) 
 {
-    ec_tid = findThread(handle);
-    assert(ec_tid != invalid_tid);
-    unsigned idx = ec_map_logw_append(ec_tid);
+    ec_set_tid(findThread(handle));
+    assert(ec_tid() != invalid_tid);
+    unsigned idx = ec_map_logw_append(ec_tid());
 
     if (error == SUCCESS) {
         assert (buf == ec_state_logw_append[idx].buf);
@@ -18,11 +18,13 @@ static void appendDone(void* handle, void* buf, storage_len_t len, bool recordsL
     }
 
     ec_state_logw_append[idx].ec_result = error;
+    DEBUGOUT("ec_pal_logw_append(...) -> %d", ec_tid());
     ec_state_logw_append[idx].ec_continuation();
 }
 
 void ec_pal_logw_append(void* handle, storage_len_t len)
 {
+    DEBUGOUT("%d -> ec_pal_logw_append(...)", ec_tid());
     unsigned idx = ec_map_logw_append();
     error_t res = logw_append(handle, ec_state_logw_append[idx].buf, len);
     if (res != SUCCESS) {

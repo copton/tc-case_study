@@ -1,11 +1,13 @@
 #ifndef AJOHCHOHCHISHEISHEAL
 #define AJOHCHOHCHISHEISHEAL
 
+#include "infra/debug.h"
+
 static void* handles[TC_NUMBEROF_THREADS];
 
 static void setHandle(void* handle)
 {
-    handles[ec_tid] = handle;
+    handles[ec_tid()] = handle;
 }
 
 static ec_tid_t findThread(void* handle)

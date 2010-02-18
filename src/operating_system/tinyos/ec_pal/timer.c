@@ -2,6 +2,7 @@
 #include "raw/Timer.h"
 #include <assert.h>
 #include "timer_init.h"
+#include "infra/debug.h"
 
 static void* timer_handle;
 
@@ -23,8 +24,9 @@ static ec_tid_t findThread()
 
 static void fired(void* handle)
 {
-    ec_tid = findThread(handle);
-    unsigned idx = ec_map_timer_sleep(ec_tid);
+    ec_set_tid(findThread(handle));
+    unsigned idx = ec_map_timer_sleep(ec_tid());
+	DEBUGOUT("%d: ec_pal_timer_sleep() returns", ec_tid());
     ec_state_timer_sleep[idx].ec_continuation();
 }
 
@@ -37,8 +39,9 @@ void timer_init()
 
 void ec_pal_timer_sleep(uint64_t until)
 {
-    assert (timers[ec_tid] == 0);
-    timers[ec_tid] = until;
+	DEBUGOUT("%d: ec_pal_timer_sleep(%llu) called", ec_tid(), until);
+    assert (timers[ec_tid()] == 0);
+    timers[ec_tid()] = until;
     timer_startOneShot(timer_handle, until - timer_getNow(timer_handle));
 }
 

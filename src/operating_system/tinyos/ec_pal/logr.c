@@ -8,8 +8,8 @@
 
 static void readDone(void* handle, void* buf, storage_len_t len, error_t error)
 {
-    ec_tid = findThread(handle);
-    assert (ec_tid != invalid_tid);
+    ec_set_tid(findThread(handle));
+    assert (ec_tid() != invalid_tid);
     unsigned idx = ec_map_logr_read();
 
     if (error == SUCCESS) {
@@ -18,11 +18,13 @@ static void readDone(void* handle, void* buf, storage_len_t len, error_t error)
     }
 
     ec_state_logr_read[idx].ec_result = error;
+    DEBUGOUT("%d: ec_pal_logr_read(...) returns", ec_tid());
     ec_state_logr_read[idx].ec_continuation();
 }
 
 void ec_pal_logr_read(void* handle, storage_len_t len)
 {
+    DEBUGOUT("%d: ec_pal_logr_read(...) called", ec_tid());
     unsigned idx = ec_map_logr_read();
     error_t res = logr_read(handle, ec_state_logr_read[idx].buf, len);
     if (res != SUCCESS) {
