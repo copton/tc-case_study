@@ -2,7 +2,7 @@
 #define SAENGIAWAIWAILIEKIMU
 
 typedef int ec_tid_t;
-#define invalid_tid -1
+#define ec_invalid_tid -1
 
 ec_tid_t ec_tid();
 void ec_set_tid(ec_tid_t tid);

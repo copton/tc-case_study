@@ -24,6 +24,7 @@ static ec_tid_t findThread()
 
 static void fired(void* handle)
 {
+	DEBUGOUT("%d: ec_pal_timer_sleep()", ec_tid());
     ec_set_tid(findThread(handle));
     unsigned idx = ec_map_timer_sleep(ec_tid());
 	DEBUGOUT("%d: ec_pal_timer_sleep() returns", ec_tid());

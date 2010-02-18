@@ -68,13 +68,14 @@ storage_len_t logr_getSize(void* h)
 
 static void* run(void* h)
 {
-	DEBUGOUT("sensor::run(%p)", h);
+	DEBUGOUT("logr::run(%p)", h);
     HANDLE;
     os_sem_down();
     LOCK;
     while(1) {
 		handle->shared.buf = NULL;
 		WAIT;
+		DEBUGOUT("logr::run dumdidum...");
         assert (handle->shared.buf);
 
         int fd = handle->shared.fd;

@@ -35,9 +35,9 @@ inline unsigned ec_map_log_to()
 	return ec_tid();	
 }
 
-void ec_sub2_log_to();
+static void ec_sub2_log_to();
 
-void log_to(void* handle, void* buf)
+static void log_to(void* handle, void* buf)
 {
 	ec_struct_logw_append* ec_p_logw_append = ec_state_logw_append + ec_map_logw_append();
 	ec_struct_log_to* ec_p_log_to = ec_state_log_to + ec_map_log_to();
@@ -49,7 +49,7 @@ void log_to(void* handle, void* buf)
 	ec_pal_logw_append(handle, ec_p_log_to->len);
 }
 
-void ec_sub2_log_to()
+static void ec_sub2_log_to()
 {
 	ec_struct_logw_append* ec_p_logw_append = ec_state_logw_append + ec_map_logw_append();
 	ec_struct_log_to* ec_p_log_to = ec_state_log_to + ec_map_log_to();
@@ -75,7 +75,7 @@ typedef struct {
 	sensor_val_t val;
 } ec_struct_collect_run;
 
-ec_struct_collect_run ec_state_collect_run[1];
+static ec_struct_collect_run ec_state_collect_run[1];
 
 inline unsigned ec_map_collect_run()
 {
@@ -83,13 +83,13 @@ inline unsigned ec_map_collect_run()
 	return 0;
 }
 
-void ec_sub2_collect_run();
-void ec_sub3_collect_run();
-void ec_sub4_collect_run();
-void ec_sub5_collect_run();
-void ec_sub6_collect_run();
+static void ec_sub2_collect_run();
+static void ec_sub3_collect_run();
+static void ec_sub4_collect_run();
+static void ec_sub5_collect_run();
+static void ec_sub6_collect_run();
 
-void collect_run(const char* sensor, const char* file)
+static void collect_run(const char* sensor, const char* file)
 {
 	ec_struct_collect_run* ec_p_collect_run = ec_state_collect_run + ec_map_collect_run();	
 
@@ -100,7 +100,7 @@ void collect_run(const char* sensor, const char* file)
 	ec_sub2_collect_run();	
 }
 
-void ec_sub2_collect_run()
+static void ec_sub2_collect_run()
 {
 	ec_struct_timer_sleep* ec_p_timer_sleep = ec_state_timer_sleep + ec_map_timer_sleep();
 	ec_struct_collect_run* ec_p_collect_run = ec_state_collect_run + ec_map_collect_run();
@@ -113,7 +113,7 @@ void ec_sub2_collect_run()
 	}
 }
 
-void ec_sub3_collect_run()
+static void ec_sub3_collect_run()
 {
 	ec_struct_collect_run* ec_p_collect_run = ec_state_collect_run + ec_map_collect_run();
 	ec_struct_sensor_read* ec_p_sensor_read = ec_state_sensor_read + ec_map_sensor_read();
@@ -125,7 +125,7 @@ void ec_sub3_collect_run()
 	ec_pal_sensor_read(ec_p_collect_run->sensor_handle);
 }
 
-void ec_sub4_collect_run()
+static void ec_sub4_collect_run()
 {
 	ec_struct_collect_run* ec_p_collect_run = ec_state_collect_run + ec_map_collect_run();
 	ec_struct_sensor_read* ec_p_sensor_read = ec_state_sensor_read + ec_map_sensor_read();
@@ -139,12 +139,12 @@ void ec_sub4_collect_run()
 	log_to(ec_p_collect_run->logw_handle, &ec_p_collect_run->val);		
 }
 
-void ec_sub5_collect_run()
+static void ec_sub5_collect_run()
 {
 	ec_sub2_collect_run();
 }
 
-void ec_sub6_collect_run()
+static void ec_sub6_collect_run()
 {
 	ec_struct_collect_run* ec_p_collect_run = ec_state_collect_run + ec_map_collect_run();
 	ec_p_collect_run->ec_continuation();
@@ -160,7 +160,7 @@ typedef struct {
 	unsigned char read_buffer[250];
 	storage_len_t len;
 } ec_struct_aggregate_from;
-ec_struct_aggregate_from ec_state_aggregate_from[1];
+static ec_struct_aggregate_from ec_state_aggregate_from[1];
 
 inline unsigned ec_map_aggregate_from()
 {
@@ -168,9 +168,9 @@ inline unsigned ec_map_aggregate_from()
 	return 0;
 }
 
-void ec_sub2_aggregate_from();
+static void ec_sub2_aggregate_from();
 
-void aggregate_from(void* handle)
+static void aggregate_from(void* handle)
 {
 	ec_struct_logr_read* ec_p_logr_read = ec_state_logr_read + ec_map_logr_read();
 	ec_struct_aggregate_from* ec_p_aggregate_from = ec_state_aggregate_from + ec_map_aggregate_from();
@@ -181,7 +181,7 @@ void aggregate_from(void* handle)
 	ec_pal_logr_read(handle, sizeof(ec_p_aggregate_from->read_buffer));
 }
 
-void ec_sub2_aggregate_from()
+static void ec_sub2_aggregate_from()
 {
 	ec_struct_logr_read* ec_p_logr_read = ec_state_logr_read + ec_map_logr_read();
 	ec_struct_aggregate_from* ec_p_aggregate_from = ec_state_aggregate_from + ec_map_aggregate_from();
@@ -206,7 +206,7 @@ typedef struct {
 	//private
 	net_message_t msg;
 } ec_struct_send_via;
-ec_struct_send_via ec_state_send_via[1];
+static ec_struct_send_via ec_state_send_via[1];
 
 inline unsigned ec_map_send_via()
 {
@@ -214,9 +214,9 @@ inline unsigned ec_map_send_via()
 	return 0;
 }
 
-void ec_sub2_send_via();
+static void ec_sub2_send_via();
 
-void send_via(void* handle, int32_t min, int32_t max)
+static void send_via(void* handle, int32_t min, int32_t max)
 {
 	ec_struct_send_via* ec_p_send_via = ec_state_send_via + ec_map_send_via();
 	ec_struct_send_send* ec_p_send_send = ec_state_send_send + ec_map_send_send();
@@ -230,7 +230,7 @@ void send_via(void* handle, int32_t min, int32_t max)
 	ec_pal_send_send(handle, 2*sizeof(int32_t));
 }
 
-void ec_sub2_send_via()
+static void ec_sub2_send_via()
 {
 	ec_struct_send_via* ec_p_send_via = ec_state_send_via + ec_map_send_via();
 	ec_struct_send_send* ec_p_send_send = ec_state_send_send + ec_map_send_send();
@@ -255,21 +255,21 @@ typedef struct {
 	int32_t min;
 	int32_t max;
 } ec_struct_send_run;
-ec_struct_send_run ec_state_send_run[1];
+static ec_struct_send_run ec_state_send_run[1];
 inline unsigned ec_map_send_run()
 {
 	assert (ec_tid() == EC_TID_SEND);
 	return 0;
 }
 
-void ec_sub2_send_run();
-void ec_sub3_send_run();
-void ec_sub4_send_run();
-void ec_sub5_send_run();
-void ec_sub6_send_run();
-void ec_sub7_send_run();
+static void ec_sub2_send_run();
+static void ec_sub3_send_run();
+static void ec_sub4_send_run();
+static void ec_sub5_send_run();
+static void ec_sub6_send_run();
+static void ec_sub7_send_run();
 
-void send_run(const char* channel, const char* file1, const char* file2)
+static void send_run(const char* channel, const char* file1, const char* file2)
 {
 	ec_struct_send_run* ec_p_send_run = ec_state_send_run + ec_map_send_run();
 
@@ -280,7 +280,7 @@ void send_run(const char* channel, const char* file1, const char* file2)
 	ec_sub2_send_run();
 }
 
-void ec_sub2_send_run()
+static void ec_sub2_send_run()
 {
 	ec_struct_timer_sleep* ec_p_timer_sleep = ec_state_timer_sleep + ec_map_timer_sleep();
 	ec_struct_send_run* ec_p_send_run = ec_state_send_run + ec_map_send_run();
@@ -293,7 +293,7 @@ void ec_sub2_send_run()
 	}
 }
 
-void ec_sub3_send_run()
+static void ec_sub3_send_run()
 {
 	ec_struct_send_run* ec_p_send_run = ec_state_send_run + ec_map_send_run();
 	ec_struct_aggregate_from* ec_p_aggregate_from = ec_state_aggregate_from + ec_map_aggregate_from();
@@ -308,7 +308,7 @@ void ec_sub3_send_run()
 	aggregate_from(ec_p_send_run->logr1_handle);
 }
 
-void ec_sub4_send_run()
+static void ec_sub4_send_run()
 {
 	ec_struct_send_run* ec_p_send_run = ec_state_send_run + ec_map_send_run();
 	ec_struct_aggregate_from* ec_p_aggregate_from = ec_state_aggregate_from + ec_map_aggregate_from();
@@ -319,7 +319,7 @@ void ec_sub4_send_run()
 	aggregate_from(ec_p_send_run->logr2_handle);
 }
 
-void ec_sub5_send_run()
+static void ec_sub5_send_run()
 {
 	ec_struct_send_run* ec_p_send_run = ec_state_send_run + ec_map_send_run();
 	ec_struct_send_via* ec_p_send_via = ec_state_send_via + ec_map_send_via();
@@ -328,12 +328,12 @@ void ec_sub5_send_run()
 	send_via(ec_p_send_run->send_handle, ec_p_send_run->min, ec_p_send_run->max);	
 }
 
-void ec_sub6_send_run()
+static void ec_sub6_send_run()
 {
 	ec_sub2_send_run();
 }
 
-void ec_sub7_send_run()
+static void ec_sub7_send_run()
 {
 	ec_struct_send_run* ec_p_send_run = ec_state_send_run + ec_map_send_run();
 
@@ -352,7 +352,7 @@ typedef struct {
 	unsigned char* payload;
 	uint8_t len;
 } ec_struct_receive_run;
-ec_struct_receive_run ec_state_receive_run[1];
+static ec_struct_receive_run ec_state_receive_run[1];
 
 inline unsigned ec_map_receive_run()
 {
@@ -365,7 +365,7 @@ static void ec_sub3_receive_run();
 static void ec_sub4_receive_run();
 static void ec_sub5_receive_run();
 
-void receive_run(const char* channel, const char* file)
+static void receive_run(const char* channel, const char* file)
 {
     ec_struct_receive_run* ec_p_receive_run = ec_state_receive_run + ec_map_receive_run();
 
@@ -418,19 +418,19 @@ static void ec_sub5_receive_run()
 
 /*** main ***/
 
-const char* fn_receive = "/tmp/tc/receive.sock";
-const char* fn_send = "/tmp/tc/send.sock";
-const char* fn_collect ="/tmp/tc/collect.sock";
-const char* fn_flash_receive_source = "/tmp/tc/flash-receive-source.sock";
-const char* fn_flash_collect_source = "/tmp/tc/flash-collect-source.sock";
-const char* fn_flash_receive_sink = "/tmp/tc/flash-receive-sink.sock";
-const char* fn_flash_collect_sink = "/tmp/tc/flash-collect-sink.sock";
+static const char* fn_receive = "/tmp/tc/receive.sock";
+static const char* fn_send = "/tmp/tc/send.sock";
+static const char* fn_collect ="/tmp/tc/collect.sock";
+static const char* fn_flash_receive_source = "/tmp/tc/flash-receive-source.sock";
+static const char* fn_flash_collect_source = "/tmp/tc/flash-collect-source.sock";
+static const char* fn_flash_receive_sink = "/tmp/tc/flash-receive-sink.sock";
+static const char* fn_flash_collect_sink = "/tmp/tc/flash-collect-sink.sock";
 
-const int dt_collect = 500;
-const int dt_send = 2000;
+static const int dt_collect = 500;
+static const int dt_send = 2000;
 
 
-void ec_sub2_run_send();
+static void ec_sub2_run_send();
 
 static void run_send()
 {
@@ -441,12 +441,12 @@ static void run_send()
     send_run(fn_send, fn_flash_receive_source, fn_flash_collect_source);
 }
 
-void ec_sub2_run_send()
+static void ec_sub2_run_send()
 {
     assert (FALSE);
 }
 
-void ec_sub2_run_receive();
+static void ec_sub2_run_receive();
 
 static void run_receive()
 {
@@ -456,11 +456,11 @@ static void run_receive()
     receive_run(fn_receive, fn_flash_receive_sink);
 }
 
-void ec_sub2_run_receive() {
+static void ec_sub2_run_receive() {
     assert (FALSE);
 }
 
-void ec_sub2_run_collect();
+static void ec_sub2_run_collect();
 
 static void run_collect()
 {
@@ -471,7 +471,7 @@ static void run_collect()
     collect_run(fn_collect, fn_flash_collect_sink);
 }
 
-void ec_sub2_run_collect()
+static void ec_sub2_run_collect()
 {
     assert (FALSE);
 }

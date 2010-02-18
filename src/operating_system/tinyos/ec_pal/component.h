@@ -19,7 +19,7 @@ static ec_tid_t findThread(void* handle)
             return i;
         }
     }
-    return invalid_tid;
+    return ec_invalid_tid;
 }
 
 #endif

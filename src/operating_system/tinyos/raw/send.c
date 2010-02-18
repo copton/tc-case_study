@@ -78,6 +78,7 @@ static void* run(void* h)
     while(1) {
 		handle->shared.msg = NULL;
 		WAIT;
+		DEBUGOUT("send::run dumdidum...");
         assert (handle->shared.msg);
 
         int fd = handle->shared.fd;

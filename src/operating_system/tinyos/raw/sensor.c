@@ -62,6 +62,7 @@ static void* run(void* h)
     while(1) {
 		handle->shared.running = FALSE;
 		WAIT;
+		DEBUGOUT("sensor::run dumdidum...");
 		UNLOCK;
 
 		sensor_val_t val = read(fd);

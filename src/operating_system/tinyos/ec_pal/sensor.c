@@ -8,8 +8,9 @@
 
 static void readDone(void* handle, error_t result, sensor_val_t val)
 {
+    DEBUGOUT("%d: ec_pal_sensor_read(...)", ec_tid());
     ec_set_tid(findThread(handle));
-    assert (ec_tid() != invalid_tid);
+    assert (ec_tid() != ec_invalid_tid);
     unsigned idx = ec_map_sensor_read();
 
     if (result == SUCCESS) {

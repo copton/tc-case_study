@@ -8,8 +8,9 @@
 
 static void readDone(void* handle, void* buf, storage_len_t len, error_t error)
 {
+    DEBUGOUT("%d: ec_pal_logr_read(...)", ec_tid());
     ec_set_tid(findThread(handle));
-    assert (ec_tid() != invalid_tid);
+    assert (ec_tid() != ec_invalid_tid);
     unsigned idx = ec_map_logr_read();
 
     if (error == SUCCESS) {

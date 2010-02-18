@@ -7,8 +7,9 @@
 
 static void sendDone(void* handle, net_message_t* msg, error_t error)
 {
+	DEBUGOUT("%d: ec_pal_send_send(...)", ec_tid());
     ec_set_tid(findThread(handle));
-    assert (ec_tid() != invalid_tid);
+    assert (ec_tid() != ec_invalid_tid);
     unsigned idx = ec_map_send_send(ec_tid());
 
     if (error == SUCCESS) {

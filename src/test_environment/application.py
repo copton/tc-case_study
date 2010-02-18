@@ -19,6 +19,7 @@ class Application(object):
         self.proc = subprocess.Popen(cmdline)
 
     def wait(self):
+        debugout("waiting for application to quit")
         self.proc.wait()
 
     def kill(self):

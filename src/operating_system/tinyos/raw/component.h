@@ -32,9 +32,9 @@ static void setupThread(Handle* handle)
 {
     pthread_cond_init(&handle->thread.cond, NULL);
     pthread_mutex_init(&handle->thread.mutex, NULL);
+    os_sem_up();
     pthread_create(&handle->thread.thread, NULL, run, handle);
     DEBUGOUT("started thread %lu", handle->thread.thread);
-    os_sem_up();
 }
 
 #endif

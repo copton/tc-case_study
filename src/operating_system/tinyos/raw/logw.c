@@ -74,6 +74,7 @@ static void* run(void* h)
     while(1) {
 		handle->shared.buf = NULL;
 		WAIT;
+		DEBUGOUT("logw::run dumdidum...");
         assert (handle->shared.buf);
 
         int fd = handle->shared.fd;

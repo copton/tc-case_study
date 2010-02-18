@@ -3,6 +3,7 @@
 #include "cb_lock.h"
 #include <pthread.h>
 #include <assert.h>
+#include "infra/debug.h"
 
 static pthread_mutex_t mutex;
 static pthread_cond_t cond;
@@ -40,6 +41,7 @@ void os_sem_down()
 
 void os_run()
 {
+    DEBUGOUT("os threads starting now");
 	os_sem_down();
     pthread_mutex_lock(&mutex);
 	while(1) {
