@@ -7,6 +7,6 @@ extern ec_tid_t ec_tid;
 
 typedef void (*ec_continuation_t)();
 
-void RUN_THREADS(ec_continuation_t, ...);
+void RUN_THREADS(int numberof_threads, ...); // list of ec_continuation_t
 
 #endif

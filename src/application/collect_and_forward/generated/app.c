@@ -12,6 +12,8 @@
 #include "Timer.h"
 #include "Receive.h"
 #include "Send.h"
+#include "Init.h"
+#include "Run.h"
 #include <assert.h>
 #include <string.h>
 
@@ -380,7 +382,7 @@ static void ec_sub2_receive_run()
 	ec_struct_receive_run* ec_p_receive_run = ec_state_receive_run + ec_map_receive_run();
 
     if (! TRUE) {
-        ec_sub4_receive_run();
+        ec_sub5_receive_run();
     } else {
         ec_p_receive_receive->msg = &ec_p_receive_run->msg;
         ec_p_receive_receive->payload = (void**)&ec_p_receive_run->payload;
@@ -477,7 +479,9 @@ void ec_sub2_run_collect()
 
 int main()
 {
-    RUN_THREADS(run_send, run_receive, run_collect);
+	pal_init();
+    RUN_THREADS(EC_NUMBEROF_THREADS, run_collect, run_receive, run_send);
+	pal_run();
     assert (FALSE);
 
     return 0;

@@ -4,7 +4,7 @@
 
 CFLAGS += -DDEBUG -g -O0
 
-CFLAGS += -I$(ROOT)/src -Wall #-std=c99 -pedantic
+CFLAGS += -I$(ROOT)/src -Wall -Werror
 
 AR=/usr/bin/ar
 RANLIB=/usr/bin/ranlib

@@ -108,7 +108,7 @@ void receive_run(const char* channel, const char* file)
 }
 
 #include "config.h"
-#include "compiler/ec.h"
+#include "compiler/tc.h"
 
 static void run_send()
 {
