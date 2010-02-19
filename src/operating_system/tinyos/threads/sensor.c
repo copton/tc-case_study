@@ -7,7 +7,6 @@ typedef struct {
 #include "Sensor.h"
 #include "hardware_simulation/client.h"
 #include <stdlib.h>
-#include <assert.h>
 
 void* sensor_wire(const char* device)
 {

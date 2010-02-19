@@ -10,7 +10,6 @@ typedef struct {
 
 #include "component.h"
 #include "hardware_simulation/client.h"
-#include <assert.h>
 
 void* logw_wire(logw_Callback* callback, const char* file)
 {
@@ -67,19 +66,22 @@ error_t logw_sync(void* h)
 
 static void* run(void* h)
 {
-	DEBUGOUT("logw::run(%p)", h);
+	DEBUGOUT("logw__run(%p)", h);
     HANDLE;
     os_sem_down();
     LOCK;
     while(1) {
-		handle->shared.buf = NULL;
-		WAIT;
-		DEBUGOUT("logw::run dumdidum...");
+		if (handle->shared.buf == NULL) {
+			DEBUGOUT("logw__run i'm waiting...");
+			WAIT;
+			DEBUGOUT("logw__run dumdidum...");
+		}
         assert (handle->shared.buf);
 
         int fd = handle->shared.fd;
         void* buf = handle->shared.buf;
         uint8_t len = handle->shared.len;
+		handle->shared.buf = NULL;
 		UNLOCK;
 
         hs_send(fd, (unsigned char*)buf, len);

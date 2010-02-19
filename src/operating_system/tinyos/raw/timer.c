@@ -173,17 +173,20 @@ static struct timespec toTimeSpec(Handle* handle)
 
 static void* run(void* h)
 {
-	DEBUGOUT("timer::run(%p)", h);
+	DEBUGOUT("timer__run(%p)", h);
     HANDLE;
     os_sem_down();
     LOCK;
     while(1) {
         if (handle->shared.run) {
+			DEBUGOUT("timer__run i'm waiting until ...");
             struct timespec abstime = toTimeSpec(handle);
             pthread_cond_timedwait(&handle->thread.cond, &handle->thread.mutex, &abstime);    
         } else {
+			DEBUGOUT("timer__run i'm waiting...");
             pthread_cond_wait(&handle->thread.cond, &handle->thread.mutex);
         }
+		DEBUGOUT("timer__run dumdidum...");
 
         if (handle->shared.newSettings) {
             handle->shared.newSettings = FALSE;

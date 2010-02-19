@@ -1,7 +1,7 @@
 #include "Log.h"
-#include <assert.h>
 #include "infra/types.h"
 #include "LogWrite.h"
+#include "infra/debug.h"
 
 void log_to(void* handle, void* buf, storage_len_t len)
 {

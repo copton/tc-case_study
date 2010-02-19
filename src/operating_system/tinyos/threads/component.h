@@ -4,6 +4,7 @@
 #include <pthread.h>
 #include "infra/types.h"
 #include "infra/error.h"
+#include "infra/debug.h"
 
 typedef struct {
     pthread_mutex_t mutex;

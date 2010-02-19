@@ -2,7 +2,6 @@
 #include "os.h"
 #include "cb_lock.h"
 #include <pthread.h>
-#include <assert.h>
 #include "infra/debug.h"
 
 static pthread_mutex_t mutex;

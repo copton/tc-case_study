@@ -7,7 +7,6 @@ typedef struct {
 #include "Send.h"
 #include "hardware_simulation/client.h"
 #include <stdlib.h>
-#include <assert.h>
 
 void* send_wire(const char* channel)
 {

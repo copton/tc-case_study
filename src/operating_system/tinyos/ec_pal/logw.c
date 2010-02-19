@@ -1,6 +1,5 @@
 #include "LogWrite.h"
 #include "raw/LogWrite.h"
-#include <assert.h>
 #include <stdlib.h>
 
 #include "component.h"

@@ -2,8 +2,8 @@
 #include "send.h"
 #include "receive.h"
 #include "collect.h"
-#include <assert.h>
 #include "infra/types.h"
+#include "infra/debug.h"
 #include "config.h"
 
 static void* run_send(void* args)

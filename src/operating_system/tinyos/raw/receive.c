@@ -9,7 +9,6 @@ typedef struct {
 #include "component.h"
 
 #include "hardware_simulation/client.h"
-#include <assert.h>
 
 void* receive_wire(receive_Callback* callback, const char* channel)
 {
@@ -26,7 +25,7 @@ void* receive_wire(receive_Callback* callback, const char* channel)
 
 static void* run(void* h)
 {
-	DEBUGOUT("receive::run(%p)", h);
+	DEBUGOUT("receive__run(%p)", h);
     HANDLE;
 	os_sem_down();
 
@@ -37,7 +36,7 @@ static void* run(void* h)
     net_message_t* msg = &first_msg;
     while(1) {
 		size_t res = hs_receive(fd, (unsigned char*)msg, sizeof(net_message_t));
-		DEBUGOUT("receive::run dumdidum...");
+		DEBUGOUT("receive__run dumdidum...");
 		cb_lock_acquire();
 		msg = handle->callback->receive(handle, msg, &msg->buffer, res);
 		cb_lock_release();

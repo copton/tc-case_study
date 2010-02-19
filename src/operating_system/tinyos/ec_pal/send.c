@@ -1,6 +1,5 @@
 #include "Send.h"
 #include "raw/Send.h"
-#include <assert.h>
 #include <stdlib.h>
 
 #include "component.h"

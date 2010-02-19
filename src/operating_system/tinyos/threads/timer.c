@@ -1,8 +1,8 @@
 #include "Timer.h"
 #include "time.h"
-#include <assert.h>
 #include <errno.h>
 #include "infra/error.h"
+#include "infra/debug.h"
 
 #include <time.h>
 #include <sys/time.h>

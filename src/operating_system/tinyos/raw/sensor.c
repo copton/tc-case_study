@@ -10,7 +10,6 @@ typedef struct {
 #include "component.h"
 
 #include "hardware_simulation/client.h"
-#include <assert.h>
 
 void* sensor_wire(sensor_Callback* callback, const char* device)
 {
@@ -54,15 +53,18 @@ static sensor_val_t read(int fd)
 
 static void* run(void* h)
 {
-	DEBUGOUT("sensor::run(%p)", h);
+	DEBUGOUT("sensor__run(%p)", h);
     HANDLE;
     os_sem_down();
     LOCK;
 	int fd = handle->shared.fd;
     while(1) {
+        if (handle->shared.running == FALSE) {
+            DEBUGOUT("sensor__run i'm waiting...");
+            WAIT;
+            DEBUGOUT("sensor__run dumdidum...");
+        }
 		handle->shared.running = FALSE;
-		WAIT;
-		DEBUGOUT("sensor::run dumdidum...");
 		UNLOCK;
 
 		sensor_val_t val = read(fd);

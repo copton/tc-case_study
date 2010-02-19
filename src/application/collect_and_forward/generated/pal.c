@@ -1,11 +1,11 @@
 #include "threads.h"
-#include <assert.h>
 
 #include "LogWrite.h"
 #include "LogRead.h"
 #include "Send.h"
 #include "Receive.h"
 #include "Timer.h"
+#include "infra/debug.h"
 
 ec_struct_logr_read ec_state_logr_read[1];
 unsigned ec_map_logr_read()
@@ -57,4 +57,8 @@ unsigned ec_map_timer_sleep()
 	}
 
 	return -1;
+}
+unsigned ec_nthreads_timer_sleep()
+{
+	return 2;
 }

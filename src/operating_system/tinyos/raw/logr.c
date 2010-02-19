@@ -11,7 +11,6 @@ typedef struct {
 #include "component.h"
 
 #include "hardware_simulation/client.h"
-#include <assert.h>
 
 void* logr_wire(logr_Callback* callback, const char* file)
 {
@@ -68,19 +67,22 @@ storage_len_t logr_getSize(void* h)
 
 static void* run(void* h)
 {
-	DEBUGOUT("logr::run(%p)", h);
+	DEBUGOUT("logr__run(%p)", h);
     HANDLE;
     os_sem_down();
     LOCK;
     while(1) {
-		handle->shared.buf = NULL;
-		WAIT;
-		DEBUGOUT("logr::run dumdidum...");
+        if (handle->shared.buf == NULL) {
+            DEBUGOUT("logr__run i'm waiting...");
+            WAIT;
+            DEBUGOUT("logr__run dumdidum...");
+        }
         assert (handle->shared.buf);
 
         int fd = handle->shared.fd;
         void* buf = handle->shared.buf;
         uint8_t len = handle->shared.len;
+		handle->shared.buf = NULL;
 		UNLOCK;
 
         size_t res = hs_read(fd, (unsigned char*)buf, len);

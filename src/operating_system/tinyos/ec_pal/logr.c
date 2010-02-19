@@ -1,7 +1,6 @@
 #include "LogRead.h"
 #include "raw/LogRead.h"
 #include "infra/types.h"
-#include <assert.h>
 #include <stdlib.h>
 
 #include "component.h"

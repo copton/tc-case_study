@@ -7,7 +7,6 @@
 #include "infra/debug.h"
 #include "infra/types.h"
 
-#include <assert.h>
 #include <string.h>
 
 static void* timer_handle = NULL;
@@ -31,7 +30,7 @@ static State state;
 
 static void fired(void* handle)
 {
-	DEBUGOUT("send::fired(%p)", handle);
+	DEBUGOUT("send__fired(%p)", handle);
 	assert(state == WAIT_TIMER);
     assert(handle == timer_handle);
 
@@ -43,7 +42,7 @@ static void fired(void* handle)
 
 static void readDone(void* handle, void* buf, storage_len_t len, error_t error)
 {
-	DEBUGOUT("send::readDone(%p, %p, %u, %d)", handle, buf, len, error);
+	DEBUGOUT("send__readDone(%p, %p, %u, %d)", handle, buf, len, error);
     if (state == WAIT_LOGR_1) {
         assert (handle == logr_handle_1);
         min = 0x7FFFFFFF;
@@ -86,7 +85,7 @@ static void readDone(void* handle, void* buf, storage_len_t len, error_t error)
 
 static void sendDone(void* handle, net_message_t* msg, error_t error)
 {
-    DEBUGOUT("send::sendDone(%p, %p, %d)", handle, msg, error);
+    DEBUGOUT("send__sendDone(%p, %p, %d)", handle, msg, error);
 	assert(state == WAIT_SEND);
 	assert(handle == send_handle);
 	assert(msg == &message);

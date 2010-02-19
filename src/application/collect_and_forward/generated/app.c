@@ -3,6 +3,7 @@
 #include "threads.h"
 
 #include "infra/types.h"
+#include "infra/debug.h"
 #include "LogWrite.h"
 #include "Receive.h"
 #include "Send.h"
@@ -13,7 +14,6 @@
 #include "Receive.h"
 #include "Send.h"
 #include "Pal.h"
-#include <assert.h>
 #include <string.h>
 
 /*** log_to ***/
@@ -289,7 +289,7 @@ static void ec_sub2_send_run()
 		ec_sub7_send_run();
 	} else {
 		ec_p_timer_sleep->ec_continuation = ec_sub3_send_run;
-		ec_pal_timer_sleep(ec_p_send_run->dt);		
+		ec_pal_timer_sleep(ec_p_send_run->now + ec_p_send_run->dt);		
 	}
 }
 

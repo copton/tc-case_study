@@ -2,7 +2,7 @@
 #include "log.h"
 #include "LogWrite.h"
 #include "Receive.h"
-#include <assert.h>
+#include "infra/debug.h"
 
 void receive_run(const char* channel, const char* file)
 {

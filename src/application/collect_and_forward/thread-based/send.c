@@ -3,7 +3,7 @@
 #include "LogRead.h"
 #include "Send.h"
 #include <string.h>
-#include <assert.h>
+#include "infra/debug.h"
 
 static void aggregate_from(void* handle, int32_t* min, int32_t* max)
 {

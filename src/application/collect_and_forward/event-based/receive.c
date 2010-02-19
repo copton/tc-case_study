@@ -1,7 +1,5 @@
 #include "receive.h"
 
-#include <assert.h>
-
 #include "Receive.h"
 #include "LogWrite.h"
 #include "infra/debug.h"
@@ -23,8 +21,8 @@ static uint8_t cur_len;
 
 static net_message_t* receive(void* handle, net_message_t* msg, void* payload, uint8_t len)
 {
-    DEBUGOUT("receive::receive(%p, %p, %p, %u)", handle, msg, payload, len);
-	DEBUGOUT("receive::receive: state = %d", state);
+    DEBUGOUT("receive__receive(%p, %p, %p, %u)", handle, msg, payload, len);
+	DEBUGOUT("receive__receive: state = %d", state);
 	assert (state == WAIT_RECEIVE);
 	assert (handle == receive_handle);
 	assert (len == 2 * sizeof(uint32_t));
@@ -44,7 +42,7 @@ static net_message_t* receive(void* handle, net_message_t* msg, void* payload, u
 
 static void appendDone(void* handle, void* buf, storage_len_t len, bool recordsLost, error_t error)
 {
-    DEBUGOUT("receive::appendDone(%p, %p, %u, %d, %d)", handle, buf, len, recordsLost, error);
+    DEBUGOUT("receive__appendDone(%p, %p, %u, %d, %d)", handle, buf, len, recordsLost, error);
 	assert (state == WAIT_LOG);
 	assert (handle == logw_handle);
 	assert (buf == cur_payload);

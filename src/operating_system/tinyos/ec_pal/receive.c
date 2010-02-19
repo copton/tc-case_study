@@ -1,6 +1,5 @@
 #include "Receive.h"
 #include "raw/Receive.h"
-#include <assert.h>
 #include <stdlib.h>
 
 #include "component.h"
@@ -30,7 +29,7 @@ static net_message_t* receive(void* handle, net_message_t* msg, void* payload, u
 
 void ec_pal_receive_receive(void* handle)
 {
-	DEBUGOUT("%d -> ec_pal_receive_receive(...)", ec_tid());
+	DEBUGOUT("%d: ec_pal_receive_receive(...)", ec_tid());
     setHandle(handle);
 } 
 

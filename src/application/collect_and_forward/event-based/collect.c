@@ -6,7 +6,6 @@
 
 #include "infra/debug.h"
 
-#include <assert.h>
 #include <stddef.h>
 
 static void* timer_handle = NULL;
@@ -25,7 +24,7 @@ static sensor_val_t cur_value;
 
 static void fired(void* handle)
 {
-	DEBUGOUT("collect::fired(%p)", handle);
+	DEBUGOUT("collect__fired(%p)", handle);
 	assert (state == WAIT_TIMER);
     assert (handle == timer_handle);
 
@@ -37,7 +36,7 @@ static void fired(void* handle)
 
 static void readDone(void* handle, error_t error, sensor_val_t value)
 {
-    DEBUGOUT("collect::readDone(%p, %d, %d)", handle, error, value);
+    DEBUGOUT("collect__readDone(%p, %d, %d)", handle, error, value);
 	assert (state == WAIT_READ);
 	assert (error == SUCCESS);
 	
@@ -51,7 +50,7 @@ static void readDone(void* handle, error_t error, sensor_val_t value)
 
 static void appendDone(void* handle, void* buf, storage_len_t len, bool recordsLost, error_t error)
 {
-    DEBUGOUT("collect::appendDone(%p, %p, %u, %d, %d)", handle, buf, len, recordsLost, error);
+    DEBUGOUT("collect__appendDone(%p, %p, %u, %d, %d)", handle, buf, len, recordsLost, error);
 	assert (state == WAIT_LOG);
 	assert (handle == logw_handle);
 	assert (buf == &cur_value);

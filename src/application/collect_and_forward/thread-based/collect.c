@@ -3,7 +3,7 @@
 #include "Sensor.h"
 #include "LogWrite.h"
 #include "Timer.h"
-#include <assert.h>
+#include "infra/debug.h"
 
 void collect_run(const char* sensor, const char* file, unsigned dt)
 {

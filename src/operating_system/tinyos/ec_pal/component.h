@@ -2,11 +2,13 @@
 #define AJOHCHOHCHISHEISHEAL
 
 #include "infra/debug.h"
+#include <stdlib.h>
 
 static void* handles[TC_NUMBEROF_THREADS];
 
 static void setHandle(void* handle)
 {
+    assert(handles[ec_tid()] == NULL);
     handles[ec_tid()] = handle;
 }
 

@@ -7,7 +7,6 @@ typedef struct {
 #include "Receive.h"
 #include "hardware_simulation/client.h"
 #include <stdlib.h>
-#include <assert.h>
 
 void* receive_wire(const char* channel)
 {
