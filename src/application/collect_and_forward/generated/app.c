@@ -198,6 +198,8 @@ static void ec_sub2_aggregate_from()
             if (tmp > *ec_p_aggregate_from->max) *ec_p_aggregate_from->max = tmp;
         }
     }
+
+	ec_p_aggregate_from->ec_continuation();
 }
 
 /*** send_via ***/
@@ -275,6 +277,7 @@ static void send_run(const char* channel, const char* file1, const char* file2)
 
 	ec_p_send_run->logr1_handle = pal_logr_wire(file1);	
 	ec_p_send_run->logr2_handle = pal_logr_wire(file2);	
+	ec_p_send_run->send_handle = pal_send_wire(channel);
 
 	ec_p_send_run->now = pal_timer_getNow();
 	ec_sub2_send_run();

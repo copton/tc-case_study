@@ -62,7 +62,7 @@ void hs_send(int fd, unsigned char* data, size_t len)
 
 size_t hs_read(int fd, unsigned char* data, size_t len)
 {
-    DEBUGOUT("hs_receive(%d, %p, %ld)", fd, data, len);
+    DEBUGOUT("hs_read(%d, %p, %ld)", fd, data, len);
     const char next[] = "next";
     hs_send(fd, (unsigned char*)next, sizeof(next)-1);
 
