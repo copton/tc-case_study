@@ -19,7 +19,7 @@ typedef struct {
 
 // emulation of nesc wire statements
 // the returned handle must be passed to all commands and is passed to all events
-void* sensor_wire(sensor_Callback*, const char* device);
+void* sensor_wire(sensor_Callback* callback, const char* device);
 
 /**
 * Initiates a read of the value.

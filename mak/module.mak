@@ -2,7 +2,11 @@
 
 -include depend.mak
 
-CFLAGS += -DDEBUG -g -O0
+ifdef MEASURE
+	CFLAGS += -Os
+else
+	CFLAGS += -DDEBUG -g -O0
+endif
 
 CFLAGS += -I$(ROOT)/src -Wall -Werror
 

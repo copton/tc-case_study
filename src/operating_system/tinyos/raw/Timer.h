@@ -15,7 +15,7 @@ typedef struct {
 
 // emulation of nesc wire statements
 // the returned handle must be passed to all commands and is passed to all events
-void* timer_wire(timer_Callback*);
+void* timer_wire(timer_Callback* callback);
 
 /**
 * Set a periodic timer to repeat every dt time units. Replaces any
