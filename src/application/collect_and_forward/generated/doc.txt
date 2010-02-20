@@ -7,8 +7,8 @@ threads
 | 2   | send    |
 
 
-call graph
-==========
+call map
+=========
 
 | call            | task    |  index |
 +-----------------+---------+--------+
@@ -23,3 +23,29 @@ call graph
 | receive_run     | receive |   0    | 
 | aggretage_from  | send    |   0    |
 | send_via        | send    |   0    |
+
+call graph
+==========
+collect
+    run_collect
+        collect_run
+            timer_sleep
+            sensor_read
+            log_to
+                logw_append
+
+receive
+    run_receive
+        receive_run
+            receive_receive
+            log_to
+                logw_append
+
+send
+    run_send
+        send_run
+            timer_sleep
+            aggregate_from
+                logr_read
+            send_via
+                send_send

@@ -17,6 +17,6 @@ typedef struct {
 void ec_pal_logr_read(void* handle, storage_len_t len);
 
 extern ec_struct_logr_read ec_state_logr_read[];
-unsigned ec_map_logr_read();
+ec_struct_logr_read* ec_map_logr_read();
 
 #endif

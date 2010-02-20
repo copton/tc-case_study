@@ -19,7 +19,7 @@ class Config(object):
     fn_flash_collect_sink = path + "flash-collect-sink.sock"
 
     testCount = 10
-    max_dt_deviance = 0.01
+    max_dt_deviance = 0.02
     first_dt = 0.1
 
     dt_collect = 0.5

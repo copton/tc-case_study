@@ -19,6 +19,6 @@ typedef struct {
 } ec_struct_logw_append;
 void ec_pal_logw_append(void* handle, storage_len_t len);
 extern ec_struct_logw_append ec_state_logw_append[];
-unsigned ec_map_logw_append();
+ec_struct_logw_append* ec_map_logw_append();
 
 #endif

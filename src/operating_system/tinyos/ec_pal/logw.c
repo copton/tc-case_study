@@ -9,27 +9,27 @@ static void appendDone(void* handle, void* buf, storage_len_t len, bool recordsL
     DEBUGOUT("%d: ec_pal_logw_append(...)", ec_tid());
     ec_set_tid(findThread(handle));
     assert(ec_tid() != ec_invalid_tid);
-    unsigned idx = ec_map_logw_append(ec_tid());
+	ec_struct_logw_append*const ec_p_logw_append = ec_map_logw_append();
 
     if (error == SUCCESS) {
-        assert (buf == ec_state_logw_append[idx].buf);
-        *(ec_state_logw_append[idx].res_len) = len;
-        *(ec_state_logw_append[idx].recordsLost) = recordsLost;
+        assert (buf == ec_p_logw_append->buf);
+        *(ec_p_logw_append->res_len) = len;
+        *(ec_p_logw_append->recordsLost) = recordsLost;
     }
 
-    ec_state_logw_append[idx].ec_result = error;
+    ec_p_logw_append->ec_result = error;
     DEBUGOUT("%d: ec_pal_logw_append(...) returning", ec_tid());
-    ec_state_logw_append[idx].ec_continuation();
+    ec_p_logw_append->ec_continuation();
 }
 
 void ec_pal_logw_append(void* handle, storage_len_t len)
 {
     DEBUGOUT("%d: ec_pal_logw_append(...) called", ec_tid());
-    unsigned idx = ec_map_logw_append();
-    error_t res = logw_append(handle, ec_state_logw_append[idx].buf, len);
+	ec_struct_logw_append*const ec_p_logw_append = ec_map_logw_append();
+    error_t res = logw_append(handle, ec_p_logw_append->buf, len);
     if (res != SUCCESS) {
-        ec_state_logw_append[idx].ec_result = res;
-        ec_state_logw_append[idx].ec_continuation();
+        ec_p_logw_append->ec_result = res;
+        ec_p_logw_append->ec_continuation();
     } else {
         setHandle(handle);
     }

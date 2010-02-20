@@ -9,7 +9,7 @@ static net_message_t* receive(void* handle, net_message_t* msg, void* payload, u
 	DEBUGOUT("%d: ec_pal_receive_receive(...)", ec_tid());
     ec_set_tid(findThread(handle));
     if (ec_tid() != ec_invalid_tid) {
-        ec_struct_receive_receive* ec_p_receive_receive = &ec_state_receive_receive[ec_map_receive_receive(ec_tid())];
+        ec_struct_receive_receive*const ec_p_receive_receive = ec_map_receive_receive();
 
         net_message_t* res = ec_p_receive_receive->cur_msg;
         ec_p_receive_receive->cur_msg = msg;
@@ -37,7 +37,7 @@ static receive_Callback callback = {&receive};
 
 void* pal_receive_wire(const char* channel)
 {
-    ec_struct_receive_receive* ec_p_receive_receive = &ec_state_receive_receive[ec_map_receive_receive(ec_tid())];
+    ec_struct_receive_receive*const ec_p_receive_receive = ec_map_receive_receive();
     ec_p_receive_receive->cur_msg = &ec_p_receive_receive->other_msg;
 
     return receive_wire(&callback, channel);

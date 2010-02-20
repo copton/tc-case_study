@@ -1,15 +1,29 @@
+typedef struct {
+
+} State;
+
+#include "component.h"
+
 #include "Timer.h"
-#include "time.h"
 #include <errno.h>
-#include "infra/error.h"
-#include "infra/debug.h"
 
 #include <time.h>
 #include <sys/time.h>
+#include <stdlib.h>
 
-void timer_sleep(uint64_t until)
+void* timer_wire()
 {
-	uint64_t now = timer_getNow();	
+    Handle* handle = malloc(sizeof(Handle));
+    setupThread(handle);
+    return handle;
+}
+
+error_t timer_sleep(void* h, uint64_t until)
+{
+    HANDLE;
+    ENTER;
+
+	uint64_t now = timer_getNow(h);	
 	assert (now < until);
 	uint64_t diff = until - now;
 	struct timespec req = { diff / 1000, (diff % 1000) * 1000 * 1000 };
@@ -17,9 +31,12 @@ void timer_sleep(uint64_t until)
 	if (res != 0) {
 		errorExit("nanosleep");
 	}
+
+    LEAVE;
+    return SUCCESS;
 }
 
-uint64_t timer_getNow()
+uint64_t timer_getNow(void* h)
 {
     struct timeval tv;
 	{

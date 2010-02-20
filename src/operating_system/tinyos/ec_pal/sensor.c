@@ -10,25 +10,25 @@ static void readDone(void* handle, error_t result, sensor_val_t val)
     DEBUGOUT("%d: ec_pal_sensor_read(...)", ec_tid());
     ec_set_tid(findThread(handle));
     assert (ec_tid() != ec_invalid_tid);
-    unsigned idx = ec_map_sensor_read();
+	ec_struct_sensor_read*const ec_p_sensor_read = ec_map_sensor_read();
 
     if (result == SUCCESS) {
-        *(ec_state_sensor_read[idx].val) = val;
+        *(ec_p_sensor_read->val) = val;
     }
 
-    ec_state_sensor_read[idx].ec_result = result;
+    ec_p_sensor_read->ec_result = result;
     DEBUGOUT("%d: ec_pal_sensor_read(...) returns", ec_tid());
-    ec_state_sensor_read[idx].ec_continuation();
+    ec_p_sensor_read->ec_continuation();
 }
 
 void ec_pal_sensor_read(void* handle)
 {
     DEBUGOUT("%d: ec_pal_sensor_read(...) called", ec_tid());
-    unsigned idx = ec_map_sensor_read();
+	ec_struct_sensor_read*const ec_p_sensor_read = ec_map_sensor_read();
     error_t res = sensor_read(handle);
     if (res != SUCCESS) {
-        ec_state_sensor_read[idx].ec_result = res;
-        ec_state_sensor_read[idx].ec_continuation();
+        ec_p_sensor_read->ec_result = res;
+        ec_p_sensor_read->ec_continuation();
     } else {
         setHandle(handle);
     }

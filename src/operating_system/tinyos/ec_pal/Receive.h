@@ -21,6 +21,6 @@ typedef struct {
 void ec_pal_receive_receive(void* handle);
 
 extern ec_struct_receive_receive ec_state_receive_receive[];
-unsigned ec_map_receive_receive();
+ec_struct_receive_receive* ec_map_receive_receive();
 
 #endif

@@ -9,25 +9,25 @@ static void sendDone(void* handle, net_message_t* msg, error_t error)
 	DEBUGOUT("%d: ec_pal_send_send(...)", ec_tid());
     ec_set_tid(findThread(handle));
     assert (ec_tid() != ec_invalid_tid);
-    unsigned idx = ec_map_send_send(ec_tid());
+	ec_struct_send_send*const ec_p_send_send = ec_map_send_send();
 
     if (error == SUCCESS) {
-        assert (msg == ec_state_send_send[idx].msg);
+        assert (msg == ec_p_send_send->msg);
     }
 
-    ec_state_send_send[idx].ec_result = error;
+    ec_p_send_send->ec_result = error;
 	DEBUGOUT("%d: ec_pal_send_send(...) returns", ec_tid());
-    ec_state_send_send[idx].ec_continuation();
+    ec_p_send_send->ec_continuation();
 }
 
 void ec_pal_send_send(void* handle, uint8_t len)
 {
 	DEBUGOUT("%d: ec_pal_send_send(...) called", ec_tid());
-    unsigned idx = ec_map_send_send();
-    error_t res = send_send(handle, ec_state_send_send[idx].msg, len);
+	ec_struct_send_send*const ec_p_send_send = ec_map_send_send();
+    error_t res = send_send(handle, ec_p_send_send->msg, len);
     if (res != SUCCESS) {
-        ec_state_send_send[idx].ec_result = res;
-        ec_state_send_send[idx].ec_continuation();
+        ec_p_send_send->ec_result = res;
+        ec_p_send_send->ec_continuation();
     } else {
         setHandle(handle);
     }

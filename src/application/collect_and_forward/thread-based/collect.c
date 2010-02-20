@@ -9,10 +9,11 @@ void collect_run(const char* sensor, const char* file, unsigned dt)
 {
     void* sensor_handle = sensor_wire(sensor);
     void* logw_handle = logw_wire(file);
+	void* timer_handle = timer_wire();
 
-    uint64_t now = timer_getNow();
+    uint64_t now = timer_getNow(timer_handle);
     while (TRUE) {
-        timer_sleep(now + dt);
+        timer_sleep(timer_handle, now + dt);
         now += dt;
 
         sensor_val_t val;

@@ -10,26 +10,26 @@ static void readDone(void* handle, void* buf, storage_len_t len, error_t error)
     DEBUGOUT("%d: ec_pal_logr_read(...)", ec_tid());
     ec_set_tid(findThread(handle));
     assert (ec_tid() != ec_invalid_tid);
-    unsigned idx = ec_map_logr_read();
+	ec_struct_logr_read*const ec_p_logr_read = ec_map_logr_read();
 
     if (error == SUCCESS) {
-        assert (buf == ec_state_logr_read[idx].buf);
-        *(ec_state_logr_read[idx].res_len) = len;
+        assert (buf == ec_p_logr_read->buf);
+        *(ec_p_logr_read->res_len) = len;
     }
 
-    ec_state_logr_read[idx].ec_result = error;
+    ec_p_logr_read->ec_result = error;
     DEBUGOUT("%d: ec_pal_logr_read(...) returns", ec_tid());
-    ec_state_logr_read[idx].ec_continuation();
+    ec_p_logr_read->ec_continuation();
 }
 
 void ec_pal_logr_read(void* handle, storage_len_t len)
 {
     DEBUGOUT("%d: ec_pal_logr_read(...) called", ec_tid());
-    unsigned idx = ec_map_logr_read();
-    error_t res = logr_read(handle, ec_state_logr_read[idx].buf, len);
+	ec_struct_logr_read*const ec_p_logr_read = ec_map_logr_read();
+    error_t res = logr_read(handle, ec_p_logr_read->buf, len);
     if (res != SUCCESS) {
-        ec_state_logr_read[idx].ec_result = res;
-        ec_state_logr_read[idx].ec_continuation();
+        ec_p_logr_read->ec_result = res;
+        ec_p_logr_read->ec_continuation();
     } else {
         setHandle(handle);
     }

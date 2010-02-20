@@ -17,6 +17,6 @@ typedef struct {
 } ec_struct_sensor_read;
 void ec_pal_sensor_read(void* handle);
 extern ec_struct_sensor_read ec_state_sensor_read[];
-unsigned ec_map_sensor_read();
+ec_struct_sensor_read* ec_map_sensor_read();
 
 #endif
