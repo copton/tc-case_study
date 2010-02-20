@@ -74,10 +74,11 @@ void send_run(const char* channel, const char* file1, const char* file2, unsigne
     void* logr1_handle = logr_wire(file1);
     void* logr2_handle = logr_wire(file2);
     void* send_handle = send_wire(channel);
-    uint64_t now = timer_getNow();
+	void* timer_handle = timer_wire();
+    uint64_t now = timer_getNow(timer_wire);
 
     while (TRUE) {
-        timer_sleep(now + dt);
+        timer_sleep(timer_handle, now + dt);
         now += dt;
 
         int32_t min = 0x7FFFFFFF;
@@ -97,7 +98,7 @@ void receive_run(const char* channel, const char* file)
     void* receive_handle = receive_wire(channel);
     void* logw_handle = logw_wire(file);
     while (TRUE) {
-        net_message_t* msg;
+        net_message_t msg;
         unsigned char* payload;
         uint8_t len;
 

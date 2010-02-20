@@ -68,7 +68,7 @@ typedef struct {
 	//private
 	void* receive_handle;
 	void* logw_handle;
-	net_message_t* msg;
+	net_message_t msg;
 	unsigned char* payload;
 	uint8_t len;
 } ec_struct_receive_run;
