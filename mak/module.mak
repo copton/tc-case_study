@@ -10,9 +10,9 @@ endif
 
 CFLAGS += -I$(ROOT)/src -Wall -Werror
 
-AR=/usr/bin/ar
-RANLIB=/usr/bin/ranlib
-CC=/usr/bin/gcc
+AR=$(TOOLCHAIN)/$(PREFIX)ar
+RANLIB=$(TOOLCHAIN)/$(PREFIX)ranlib
+CC=$(TOOLCHAIN)/$(PREFIX)gcc
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $<

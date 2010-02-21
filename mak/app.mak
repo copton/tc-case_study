@@ -2,7 +2,7 @@
 
 .PHONY: app-all app-clean
 
-LD=/usr/bin/gcc
+LD=$(TOOLCHAIN)/$(PREFIX)gcc
 LDFLAGS += 
 
 APP=$(shell basename $(shell pwd))
