@@ -12,7 +12,7 @@ void collect_run(const char* sensor, const char* file, unsigned dt)
 	void* timer_handle = timer_wire();
 
     uint64_t now = timer_getNow(timer_handle);
-    while (TRUE) {
+    while (true) {
         timer_sleep(timer_handle, now + dt);
         now += dt;
 

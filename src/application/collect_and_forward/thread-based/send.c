@@ -43,7 +43,7 @@ void send_run(const char* channel, const char* file1, const char* file2, unsigne
 	void* timer_handle = timer_wire();
     uint64_t now = timer_getNow(timer_handle);
 
-    while (TRUE) {
+    while (true) {
         timer_sleep(timer_handle, now + dt);
         now += dt;
 

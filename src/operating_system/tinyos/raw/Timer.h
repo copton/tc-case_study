@@ -46,13 +46,13 @@ void timer_stop(void* handle);
 * Check if timer is running. Periodic timers run until stopped or
 * replaced, one-shot timers run until their deadline expires.
 *
-* @return TRUE if the timer is still running.
+* @return true if the timer is still running.
 */
 bool timer_isRunning(void* handle);
 
 /**
 * Check if this is a one-shot timer.
-* @return TRUE for one-shot timers, FALSE for periodic timers.
+* @return true for one-shot timers, false for periodic timers.
 */
 bool timer_isOneShot(void* handle);
 

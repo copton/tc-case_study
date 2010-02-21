@@ -14,7 +14,7 @@ typedef struct {
     *
     * @param 'void* COUNT(len) buf' buffer that written data was read from.
     * @param len number of bytes actually written (valid even in case of error)
-    * @param records_lost TRUE if this append destroyed some old records from
+    * @param records_lost true if this append destroyed some old records from
     *   the beginning of the log (only possible for circular logs).
     * @param error SUCCESS if append was possible, ESIZE if the (linear) log
     *    is full and FAIL for other errors.

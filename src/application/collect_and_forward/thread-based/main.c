@@ -10,7 +10,7 @@ static void* run_send(void* args)
 {
 	(void)args;
 	send_run(fn_send, fn_flash_receive_source, fn_flash_collect_source, dt_send);
-	assert (FALSE);
+	assert (false);
 	return NULL;
 }
 
@@ -18,7 +18,7 @@ static void* run_receive(void* args)
 {
 	(void)args;
 	receive_run(fn_receive, fn_flash_receive_sink);
-	assert (FALSE);
+	assert (false);
 	return NULL;
 }
 
@@ -26,7 +26,7 @@ static void* run_collect(void* args)
 {
 	(void)args;
 	collect_run(fn_collect, fn_flash_collect_sink, dt_collect);
-	assert (FALSE);
+	assert (false);
 	return NULL;
 }
 

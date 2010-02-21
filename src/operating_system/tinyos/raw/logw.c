@@ -88,7 +88,7 @@ static void* run(void* h)
 
 		LOCK;
 		cb_lock_acquire();
-		handle->callback->appendDone(handle, buf, len, FALSE, SUCCESS);
+		handle->callback->appendDone(handle, buf, len, false, SUCCESS);
 		cb_lock_release();
 	}
 	UNLOCK;

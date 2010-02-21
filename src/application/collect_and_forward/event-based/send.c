@@ -50,7 +50,7 @@ static void readDone(void* handle, void* buf, storage_len_t len, error_t error)
     } else if (state == WAIT_LOGR_2) {
         assert (handle == logr_handle_2);
     } else {
-        assert (FALSE);
+        assert (false);
     }
 	assert(read_buffer == buf);
 	assert(len >= 0 && len <= sizeof(read_buffer));

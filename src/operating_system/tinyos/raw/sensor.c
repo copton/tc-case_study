@@ -17,7 +17,7 @@ void* sensor_wire(sensor_Callback* callback, const char* device)
 	Handle* handle = malloc(sizeof(Handle));
 	handle->callback = callback;
 
-	handle->shared.running = FALSE;
+	handle->shared.running = false;
 	handle->shared.fd = hs_open(device);
 
 	setupThread(handle);
@@ -34,7 +34,7 @@ error_t sensor_read(void* h)
 	if (handle->shared.running) {
 		res = EBUSY;
 	} else {
-		handle->shared.running = TRUE;
+		handle->shared.running = true;
 		SIGNAL;
 		res = SUCCESS;
 	}
@@ -59,12 +59,12 @@ static void* run(void* h)
     LOCK;
 	int fd = handle->shared.fd;
     while(1) {
-        if (handle->shared.running == FALSE) {
+        if (handle->shared.running == false) {
             DEBUGOUT("sensor__run i'm waiting...");
             WAIT;
             DEBUGOUT("sensor__run dumdidum...");
         }
-		handle->shared.running = FALSE;
+		handle->shared.running = false;
 		UNLOCK;
 
 		sensor_val_t val = read(fd);

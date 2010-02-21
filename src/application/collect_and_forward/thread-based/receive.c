@@ -8,7 +8,7 @@ void receive_run(const char* channel, const char* file)
 {
     void* receive_handle = receive_wire(channel);
     void* logw_handle = logw_wire(file);
-    while (TRUE) {
+    while (true) {
         net_message_t msg;
         unsigned char* payload;
         uint8_t len;

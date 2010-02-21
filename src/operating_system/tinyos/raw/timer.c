@@ -23,9 +23,9 @@ void* timer_wire(timer_Callback* callback)
 
     handle->shared.dt = rt_create(0);
 	handle->shared.t0 = rt_create(0);
-	handle->shared.run = FALSE;
-	handle->shared.newSettings = FALSE;
-	handle->shared.oneShot = FALSE;
+	handle->shared.run = false;
+	handle->shared.newSettings = false;
+	handle->shared.oneShot = false;
 
     setupThread(handle);
 
@@ -50,9 +50,9 @@ void timer_stop(void* h)
 	DEBUGOUT("timer_stop(%p)", h);
     HANDLE;
     LOCK;
-    handle->shared.run = FALSE;
-    handle->shared.oneShot = FALSE;
-    handle->shared.newSettings = TRUE;
+    handle->shared.run = false;
+    handle->shared.oneShot = false;
+    handle->shared.newSettings = true;
     SIGNAL;
     UNLOCK;
 }
@@ -63,7 +63,7 @@ bool timer_isRunning(void* h)
     HANDLE;
     bool res;
     LOCK;
-    res = handle->shared.run == TRUE;
+    res = handle->shared.run == true;
     UNLOCK;
 	DEBUGOUT("timer_isRunning(...) -> %d", res);
     return res;
@@ -88,9 +88,9 @@ void timer_startPeriodicAt(void* h, uint32_t t0, uint32_t dt)
     LOCK;
     handle->shared.t0 = rt_create(t0);
     handle->shared.dt = rt_create(dt);
-    handle->shared.oneShot = FALSE;
-    handle->shared.run = TRUE;
-    handle->shared.newSettings = TRUE;
+    handle->shared.oneShot = false;
+    handle->shared.run = true;
+    handle->shared.newSettings = true;
     SIGNAL;
     UNLOCK;
 }
@@ -102,9 +102,9 @@ void timer_startOneShotAt(void* h, uint32_t t0, uint32_t dt)
     LOCK;
     handle->shared.t0 = rt_create(t0);
     handle->shared.dt = rt_create(dt);
-    handle->shared.oneShot = TRUE;
-    handle->shared.run = TRUE;
-    handle->shared.newSettings = TRUE;
+    handle->shared.oneShot = true;
+    handle->shared.run = true;
+    handle->shared.newSettings = true;
     SIGNAL;
     UNLOCK;
 }
@@ -189,7 +189,7 @@ static void* run(void* h)
 		DEBUGOUT("timer__run dumdidum...");
 
         if (handle->shared.newSettings) {
-            handle->shared.newSettings = FALSE;
+            handle->shared.newSettings = false;
         } else {
             handle->shared.t0 = rt_plus(handle->shared.t0, handle->shared.dt);
             cb_lock_acquire();
@@ -197,8 +197,8 @@ static void* run(void* h)
             cb_lock_release();
 
             if (handle->shared.oneShot) {
-                handle->shared.oneShot = FALSE;
-                handle->shared.run = FALSE;
+                handle->shared.oneShot = false;
+                handle->shared.run = false;
             }
         }
     }

@@ -16,7 +16,7 @@ void* logw_wire(const char* file);
 * @param 'void* COUNT(len) buf' buffer to write data from.
 * @param len number of bytes to write.
 * @param res_len number of bytes actually written (valid even in case of error)
-* @param recordsLost TRUE if this append destroyed some old records from
+* @param recordsLost true if this append destroyed some old records from
 *    the beginning of the log (only possible for circular logs).
 * @return 
 *   <li>SUCCESS if append was possible.

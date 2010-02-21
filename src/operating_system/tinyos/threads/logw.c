@@ -22,7 +22,7 @@ error_t logw_append(void* h, void* buf, storage_len_t len, storage_len_t* res_le
     hs_send(handle->state.fd, buf, len);
     LEAVE;
     *res_len = len;
-    *recordsLost = FALSE;
+    *recordsLost = false;
     return SUCCESS;
 }
 

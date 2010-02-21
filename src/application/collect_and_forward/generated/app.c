@@ -62,7 +62,7 @@ static void ec_sub2_collect_run()
 	ec_struct_timer_sleep*const ec_p_timer_sleep = ec_map_timer_sleep();
 	ec_struct_collect_run*const ec_p_collect_run = ec_map_collect_run();
 
-	if (! TRUE) {
+	if (! true) {
 		ec_sub6_collect_run();
 	} else {
 		ec_p_timer_sleep->ec_continuation = ec_sub3_collect_run;
@@ -196,7 +196,7 @@ static void ec_sub2_send_run()
 	ec_struct_timer_sleep*const ec_p_timer_sleep = ec_map_timer_sleep();
 	ec_struct_send_run*const ec_p_send_run = ec_map_send_run();
 
-	if (! TRUE) {
+	if (! true) {
 		ec_sub7_send_run();
 	} else {
 		ec_p_timer_sleep->ec_continuation = ec_sub3_send_run;
@@ -272,7 +272,7 @@ static void ec_sub2_receive_run()
     ec_struct_receive_receive*const ec_p_receive_receive = ec_map_receive_receive();
 	ec_struct_receive_run*const ec_p_receive_run = ec_map_receive_run();
 
-    if (! TRUE) {
+    if (! true) {
         ec_sub5_receive_run();
     } else {
         ec_p_receive_receive->msg = &ec_p_receive_run->msg;
@@ -335,7 +335,7 @@ static void run_send()
 
 static void ec_sub2_run_send()
 {
-    assert (FALSE);
+    assert (false);
 }
 
 static void ec_sub2_run_receive();
@@ -349,7 +349,7 @@ static void run_receive()
 }
 
 static void ec_sub2_run_receive() {
-    assert (FALSE);
+    assert (false);
 }
 
 static void ec_sub2_run_collect();
@@ -365,7 +365,7 @@ static void run_collect()
 
 static void ec_sub2_run_collect()
 {
-    assert (FALSE);
+    assert (false);
 }
 
 int main()
@@ -373,7 +373,7 @@ int main()
 	pal_init();
     RUN_THREADS(EC_NUMBEROF_THREADS, run_collect, run_receive, run_send);
 	pal_run();
-    assert (FALSE);
+    assert (false);
 
     return 0;
 }

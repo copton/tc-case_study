@@ -23,7 +23,7 @@ void collect_run(const char* sensor, const char* file, unsigned dt)
 	void* timer_handle = timer_wire();
 
     uint64_t now = timer_getNow(timer_handle);
-    while (TRUE) {
+    while (true) {
         timer_sleep(timer_handle, now + dt);
         now += dt;
 
@@ -77,7 +77,7 @@ void send_run(const char* channel, const char* file1, const char* file2, unsigne
 	void* timer_handle = timer_wire();
     uint64_t now = timer_getNow(timer_wire);
 
-    while (TRUE) {
+    while (true) {
         timer_sleep(timer_handle, now + dt);
         now += dt;
 
@@ -97,7 +97,7 @@ void receive_run(const char* channel, const char* file)
 {
     void* receive_handle = receive_wire(channel);
     void* logw_handle = logw_wire(file);
-    while (TRUE) {
+    while (true) {
         net_message_t msg;
         unsigned char* payload;
         uint8_t len;
@@ -115,25 +115,25 @@ void receive_run(const char* channel, const char* file)
 static void run_send()
 {
 	send_run(fn_send, fn_flash_receive_source, fn_flash_collect_source, dt_send);
-	assert (FALSE);
+	assert (false);
 }
 
 static void run_receive()
 {
 	receive_run(fn_receive, fn_flash_receive_sink);
-	assert (FALSE);
+	assert (false);
 }
 
 static void run_collect()
 {
 	collect_run(fn_collect, fn_flash_collect_sink, dt_collect);
-	assert (FALSE);
+	assert (false);
 }
 
 int main()
 {
 	RUN_THREADS(run_send, run_receive, run_collect);
-	assert (FALSE);
+	assert (false);
 
 	return 0;
 }
