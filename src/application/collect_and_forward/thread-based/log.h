@@ -1,7 +1,7 @@
 #ifndef AIPAPEECHOHNOHSEIBAI
 #define AIPAPEECHOHNOHSEIBAI
 
-#include "Log.h"
+#include "LogTypes.h"
 
 void log_to(void* handle, void* buf, storage_len_t len);
 

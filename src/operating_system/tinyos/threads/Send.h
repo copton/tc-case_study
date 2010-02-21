@@ -4,7 +4,7 @@
 // from tos/interfaces/Send.nc
 
 #include "Types.h"
-#include "Net.h"
+#include "NetTypes.h"
 
 // emulation of nesc wire statements
 // the returned handle must be passed to all commands

@@ -1,8 +1,8 @@
 #ifndef RAELOHNEIQUAXALIGAID
 #define RAELOHNEIQUAXALIGAID
 
-#include "raw/Types.h"
-#include "raw/Log.h"
+#include "Types.h"
+#include "LogTypes.h"
 #include "compiler/ec.h"
 
 void* pal_logr_wire(const char* file);

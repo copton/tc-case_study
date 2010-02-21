@@ -4,8 +4,7 @@
 // from tos/interfaces/Reader.nc
 
 #include "Types.h"
-
-typedef uint32_t sensor_val_t;
+#include "SensorTypes.h"
 
 // emulation of nesc wire statements
 // the returned handle must be passed to all commands

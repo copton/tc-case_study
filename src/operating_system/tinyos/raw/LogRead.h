@@ -2,7 +2,7 @@
 #define OHYOOMIENAEKIEBUIGOO
 
 #include "Types.h"
-#include "Log.h"
+#include "LogTypes.h"
 
 // from tos/interfaces/LogRead.nc
 

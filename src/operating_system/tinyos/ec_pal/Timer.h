@@ -3,7 +3,7 @@
 
 // a unit is a millisecond
 
-#include "raw/Types.h"
+#include "Types.h"
 #include "compiler/ec.h"
 
 void* pal_timer_wire();

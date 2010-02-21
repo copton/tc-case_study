@@ -2,7 +2,7 @@
 #define XOREECEOBEKENGIEQUID
 
 #include "Types.h"
-#include "Log.h"
+#include "LogWrite.h"
 
 // from tos/interfaces/LogWrite.nc
 

@@ -3,9 +3,9 @@
 
 // from tos/interfaces/Reader.nc
 
-#include "raw/Types.h"
+#include "Types.h"
 #include "compiler/ec.h"
-#include "raw/Sensor.h"
+#include "SensorTypes.h"
 
 void* pal_sensor_wire(const char* device);
 

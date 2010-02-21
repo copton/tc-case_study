@@ -1,4 +1,3 @@
-#include "Log.h"
 #include "infra/types.h"
 #include "LogWrite.h"
 #include "infra/debug.h"

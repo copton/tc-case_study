@@ -1,8 +1,8 @@
 #ifndef OOPHEIWOHXAISEFOOTOO
 #define OOPHEIWOHXAISEFOOTOO
 
-#include "raw/Types.h"
-#include "raw/Log.h"
+#include "Types.h"
+#include "LogTypes.h"
 #include "compiler/ec.h"
 
 void* pal_logw_wire(const char* file);

@@ -1,8 +1,8 @@
 #ifndef WOGEKEEXOFIESOKAIKEI
 #define WOGEKEEXOFIESOKAIKEI
 
-#include "raw/Types.h"
-#include "raw/NetTypes.h"
+#include "Types.h"
+#include "NetTypes.h"
 #include "compiler/ec.h"
 
 void* pal_receive_wire(const char* channel);
