@@ -69,7 +69,7 @@ typedef struct {
 	void* receive_handle;
 	void* logw_handle;
 	net_message_t msg;
-	unsigned char* payload;
+	void* payload;
 	uint8_t len;
 } ec_struct_receive_run;
 

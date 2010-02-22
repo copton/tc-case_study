@@ -1,8 +1,8 @@
-#depends on module.mak for $(TARGET)
+#depends on module.mak for $(TARGET) and $(TOOLCHAIN)
 
 .PHONY: app-all app-clean
 
-LD=$(TOOLCHAIN)/$(PREFIX)gcc
+LD=$(TOOLCHAIN)/$(CC_PREFIX)gcc
 LDFLAGS += 
 
 APP=$(shell basename $(shell pwd))

@@ -61,7 +61,7 @@ static void aggregate_from(void* handle, int32_t* min, int32_t* max)
 static void send_via(void* handle, int32_t min, int32_t max)
 {
     net_message_t msg;
-    unsigned char* payload = send_getPayload(handle, &msg, 2 * sizeof(int32_t));
+    void* payload = send_getPayload(handle, &msg, 2 * sizeof(int32_t));
     memcpy(payload, &min, sizeof(int32_t));
     memcpy(payload + sizeof(int32_t), &max, sizeof(int32_t));
 
@@ -99,10 +99,10 @@ void receive_run(const char* channel, const char* file)
     void* logw_handle = logw_wire(file);
     while (true) {
         net_message_t msg;
-        unsigned char* payload;
+        void* payload;
         uint8_t len;
 
-		error_t res = receive_receive(receive_handle, &msg, (void**)&payload, &len);
+		error_t res = receive_receive(receive_handle, &msg, &payload, &len);
 		assert (res == SUCCESS);
 
 		log_to(logw_handle, payload, len);

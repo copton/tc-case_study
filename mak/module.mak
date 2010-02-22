@@ -8,11 +8,13 @@ else
 	CFLAGS += -DDEBUG -g -O0
 endif
 
+TOOLCHAIN?=/usr/bin
+
 CFLAGS += -I$(ROOT)/src -Wall -Werror
 
-AR=$(TOOLCHAIN)/$(PREFIX)ar
-RANLIB=$(TOOLCHAIN)/$(PREFIX)ranlib
-CC=$(TOOLCHAIN)/$(PREFIX)gcc
+AR=$(TOOLCHAIN)/$(CC_PREFIX)ar
+RANLIB=$(TOOLCHAIN)/$(CC_PREFIX)ranlib
+CC=$(TOOLCHAIN)/$(CC_PREFIX)gcc
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $<

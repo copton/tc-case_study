@@ -150,7 +150,7 @@ static void send_via(void* handle, int32_t min, int32_t max)
 	ec_struct_send_via*const ec_p_send_via = ec_map_send_via();
 	ec_struct_send_send*const ec_p_send_send = ec_map_send_send();
 
-	unsigned char* payload = pal_send_getPayload(handle, &ec_p_send_via->msg, 2*sizeof(int32_t));
+	void* payload = pal_send_getPayload(handle, &ec_p_send_via->msg, 2*sizeof(int32_t));
 	memcpy(payload, &min, sizeof(int32_t));
 	memcpy(payload + sizeof(int32_t), &max, sizeof(int32_t));
 
@@ -276,7 +276,7 @@ static void ec_sub2_receive_run()
         ec_sub5_receive_run();
     } else {
         ec_p_receive_receive->msg = &ec_p_receive_run->msg;
-        ec_p_receive_receive->payload = (void**)&ec_p_receive_run->payload;
+        ec_p_receive_receive->payload = &ec_p_receive_run->payload;
         ec_p_receive_receive->len = &ec_p_receive_run->len;
         ec_p_receive_receive->ec_continuation = ec_sub3_receive_run;
         ec_pal_receive_receive(ec_p_receive_run->receive_handle);	
