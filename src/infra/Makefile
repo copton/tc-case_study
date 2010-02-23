@@ -1,8 +1,7 @@
-.PHONY: all clean depend distclean
+ifdef MEASURE
+DIRS = empty
+else
+DIRS = infra
+endif
 
-all: module-all
-clean: module-clean
-depend: module-depend
-distclean: module-distclean
-
-include ../../mak/module.mak
+include ../../mak/recurse.mak
