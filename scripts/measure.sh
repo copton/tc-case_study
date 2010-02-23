@@ -5,16 +5,13 @@ results=`tempfile --suffix .txt`
 count_cycles()
 {
 	app=$1
-	source_command="${TOOLCHAIN}/${CC_PREFIX}objdump -d $app"
- 	sink_command="$ROOT/scripts/count-cycles.py -"
-	$source_command | $sink_command
+	${TOOLCHAIN}/${CC_PREFIX}objdump -d $app | $ROOT/scripts/count-cycles.py -
 }
 
 measure_size()
 {
 	app=$1
-	command="${TOOLCHAIN}/${CC_PREFIX}size -t $app"
-	$command
+	${TOOLCHAIN}/${CC_PREFIX}size $app | perl -ne '@parts = split; print "$parts[0], $parts[1], $parts[2]\n"'
 }
 
 measure_app()
@@ -23,8 +20,11 @@ measure_app()
 	app_name=`basename $path`
 	app=$path/$app_name
 
-	echo "measures for $app" >> $results
+	echo "# memory consumption for $app" >> $results
 	measure_size $app >> $results 2>&1
+	echo >> $results
+
+	echo "# cpu cycles for $app" >> $results
 	count_cycles $app >> $results 2>&1
 	echo >> $results
 }
@@ -38,5 +38,4 @@ make all MEASURE=true
 measure_app "src/application/collect_and_forward/event-based"
 measure_app "src/application/collect_and_forward/generated"
 
-cat $results
-echo "results are in $results"
+editor $results
