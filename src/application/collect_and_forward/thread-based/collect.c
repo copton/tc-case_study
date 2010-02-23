@@ -11,7 +11,7 @@ void collect_run(const char* sensor, const char* file, unsigned dt)
     void* logw_handle = logw_wire(file);
 	void* timer_handle = timer_wire();
 
-    uint64_t now = timer_getNow(timer_handle);
+    uint32_t now = timer_getNow(timer_handle);
     while (true) {
         timer_sleep(timer_handle, now + dt);
         now += dt;

@@ -50,6 +50,7 @@ cycles = {
  'elpm' : 3,
  'and' : 1,
  'brcc' : 1.5,
+ 'com' : 1,
 }
 
 

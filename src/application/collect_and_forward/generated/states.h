@@ -28,7 +28,7 @@ typedef struct {
 	void* sensor_handle;
 	void* logw_handle;
     void* timer_handle;
-	uint64_t now;
+	uint32_t now;
 	sensor_val_t val;
 } ec_struct_collect_run;
 
@@ -57,7 +57,7 @@ typedef struct {
 	void* logr2_handle;
 	void* send_handle;
     void* timer_handle;
-	uint64_t now;
+	uint32_t now;
 	int32_t min;
 	int32_t max;
 } ec_struct_send_run;

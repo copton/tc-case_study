@@ -16,14 +16,21 @@ static void fired(void* handle)
 static timer_Callback callback = {&fired};
 
 
-void ec_pal_timer_sleep(void* handle, uint64_t until)
+void ec_pal_timer_sleep(void* handle, uint32_t until)
 {
 	DEBUGOUT("%d: ec_pal_timer_sleep(%llu) called", ec_tid(), until);
 	setHandle(handle);
+	uint32_t now = timer_getNow(handle);
+	uint32_t diff;
+	if (until > now) {
+		diff = until - now;
+	} else {
+		diff = until + (0xFFFFFFFF - now);
+	}
     timer_startOneShot(handle, until - timer_getNow(handle));
 }
 
-uint64_t pal_timer_getNow(void* handle)
+uint32_t pal_timer_getNow(void* handle)
 {
 	return timer_getNow(handle);
 }

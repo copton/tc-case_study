@@ -18,25 +18,7 @@ void* timer_wire()
     return handle;
 }
 
-error_t timer_sleep(void* h, uint64_t until)
-{
-    HANDLE;
-    ENTER;
-
-	uint64_t now = timer_getNow(h);	
-	assert (now < until);
-	uint64_t diff = until - now;
-	struct timespec req = { diff / 1000, (diff % 1000) * 1000 * 1000 };
-	int res = nanosleep(&req, NULL);
-	if (res != 0) {
-		errorExit("nanosleep");
-	}
-
-    LEAVE;
-    return SUCCESS;
-}
-
-uint64_t timer_getNow(void* h)
+static uint64_t getNow()
 {
     struct timeval tv;
 	{
@@ -45,7 +27,34 @@ uint64_t timer_getNow(void* h)
 			errorExit("gettimeofday");
 		}
 	}
-	uint32_t res = tv.tv_sec * 1000;
+	uint64_t res = tv.tv_sec * 1000;
 	res += tv.tv_usec / 1000;
     return res;
+}
+
+error_t timer_sleep(void* h, uint32_t until)
+{
+    HANDLE;
+    ENTER;
+
+	uint64_t now = getNow();	
+    uint32_t diff;
+    if (until > now) {
+        diff = until - now;
+    } else {
+        diff = until + (0xFFFFFFFFFFFFFFFFLL - now);
+    }
+    struct timespec req = { diff / 1000, (diff % 1000) * 1000 * 1000 };
+    int res = nanosleep(&req, NULL);
+    if (res != 0) {
+        errorExit("nanosleep");
+    }
+
+    LEAVE;
+    return SUCCESS;
+}
+
+uint32_t timer_getNow(void* h)
+{
+    return getNow();
 }
