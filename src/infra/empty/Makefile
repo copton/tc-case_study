@@ -1,6 +1,6 @@
 .PHONY: all clean depend distclean
 
-CFLAGS = -I$(ROOT)/src/infra/
+CFLAGS += -I$(ROOT)/src/infra/
 
 all: module-all
 clean: module-clean

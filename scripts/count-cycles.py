@@ -9,7 +9,7 @@ cycles = {
  'ldd' : 2,
  'ldi' : 1,
  'pop' : 2,
- 'lds' : 3,
+ 'lds' : 2,
  'lsr' : 1,
  'in' : 1,
  'ror' : 1,
@@ -30,7 +30,7 @@ cycles = {
  'st' : 2,
  'brge' : 1.5,
  'eor' : 1,
- 'sts' : 3,
+ 'sts' : 2,
  'push' : 2,
  'sbiw' : 2,
  'or' : 1,
@@ -44,6 +44,12 @@ cycles = {
  'cli' : 1,
  'icall' : 3,
  'lpm' : 3,
+ 'call' : 4,
+ 'jmp' : 3,
+ 'movw' : 1,
+ 'elpm' : 3,
+ 'and' : 1,
+ 'brcc' : 1.5,
 }
 
 

@@ -5,5 +5,5 @@ clean: module-clean
 depend: module-depend
 distclean: module-distclean
 
-CFLAGS = -I$(ROOT)/src/operating_system/tinyos/tc
+CFLAGS += -I$(ROOT)/src/operating_system/tinyos/tc
 include ../../../../mak/module.mak

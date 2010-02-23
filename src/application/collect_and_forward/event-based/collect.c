@@ -28,8 +28,8 @@ static void fired(void* handle)
 	assert (state == WAIT_TIMER);
     assert (handle == timer_handle);
 
-    error_t res = sensor_read(sensor_handle); (void)res;
-    assert (res == SUCCESS);
+    error_t res = sensor_read(sensor_handle);
+    assert (res == SUCCESS); (void)res;
 
 	state = WAIT_READ;
 }
