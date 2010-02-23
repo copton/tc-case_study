@@ -39,13 +39,18 @@ cycles = {
  'adc' : 1,
  'sub' : 1,
  'sbc' : 1,
+ 'brlt' : 1.5,
+ 'ret' : 4,
+ 'cli' : 1,
+ 'icall' : 3,
+ 'lpm' : 3,
 }
 
 
 class Process(object):
     def __init__(self):
         self.function_begin = re.compile(r"^[0-9a-f]+ <([^>]*)>:\n$")
-        self.command = re.compile(r"^\s*[0-9a-f]+:\s*([0-9a-f]{2} )+\s*([a-z]+)\s.*\n$")
+        self.command = re.compile(r"^\s*[0-9a-f]+:\s*([0-9a-f]{2} )+\s*([a-z]+).*\n$")
         self.current = None
         self.mnemonics = { }
 
@@ -72,6 +77,7 @@ class Process(object):
                     self.current[mnemonic] = 1
 
     def stats(self):
+        out = []
         def sum(d):
             result = 0
             for mnemonic, count in d.iteritems():
@@ -79,7 +85,13 @@ class Process(object):
             return result
 
         for function, d in self.mnemonics.iteritems():
-            sys.stdout.write("function %s: %d cycles in total\n" % (function, sum(d)))
+            out.append((function, sum(d)))
+
+        out.sort()
+
+        sys.stdout.write("function, total cycles\n")
+        for pair in out:
+            sys.stdout.write("%s, %d\n" % pair)
 
 process = Process()
 for line in fileinput.input():
