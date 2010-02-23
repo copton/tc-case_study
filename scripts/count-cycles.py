@@ -2,7 +2,7 @@
 
 import fileinput
 import re
-import pprint
+import sys
 
 cycles = {
  'rcall' : 3,
@@ -35,12 +35,16 @@ cycles = {
  'sbiw' : 2,
  'or' : 1,
  'breq' : 1.5,
+ 'add' : 1,
+ 'adc' : 1,
+ 'sub' : 1,
+ 'sbc' : 1,
 }
 
 
 class Process(object):
     def __init__(self):
-        self.function_begin = re.compile(r"^[0-9a-f]{8} <([^>]*)>:\n$")
+        self.function_begin = re.compile(r"^[0-9a-f]+ <([^>]*)>:\n$")
         self.command = re.compile(r"^\s*[0-9a-f]+:\s*([0-9a-f]{2} )+\s*([a-z]+)\s.*\n$")
         self.current = None
         self.mnemonics = { }
@@ -49,7 +53,7 @@ class Process(object):
         mo = self.function_begin.match(line)
         if mo:
             function = mo.group(1)
-            print "counting cycles for function", function
+#            print "counting cycles for function", function
             self.current = { }
             self.mnemonics[function] = self.current
             return
@@ -75,9 +79,7 @@ class Process(object):
             return result
 
         for function, d in self.mnemonics.iteritems():
-            print "stats for function", function
-            print d
-            print sum(d)
+            sys.stdout.write("function %s: %d cycles in total\n" % (function, sum(d)))
 
 process = Process()
 for line in fileinput.input():
