@@ -35,7 +35,7 @@ static void fired(void* handle)
     assert(handle == timer_handle);
 
 	error_t res = logr_read(logr_handle_1, read_buffer, sizeof(read_buffer));
-    assert (res == SUCCESS);
+    assert (res == SUCCESS); (void)res;
 
 	state = WAIT_LOGR_1;
 }
@@ -69,7 +69,7 @@ static void readDone(void* handle, void* buf, storage_len_t len, error_t error)
 	
     if (state == WAIT_LOGR_1) {
         error_t res = logr_read(logr_handle_2, read_buffer, sizeof(read_buffer));
-        assert (res == SUCCESS);
+        assert (res == SUCCESS); (void)res;
         state = WAIT_LOGR_2;
     } else {
 		unsigned char* payload = send_getPayload(send_handle, &message, 2 * sizeof(int32_t));
@@ -77,7 +77,7 @@ static void readDone(void* handle, void* buf, storage_len_t len, error_t error)
         memcpy(payload + sizeof(int32_t), &max, sizeof(int32_t));
         
         error_t res = send_send(send_handle, &message, 2 * sizeof(int32_t));
-        assert(res == SUCCESS);
+        assert(res == SUCCESS); (void)res;
 
         state = WAIT_SEND;
     }

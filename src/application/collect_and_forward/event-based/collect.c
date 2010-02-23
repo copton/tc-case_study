@@ -28,7 +28,7 @@ static void fired(void* handle)
 	assert (state == WAIT_TIMER);
     assert (handle == timer_handle);
 
-    error_t res = sensor_read(sensor_handle);
+    error_t res = sensor_read(sensor_handle); (void)res;
     assert (res == SUCCESS);
 
 	state = WAIT_READ;
@@ -43,7 +43,7 @@ static void readDone(void* handle, error_t error, sensor_val_t value)
 	cur_value = value;
 
 	error_t res = logw_append(logw_handle, &cur_value, sizeof(sensor_val_t));
-	assert (res == SUCCESS);
+	assert (res == SUCCESS); (void)res;
 
 	state = WAIT_LOG;
 }

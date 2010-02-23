@@ -3,9 +3,9 @@
 -include depend.mak
 
 ifdef MEASURE
-	CFLAGS += -Os
+	CFLAGS += -Os -DNDEBUG
 else
-	CFLAGS += -DDEBUG -g -O0
+	CFLAGS += -g -O0
 endif
 
 TOOLCHAIN?=/usr/bin

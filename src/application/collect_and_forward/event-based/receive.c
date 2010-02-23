@@ -31,7 +31,7 @@ static net_message_t* receive(void* handle, net_message_t* msg, void* payload, u
 	cur_len = len;
 
 	error_t error = logw_append(logw_handle, payload, len);
-	assert (error == SUCCESS);
+	assert (error == SUCCESS); (void)error;
 
 	state = WAIT_LOG;
 

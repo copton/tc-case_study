@@ -30,7 +30,7 @@ static void ec_sub2_log_to()
 	ec_struct_log_to*const ec_p_log_to = ec_map_log_to();
 
 	error_t res = ec_p_logw_append->ec_result;
-	assert (res == SUCCESS);
+	assert (res == SUCCESS); (void)res;
 	assert (ec_p_log_to->res_len == ec_p_log_to->len);
 
 	ec_p_log_to->ec_continuation();	
@@ -89,7 +89,7 @@ static void ec_sub4_collect_run()
 	ec_struct_log_to*const ec_p_log_to = ec_map_log_to();
 
 	error_t res = ec_p_sensor_read->ec_result;
-	assert (res == SUCCESS);
+	assert (res == SUCCESS); (void)res;
 
 	ec_p_log_to->len = sizeof(sensor_val_t);
 	ec_p_log_to->ec_continuation = ec_sub5_collect_run;
@@ -127,7 +127,7 @@ static void ec_sub2_aggregate_from()
 	ec_struct_aggregate_from*const ec_p_aggregate_from = ec_map_aggregate_from();
 
 	error_t res = ec_p_logr_read->ec_result;
-	assert (res == SUCCESS);
+	assert (res == SUCCESS); (void)res;
 	assert ((ec_p_aggregate_from->len % sizeof(int32_t)) == 0);
 
     { int i;
@@ -165,7 +165,7 @@ static void ec_sub2_send_via()
 	ec_struct_send_send*const ec_p_send_send = ec_map_send_send();
 
 	error_t res = ec_p_send_send->ec_result;
-	assert (res == SUCCESS);
+	assert (res == SUCCESS); (void)res;
 
 	ec_p_send_via->ec_continuation();
 }
@@ -290,7 +290,7 @@ static void ec_sub3_receive_run()
 	ec_struct_log_to*const ec_p_log_to = ec_map_log_to();
 	
 	error_t res = ec_p_receive_receive->ec_result;
-    assert (res==SUCCESS);
+    assert (res==SUCCESS); (void)res;
 
 	ec_p_log_to->len = ec_p_receive_run->len;
 	ec_p_log_to->ec_continuation = ec_sub4_receive_run;

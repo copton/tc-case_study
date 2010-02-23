@@ -6,10 +6,10 @@
 
 void debugout(const char* format, ...);
 
-#ifdef DEBUG
-#define DEBUGOUT debugout
-#else
+#ifdef NDEBUG
 #define DEBUGOUT(...)
+#else
+#define DEBUGOUT debugout
 #endif
 
 #endif

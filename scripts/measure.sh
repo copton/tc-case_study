@@ -33,6 +33,8 @@ cd $ROOT
 make distclean MEASURE=true
 make all MEASURE=true
 
+[ $? -eq 0 ] || exit 1
+
 measure_app "src/application/collect_and_forward/event-based"
 measure_app "src/application/collect_and_forward/generated"
 
