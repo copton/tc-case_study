@@ -53,6 +53,7 @@ cycles = {
  'com' : 1,
 }
 
+from function_deco import FunctionDeco
 
 class Process(object):
     def __init__(self):
@@ -60,14 +61,20 @@ class Process(object):
         self.command = re.compile(r"^\s*[0-9a-f]+:\s*([0-9a-f]{2} )+\s*([a-z]+).*\n$")
         self.current = None
         self.mnemonics = { }
+        self.deco = FunctionDeco()
 
     def __call__(self, line):
         mo = self.function_begin.match(line)
         if mo:
             function = mo.group(1)
-#            print "counting cycles for function", function
+
+            deco_name = self.deco.getDecoName(function)
+
+#            print "counting cycles for function", deco_name
+        
+            assert (not self.mnemonics.has_key(deco_name))
             self.current = { }
-            self.mnemonics[function] = self.current
+            self.mnemonics[deco_name] = self.current
             return
     
         if line == "\n":

@@ -6,8 +6,8 @@ else
 	options=
 fi
 
-detailed_results=`tempfile --suffix .cvs --prefix detailed`
-total_results=`tempfile --suffix .cvs --prefix total`
+detailed_results=`tempfile --suffix .cvs --prefix det-`
+total_results=`tempfile --suffix .cvs --prefix tot-`
 
 lib_section_size()
 {
@@ -106,5 +106,5 @@ measure_lib "src/operating_system/tinyos/ec_pal"
 echo "all done. press any key..."
 read dummy
 
-editor $total_results
+editor -O $total_results $detailed_results
 echo "results are in $total_results and in $detailed_results"

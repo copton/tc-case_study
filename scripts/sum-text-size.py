@@ -4,6 +4,8 @@ import fileinput
 import re
 import sys
 
+from function_deco import FunctionDeco
+
 class Process(object):
     def __init__(self):
         self.function_begin = re.compile(r"^[0-9a-f]+ <([^>]*)>:\n$")
@@ -11,14 +13,15 @@ class Process(object):
         self.current = None
         self.sums = { }
         self.total = 0
+        self.deco = FunctionDeco()
 
     def __call__(self, line):
         mo = self.function_begin.match(line)
         if mo:
             function = mo.group(1)
 #            print "summing up for function", function
-            self.sums[function] = 0
-            self.current = function
+            self.current = self.deco.getDecoName(function)
+            self.sums[self.current] = 0
             return
     
         if line == "\n":
