@@ -3,7 +3,7 @@
 -include depend.mak
 
 ifdef MEASURE
-	CFLAGS += -O0 -DNDEBUG
+	CFLAGS += -Os -DNDEBUG
 else
 	CFLAGS += -g -O0
 endif
