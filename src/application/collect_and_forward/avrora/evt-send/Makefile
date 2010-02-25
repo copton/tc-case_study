@@ -15,3 +15,9 @@ else
 	DEPS=$(ROOT)/src/operating_system/tinyos/raw/libraw.a $(ROOT)/src/hardware_simulation/libhardware_simulation.a $(ROOT)/src/infra/infra/libinfra.a
 endif
 include ../../../../../mak/app.mak
+
+OD_FILE=$(APP).od
+OBJDUMP=$(TOOLCHAIN)/$(CC_PREFIX)objdump
+%.od: %
+	$(OBJDUMP) -zhD $^ > $@ || rm $@
+	
