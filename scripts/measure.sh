@@ -1,5 +1,11 @@
 #!/bin/bash
 
+if [ $# -eq 1 -a $1 == "-o" ]; then
+	options="OPTIMIZE=true"
+else
+	options=
+fi
+
 detailed_results=`tempfile --suffix .cvs --prefix detailed`
 total_results=`tempfile --suffix .cvs --prefix total`
 
@@ -82,9 +88,13 @@ measure_lib()
 
 cd $ROOT
 make distclean MEASURE=true
-make all MEASURE=true
+make all MEASURE=true $options
 
 [ $? -eq 0 ] || exit 1
+
+echo "building with $options" >> $total_results
+echo "building with $options" >> $detailed_results
+
 
 measure_app "src/application/collect_and_forward/event-based"
 measure_app "src/application/collect_and_forward/generated"
@@ -92,6 +102,9 @@ measure_app "src/application/collect_and_forward/generated"
 measure_lib "src/application/collect_and_forward/event-based"
 measure_lib "src/application/collect_and_forward/generated"
 measure_lib "src/operating_system/tinyos/ec_pal"
+
+echo "all done. press any key..."
+read dummy
 
 editor $total_results
 echo "results are in $total_results and in $detailed_results"

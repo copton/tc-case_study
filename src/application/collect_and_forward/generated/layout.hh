@@ -6,7 +6,7 @@ ec_structs_collect ec_states_collect;
 ec_structs_receive ec_states_receive;
 ec_structs_send ec_states_send;
 
-inline ec_struct_log_to* ec_map_log_to()
+static inline ec_struct_log_to* ec_map_log_to()
 {
 	assert (ec_tid() == EC_TID_COLLECT || ec_tid() == EC_TID_RECEIVE);
     switch (ec_tid()) {
@@ -19,31 +19,31 @@ inline ec_struct_log_to* ec_map_log_to()
     }
 }
 
-inline ec_struct_collect_run* ec_map_collect_run()
+static inline ec_struct_collect_run* ec_map_collect_run()
 {
 	assert (ec_tid() == EC_TID_COLLECT);
 	return &ec_states_collect.collect_run;
 }
 
-inline ec_struct_aggregate_from* ec_map_aggregate_from()
+static inline ec_struct_aggregate_from* ec_map_aggregate_from()
 {
 	assert (ec_tid() == EC_TID_SEND);
     return &ec_states_send.union1.state1.aggregate_from;
 }
 
-inline ec_struct_send_via* ec_map_send_via()
+static inline ec_struct_send_via* ec_map_send_via()
 {
 	assert (ec_tid() == EC_TID_SEND);
     return &ec_states_send.union1.state2.send_via;
 }
 
-inline ec_struct_send_run* ec_map_send_run()
+static inline ec_struct_send_run* ec_map_send_run()
 {
 	assert (ec_tid() == EC_TID_SEND);
     return &ec_states_send.send_run;
 }
 
-inline ec_struct_receive_run* ec_map_receive_run()
+static inline ec_struct_receive_run* ec_map_receive_run()
 {
 	assert (ec_tid() == EC_TID_RECEIVE);
 	return &ec_states_receive.receive_run;
