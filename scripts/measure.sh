@@ -58,7 +58,7 @@ avrora_cycles()
 {
     odfile=$1
     echo "# cycles for the the event $odfile" 
-    java avrora.Main -monitors=calls -seconds=5 $path | $ROOT/scripts/avrora-cycles-diff.py -
+    java avrora.Main -monitors=calls -seconds=2 $path | $ROOT/scripts/avrora-cycles-diff.py -
     [ $? -eq 0 ] || exit 1
     echo
 }
@@ -66,8 +66,8 @@ avrora_cycles()
 avrora_stack()
 {
 	odfile=$1
-	echo "max. stack size for event $odfile"
-	java avrora.Main -action=analyze-stack -seconds=5 $path | awk '/Maximum stack depth/ {print $5}'
+	echo "# max. stack size for event $odfile"
+	java avrora.Main -action=analyze-stack -seconds=2 $path | awk '/Maximum stack depth/ {print $5}'
     [ $? -eq 0 ] || exit 1
     echo
 }
@@ -132,6 +132,9 @@ measure_lib "src/application/collect_and_forward/generated"
 measure_lib "src/operating_system/tinyos/ec_pal"
 
 measure_event "src/application/collect_and_forward/avrora/evt-send/evt-send.od"
+measure_event "src/application/collect_and_forward/avrora/evt-receive/evt-receive.od"
+measure_event "src/application/collect_and_forward/avrora/evt-collect/evt-collect.od"
+
 
 echo "all done. press any key..."
 read dummy

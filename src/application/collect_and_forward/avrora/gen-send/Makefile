@@ -1,8 +1,7 @@
-.PHONY: all clean depend distclean od
+.PHONY: all clean depend distclean
 
-all: module-all app-all od
+all: module-all app-all
 clean: module-clean app-clean
-	rm -f $(OD_FILE)
 depend: module-depend
 distclean: module-distclean
 
@@ -19,8 +18,6 @@ include ../../../../../mak/app.mak
 
 OD_FILE=$(APP).od
 OBJDUMP=$(TOOLCHAIN)/$(CC_PREFIX)objdump
-od: $(OD_FILE)
-
 %.od: %
 	$(OBJDUMP) -zhD $^ > $@ || rm $@
 	

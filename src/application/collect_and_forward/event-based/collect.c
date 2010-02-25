@@ -37,12 +37,13 @@ static void fired(void* handle)
 static void readDone(void* handle, error_t error, sensor_val_t value)
 {
     DEBUGOUT("collect__readDone(%p, %d, %d)", handle, error, value);
+	assert (handle == logw_handle);
 	assert (state == WAIT_READ);
 	assert (error == SUCCESS);
 	
 	cur_value = value;
 
-	error_t res = logw_append(logw_handle, &cur_value, sizeof(sensor_val_t));
+	error_t res = logw_append(logw_handle, buffer, sizeof(sensor_val_t));
 	assert (res == SUCCESS); (void)res;
 
 	state = WAIT_LOG;
