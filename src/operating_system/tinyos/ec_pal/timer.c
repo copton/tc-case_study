@@ -18,7 +18,7 @@ static timer_Callback callback = {&fired};
 
 void ec_pal_timer_sleep(void* handle, uint32_t until)
 {
-	DEBUGOUT("%d: ec_pal_timer_sleep(%llu) called", ec_tid(), until);
+	DEBUGOUT("%d: ec_pal_timer_sleep(%p, %llu) called", ec_tid(), handle, until);
 	setHandle(handle);
 	uint32_t now = timer_getNow(handle);
 	uint32_t diff;
