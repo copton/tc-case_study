@@ -6,113 +6,39 @@ else
 	options=
 fi
 
-detailed_results=`tempfile --suffix .cvs --prefix det-`
-total_results=`tempfile --suffix .cvs --prefix tot-`
+results=`tempfile --suffix .cvs`
 
 lib_section_size()
 {
-	lib=$1
-    echo "# sections' size for $lib"
-	${TOOLCHAIN}/${CC_PREFIX}size -t $lib #| perl -ne '@parts = split; print "$parts[0], $parts[1], $parts[2]\n"'
+    echo "# sections' size for $1"
+	${TOOLCHAIN}/${CC_PREFIX}size -t $1 #| perl -ne '@parts = split; print "$parts[0], $parts[1], $parts[2]\n"'
     [ $? -eq 0 ] || exit 1
     echo
 }
 
 app_section_size()
 {
-	app=$1
-    echo "# sections' size for $app"
-	${TOOLCHAIN}/${CC_PREFIX}size $app | perl -ne '@parts = split; print "$parts[0], $parts[1], $parts[2]\n"'
-    [ $? -eq 0 ] || exit 1
-    echo
-}
-
-total_text_size()
-{
-    objectfile=$1
-    echo "# total text size for $objectfile"
-	${TOOLCHAIN}/${CC_PREFIX}objdump -d $objectfile | $ROOT/scripts/sum-text-size.py - -t
-    [ $? -eq 0 ] || exit 1
-    echo
-}
-
-detailed_text_size()
-{
-    objectfile=$1
-    echo "# detailed text size for $objectfile"
-	${TOOLCHAIN}/${CC_PREFIX}objdump -d $objectfile | $ROOT/scripts/sum-text-size.py -
-    [ $? -eq 0 ] || exit 1
-    echo 
-}
-
-detailed_cycles()
-{
-	app=$1
-    echo "# number of cycles per function for $app"
-	${TOOLCHAIN}/${CC_PREFIX}objdump -d $app | $ROOT/scripts/count-cycles.py -
+    echo "# sections' size for $1"
+	${TOOLCHAIN}/${CC_PREFIX}size $1 #| perl -ne '@parts = split; print "$parts[0], $parts[1], $parts[2]\n"'
     [ $? -eq 0 ] || exit 1
     echo
 }
 
 avrora_cycles()
 {
-    odfile=$1
-    echo "# cycles for the the event $odfile" 
-    java avrora.Main -monitors=calls -seconds=2 $path | $ROOT/scripts/avrora-cycles-diff.py -
+    echo "# cycles for the the event $1" 
+    java avrora.Main -monitors=calls -seconds=2 $1 | $ROOT/scripts/avrora-cycles-diff.py -
     [ $? -eq 0 ] || exit 1
     echo
 }
 
 avrora_stack()
 {
-	odfile=$1
-	echo "# max. stack size for event $odfile"
-	java avrora.Main -action=analyze-stack -seconds=2 $path | awk '/Maximum stack depth/ {print $5}'
+	echo "# max. stack size for event $1"
+	java avrora.Main -action=analyze-stack -seconds=2 $1 | awk '/Maximum stack depth/ {print $5}'
     [ $? -eq 0 ] || exit 1
     echo
 }
-
-measure_app()
-{
-	path=$1
-	app=$path/`basename $path`
-
-    (
-    app_section_size $app 
-    total_text_size $app
-    ) >> $total_results 2>&1
-
-    (
-    detailed_text_size $app 
-    detailed_cycles $app
-    ) >> $detailed_results 2>&1
-}
-
-measure_lib()
-{
-	path=$1
-	lib=$path/lib`basename $path`.a
-
-    (
-    lib_section_size $lib 
-    total_text_size $lib
-    ) >> $total_results 2>&1
-
-    (
-    detailed_text_size $lib 
-    detailed_cycles $lib
-    ) >> $detailed_results 2>&1
-}
-
-measure_event()
-{
-    path=$1
-    (
-    avrora_cycles $path
-    avrora_stack $path
-    ) >> $total_results 2>&1
-}
-
 
 cd $ROOT
 make distclean MEASURE=true
@@ -120,24 +46,29 @@ make all MEASURE=true $options
 
 [ $? -eq 0 ] || exit 1
 
-echo "building with $options" >> $total_results
-echo "building with $options" >> $detailed_results
+(
+echo "building with '$options'"
 
+echo "# measuring code size"
+lib_section_size src/application/collect_and_forward/event-based/libevent-based.a
+lib_section_size src/application/collect_and_forward/generated/libgenerated.a
+lib_section_size src/operating_system/tinyos/ec_pal/libec_pal.a
 
-measure_app "src/application/collect_and_forward/event-based"
-measure_app "src/application/collect_and_forward/generated"
+echo "# measuring memory consumption"
+app_section_size src/application/collect_and_forward/event-based/event-based
+app_section_size src/application/collect_and_forward/generated/generated
 
-measure_lib "src/application/collect_and_forward/event-based"
-measure_lib "src/application/collect_and_forward/generated"
-measure_lib "src/operating_system/tinyos/ec_pal"
+echo "# measuring cycles"
+avrora_cycles src/application/collect_and_forward/avrora/event-based/event-based.od
+avrora_cycles src/application/collect_and_forward/avrora/generated/generated.od
 
-measure_event "src/application/collect_and_forward/avrora/evt-send/evt-send.od"
-measure_event "src/application/collect_and_forward/avrora/evt-receive/evt-receive.od"
-measure_event "src/application/collect_and_forward/avrora/evt-collect/evt-collect.od"
-
+echo "# measuring stack"
+#avrora_stack src/application/collect_and_forward/avrora/event-based/event-based.od
+avrora_stack src/application/collect_and_forward/avrora/generated/generated.od
+) > $results 2>&1
 
 echo "all done. press any key..."
 read dummy
 
-editor -O $total_results $detailed_results
-echo "results are in $total_results and in $detailed_results"
+editor $results
+echo "results are in $results"
