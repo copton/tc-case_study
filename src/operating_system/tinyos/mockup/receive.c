@@ -11,7 +11,7 @@ typedef struct {
 static ReceiveCtx ctx;
 static net_message_t msg;
 
-void receive_init()
+void mockup_receive_init()
 {
     ctx.msg = &msg;
 }

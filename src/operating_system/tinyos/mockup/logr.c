@@ -17,7 +17,7 @@ static ReadDoneContext ctx;
 static void readDoneHandler()
 {
 	logr_Callback* callback = ctx.handle;
-	callback->readDone(ctx.handle, ctx.buf, ctx.len, SUCCESS);	
+	callback->readDone(ctx.handle, ctx.buf, 2 * sizeof(uint32_t), SUCCESS);	
 }
 
 error_t logr_read(void* handle, void* buf, storage_len_t len)

@@ -26,3 +26,8 @@ error_t send_send(void* handle, net_message_t* msg, uint8_t len)
 	q_push(sendDoneHandler);
     return SUCCESS;
 }
+
+void* send_getPayload(void* handle, net_message_t* msg, uint8_t len)
+{
+    return msg->buffer;
+}

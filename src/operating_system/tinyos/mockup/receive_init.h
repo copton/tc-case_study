@@ -1,6 +1,6 @@
 #ifndef PURIEPEIMAIYORAHGHAE
 #define PURIEPEIMAIYORAHGHAE
 
-void receive_init();
+void mockup_receive_init();
 
 #endif

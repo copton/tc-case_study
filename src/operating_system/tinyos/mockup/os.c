@@ -3,7 +3,7 @@
 
 void os_init()
 {
-	receive_init();
+	mockup_receive_init();
 }
 
 void os_run()

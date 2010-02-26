@@ -12,7 +12,7 @@ typedef struct {
 
 static FiredContext ctx;
 
-static void firedHandler()
+void firedHandler()
 {
 	timer_Callback* callback = ctx.handle;
 	callback->fired(ctx.handle);
