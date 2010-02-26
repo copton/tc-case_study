@@ -43,7 +43,7 @@ static void readDone(void* handle, error_t error, sensor_val_t value)
 	
 	cur_value = value;
 
-	error_t res = logw_append(logw_handle, buffer, sizeof(sensor_val_t));
+    error_t res = logw_append(logw_handle, &cur_value, sizeof(sensor_val_t));
 	assert (res == SUCCESS); (void)res;
 
 	state = WAIT_LOG;
