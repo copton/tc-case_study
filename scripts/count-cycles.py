@@ -68,7 +68,7 @@ class Process(object):
         if mo:
             function = mo.group(1)
 
-            deco_name = self.deco.getDecoName(function)
+            deco_name = self.deco(function)
 
 #            print "counting cycles for function", deco_name
         

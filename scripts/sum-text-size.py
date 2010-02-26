@@ -20,7 +20,7 @@ class Process(object):
         if mo:
             function = mo.group(1)
 #            print "summing up for function", function
-            self.current = self.deco.getDecoName(function)
+            self.current = self.deco(function)
             self.sums[self.current] = 0
             return
     

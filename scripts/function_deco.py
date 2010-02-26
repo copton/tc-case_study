@@ -2,7 +2,7 @@ class FunctionDeco(object):
     def __init__(self):
         self.freq = {}
 
-    def getDecoName(self, function):
+    def __call__(self, function):
         if self.freq.has_key(function):
             self.freq[function] += 1
         else:
