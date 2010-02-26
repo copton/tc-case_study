@@ -1,10 +1,15 @@
-#include "event-based/collect.c"
+#include "mockup/Queue.h"
+#include "mockup/Os.h"
+#include "event-based/collect.h"
 
 int main()
 {
-	collect_init("", "", 0);
-	fired(timer_handle);
-	readDone(logw_handle, SUCCESS, 23);
-	appendDone(logw_handle, 0, sizeof(sensor_val_t), 0, SUCCESS);
+	os_init();
+ 	collect_init("", "", 0);
+	q_next();
+/*	
+	q_next();
+	q_next();
+*/
 	return 0;	
 }

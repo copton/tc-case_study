@@ -1,3 +1,3 @@
-DIRS = evt-send evt-receive evt-collect
+DIRS = evt-collect
 
 include ../../../../mak/recurse.mak
