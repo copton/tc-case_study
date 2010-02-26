@@ -41,7 +41,7 @@ void collect_run(const char* sensor, const char* file, unsigned dt)
 
 static void aggregate_from(void* handle, int32_t* min, int32_t* max)
 {
-    unsigned char read_buffer[250];
+    unsigned char read_buffer[log_buffer_size];
     storage_len_t len;
 
     error_t res = logr_read(handle, read_buffer, sizeof(read_buffer), &len);

@@ -16,7 +16,7 @@ static void* logr_handle_2 = NULL;
 static int32_t min;
 static int32_t max;
 
-static unsigned char read_buffer[250];
+static unsigned char read_buffer[log_buffer_size];
 static net_message_t message;
 
 typedef enum {

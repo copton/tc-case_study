@@ -38,7 +38,7 @@ typedef struct {
 	int32_t* min;
 	int32_t* max;
 	//private
-	unsigned char read_buffer[250];
+	unsigned char read_buffer[log_buffer_size];
 	storage_len_t len;
 } ec_struct_aggregate_from;
 

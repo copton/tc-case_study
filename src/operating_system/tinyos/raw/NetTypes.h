@@ -1,7 +1,7 @@
 #ifndef IEJUESOHPHUPEICHOHQU
 #define IEJUESOHPHUPEICHOHQU
 
-#define net_buffer_size 250
+#define net_buffer_size 50
 
 typedef struct {
     // XXX
