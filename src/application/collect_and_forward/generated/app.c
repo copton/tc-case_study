@@ -1,11 +1,8 @@
-#include "compiler/ec.h"
-
 #include "threads.h"
 #include "layout.hh"
 
 #include "infra/types.h"
 #include "infra/debug.h"
-#include "Pal.h"
 #include <string.h>
 
 /*** log_to ***/
@@ -324,7 +321,7 @@ static const int dt_send = 2000;
 
 static void ec_sub2_run_send();
 
-static void run_send()
+void run_send()
 {
 	ec_struct_send_run*const ec_p_send_run = ec_map_send_run();
 
@@ -340,7 +337,7 @@ static void ec_sub2_run_send()
 
 static void ec_sub2_run_receive();
 
-static void run_receive()
+void run_receive()
 {
 	ec_struct_receive_run*const ec_p_receive_run = ec_map_receive_run();
 	
@@ -354,7 +351,7 @@ static void ec_sub2_run_receive() {
 
 static void ec_sub2_run_collect();
 
-static void run_collect()
+void run_collect()
 {
 	ec_struct_collect_run*const ec_p_collect_run = ec_map_collect_run();
 
@@ -366,15 +363,5 @@ static void run_collect()
 static void ec_sub2_run_collect()
 {
     assert (false);
-}
-
-int main()
-{
-	pal_init();
-    RUN_THREADS(EC_NUMBEROF_THREADS, run_collect, run_receive, run_send);
-	pal_run();
-    assert (false);
-
-    return 0;
 }
 

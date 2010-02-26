@@ -9,8 +9,8 @@ distclean: module-distclean
 CFLAGS += -I$(ROOT)/src/operating_system/tinyos/ -I$(ROOT)/src/application/collect_and_forward/
 include ../../../../../mak/module.mak
 
-DEPS=$(foreach task, collect receive send, $(ROOT)/src/application/collect_and_forward/event-based/$(task).o)
-DEPS += $(ROOT)/src/operating_system/tinyos/mockup/libmockup.a
+DEPS = $(foreach part, app layout, $(ROOT)/src/application/collect_and_forward/generated/$(part).o)
+DEPS += $(ROOT)/src/operating_system/tinyos/ec_pal/libec_pal.a $(ROOT)/src/compiler/libcompiler.a $(ROOT)/src/operating_system/tinyos/mockup/libmockup.a 
 ifdef MEASURE
 	DEPS += $(ROOT)/src/infra/empty/libempty.a
 else

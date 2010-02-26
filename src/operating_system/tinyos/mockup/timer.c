@@ -24,3 +24,13 @@ void timer_startPeriodic(void* handle, uint32_t dt)
 	q_push(firedHandler);
 }
 
+void timer_startOneShot(void* handle, uint32_t dt)
+{
+	ctx.handle = handle;
+	q_push(firedHandler);
+}
+
+uint32_t timer_getNow(void* handle)
+{
+	return 23;
+}
