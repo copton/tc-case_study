@@ -9,7 +9,7 @@
 
 static void ec_sub2_log_to();
 
-static void log_to(void* handle, void* buf)
+static void ec_sub1_log_to(void* handle, void* buf)
 {
 	ec_struct_logw_append*const ec_p_logw_append = ec_map_logw_append();
 	ec_struct_log_to*const ec_p_log_to = ec_map_log_to();
@@ -42,7 +42,7 @@ static void ec_sub4_collect_run();
 static void ec_sub5_collect_run();
 static void ec_sub6_collect_run();
 
-static void collect_run(const char* sensor, const char* file)
+static void ec_sub1_collect_run(const char* sensor, const char* file)
 {
 	ec_struct_collect_run*const ec_p_collect_run = ec_map_collect_run();	
 
@@ -90,7 +90,7 @@ static void ec_sub4_collect_run()
 
 	ec_p_log_to->len = sizeof(sensor_val_t);
 	ec_p_log_to->ec_continuation = ec_sub5_collect_run;
-	log_to(ec_p_collect_run->logw_handle, &ec_p_collect_run->val);		
+	ec_sub1_log_to(ec_p_collect_run->logw_handle, &ec_p_collect_run->val);		
 }
 
 static void ec_sub5_collect_run()
@@ -107,7 +107,7 @@ static void ec_sub6_collect_run()
 /*** aggregate_from ***/
 static void ec_sub2_aggregate_from();
 
-static void aggregate_from(void* handle)
+static void ec_sub1_aggregate_from(void* handle)
 {
 	ec_struct_logr_read*const ec_p_logr_read = ec_map_logr_read();
 	ec_struct_aggregate_from*const ec_p_aggregate_from = ec_map_aggregate_from();
@@ -142,7 +142,7 @@ static void ec_sub2_aggregate_from()
 /*** send_via ***/
 static void ec_sub2_send_via();
 
-static void send_via(void* handle, int32_t min, int32_t max)
+static void ec_sub1_send_via(void* handle, int32_t min, int32_t max)
 {
 	ec_struct_send_via*const ec_p_send_via = ec_map_send_via();
 	ec_struct_send_send*const ec_p_send_send = ec_map_send_send();
@@ -175,7 +175,7 @@ static void ec_sub5_send_run();
 static void ec_sub6_send_run();
 static void ec_sub7_send_run();
 
-static void send_run(const char* channel, const char* file1, const char* file2)
+static void ec_sub1_send_run(const char* channel, const char* file1, const char* file2)
 {
 	ec_struct_send_run*const ec_p_send_run = ec_map_send_run();
 
@@ -213,7 +213,7 @@ static void ec_sub3_send_run()
 	ec_p_aggregate_from->min = &ec_p_send_run->min;
 	ec_p_aggregate_from->max = &ec_p_send_run->max;
 	ec_p_aggregate_from->ec_continuation = ec_sub4_send_run;
-	aggregate_from(ec_p_send_run->logr1_handle);
+	ec_sub1_aggregate_from(ec_p_send_run->logr1_handle);
 }
 
 static void ec_sub4_send_run()
@@ -224,7 +224,7 @@ static void ec_sub4_send_run()
 	ec_p_aggregate_from->min = &ec_p_send_run->min;
 	ec_p_aggregate_from->max = &ec_p_send_run->max;
 	ec_p_aggregate_from->ec_continuation = ec_sub5_send_run;
-	aggregate_from(ec_p_send_run->logr2_handle);
+	ec_sub1_aggregate_from(ec_p_send_run->logr2_handle);
 }
 
 static void ec_sub5_send_run()
@@ -233,7 +233,7 @@ static void ec_sub5_send_run()
 	ec_struct_send_via*const ec_p_send_via = ec_map_send_via();
 
 	ec_p_send_via->ec_continuation = ec_sub6_send_run;
-	send_via(ec_p_send_run->send_handle, ec_p_send_run->min, ec_p_send_run->max);	
+	ec_sub1_send_via(ec_p_send_run->send_handle, ec_p_send_run->min, ec_p_send_run->max);	
 }
 
 static void ec_sub6_send_run()
@@ -254,7 +254,7 @@ static void ec_sub3_receive_run();
 static void ec_sub4_receive_run();
 static void ec_sub5_receive_run();
 
-static void receive_run(const char* channel, const char* file)
+static void ec_sub1_receive_run(const char* channel, const char* file)
 {
     ec_struct_receive_run*const ec_p_receive_run = ec_map_receive_run();
 
@@ -291,7 +291,7 @@ static void ec_sub3_receive_run()
 
 	ec_p_log_to->len = ec_p_receive_run->len;
 	ec_p_log_to->ec_continuation = ec_sub4_receive_run;
-	log_to(ec_p_receive_run->logw_handle, ec_p_receive_run->payload);
+	ec_sub1_log_to(ec_p_receive_run->logw_handle, ec_p_receive_run->payload);
 }
 
 static void ec_sub4_receive_run()
@@ -327,7 +327,7 @@ void run_send()
 
 	ec_p_send_run->dt = dt_send;
 	ec_p_send_run->ec_continuation = ec_sub2_run_send;
-    send_run(fn_send, fn_flash_receive_source, fn_flash_collect_source);
+    ec_sub1_send_run(fn_send, fn_flash_receive_source, fn_flash_collect_source);
 }
 
 static void ec_sub2_run_send()
@@ -342,7 +342,7 @@ void run_receive()
 	ec_struct_receive_run*const ec_p_receive_run = ec_map_receive_run();
 	
 	ec_p_receive_run->ec_continuation = ec_sub2_run_receive;
-    receive_run(fn_receive, fn_flash_receive_sink);
+    ec_sub1_receive_run(fn_receive, fn_flash_receive_sink);
 }
 
 static void ec_sub2_run_receive() {
@@ -357,7 +357,7 @@ void run_collect()
 
 	ec_p_collect_run->dt = dt_collect;
 	ec_p_collect_run->ec_continuation = ec_sub2_run_collect;
-    collect_run(fn_collect, fn_flash_collect_sink);
+    ec_sub1_collect_run(fn_collect, fn_flash_collect_sink);
 }
 
 static void ec_sub2_run_collect()
