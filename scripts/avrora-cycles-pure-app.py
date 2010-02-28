@@ -73,7 +73,6 @@ class Process():
             cr = '>'
         else:
             cr = '<'
-
         if isFun_p:
             if isOnStack_p:
                 if cr == '<':
@@ -104,19 +103,25 @@ class Process():
             time = int(parts[2])
             mystate = self._istate(line)
 
+            # non-favor stack, call favor fun
             if mystate == 4:
-                self.t1 = time
+                self.t1 = time 
+                #print '\033[1;38m' + line[:-1] + '\033[1;m', " >>>"
+            # favor stack, non-favor fun returns
             elif mystate == 5:
-                self.t1 = time
+                self.t1 = time 
+                #print '\033[1;38m' + line[:-1] + '\033[1;m', " >>>"
+            # non-favor stack, favor fun returns
             elif mystate == 3:
                 self.cycles += time - self.t1
+                #print '\033[1;38m' + line[:-1] + '\033[1;m', " <<<"
+            # favor stack, call non-favor fun 
             elif mystate == 6:
                 self.cycles += time - self.t1
+                #print '\033[1;38m' + line[:-1] + '\033[1;m', " <<<"
             else:
+                #print line,
                 pass
-
-        #print 'XXXXXXXXXXXXXXXX self.t1 ', self.t1, " time ", time
-        #print '\033[1;38m' + line[:-1] + '\033[1;m'
    
     def dump_stats(self):
         sys.stdout.write(str(self.cycles) + "\n")
