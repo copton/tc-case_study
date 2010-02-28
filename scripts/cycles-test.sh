@@ -39,7 +39,7 @@ avrora_cycles_pure_app()
     elif [ $# -eq 2 -a $1 == "-evt" ]; then
 	echo "# cycles without raw for event-based $2"
     fi
-    java avrora.Main -monitors=calls -seconds=2 $2 | $ROOT/scripts/avrora-cycles-pure-app.py - $1
+    java avrora.Main -colors=false -monitors=calls -seconds=2 $2 | $ROOT/scripts/avrora-cycles-pure-app.py - $1
 }
 
 avrora_count_cycles()
