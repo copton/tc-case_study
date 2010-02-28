@@ -4,11 +4,6 @@
 
 ifdef MEASURE
 	CFLAGS += -DNDEBUG 
-	ifdef OPTIMIZE
-		CFLAGS += -Os
-	else
-		CFLAGS += -O0
-	endif
 else
 	CFLAGS += -g -O0
 endif
