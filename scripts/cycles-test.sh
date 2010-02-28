@@ -1,10 +1,33 @@
 #!/bin/bash
+buffer_size=30
+optimize=O0
+simulate=0
+now=`date`
 
-if [ $# -eq 1 -a $1 == "-o" ]; then
-    options="OPTIMIZE=true"
-else
-    options=
-fi
+usage()
+{
+	(
+	echo "Usage: $0 [-o] [-b buffer size] [-s]"
+	echo "-o: set the optimization (default: O0)"
+	echo "-b: set the I/O buffer size (default: 30)"
+	echo "-s: run the simulations (default: no)"
+	) >&2
+	exit 1
+}
+
+while getopts b:o:sh o
+do	case "$o" in
+	b)	buffer_size="$OPTARG" ;;
+	o)	optimize="$OPTARG" ;;
+	s)  simulate=1 ;;
+	h)  usage ;;
+	[?]) usage ;;
+	esac
+done
+shift $OPTIND-1
+
+CFLAGS="$CFLAGS -DBUFFER_SIZE=$buffer_size -${optimize}"
+
 
 results=`tempfile --suffix .txt`
 
@@ -16,7 +39,7 @@ avrora_cycles_pure_app()
     elif [ $# -eq 2 -a $1 == "-evt" ]; then
 	echo "# cycles without raw for event-based $2"
     fi
-    java avrora.Main -monitors=calls -seconds=2 $2 | sed 's/\[....m//g' | $ROOT/scripts/avrora-cycles-pure-app.py - $1
+    java avrora.Main -monitors=calls -seconds=2 $2 | $ROOT/scripts/avrora-cycles-pure-app.py - $1
 }
 
 avrora_count_cycles()
