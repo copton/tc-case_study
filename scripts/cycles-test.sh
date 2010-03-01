@@ -75,7 +75,7 @@ make all MEASURE=true $options
 [ $? -eq 0 ] || exit 1
 
 (
-echo "# building with '$options'"
+echo "# building with CFLAGS '$CFLAGS'"
 
 avrora_cycles_pure_app -gen src/application/collect_and_forward/avrora/generated/generated.od
 avrora_cycles_pure_app -evt src/application/collect_and_forward/avrora/event-based/event-based.od
