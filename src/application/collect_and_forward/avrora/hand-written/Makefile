@@ -11,7 +11,7 @@ include ../../../../../mak/module.mak
 
 DEPS=$(foreach task, collect receive send, $(ROOT)/src/application/collect_and_forward/hand-written/$(task).o)
 DEPS += $(ROOT)/src/operating_system/tinyos/mockup/libmockup.a
-ifdef MEASURE
+ifdef CROSS
 	DEPS += $(ROOT)/src/infra/empty/libempty.a
 else
 	DEPS += $(ROOT)/src/infra/infra/libinfra.a

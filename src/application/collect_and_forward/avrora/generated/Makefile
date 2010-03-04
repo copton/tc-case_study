@@ -11,7 +11,7 @@ include ../../../../../mak/module.mak
 
 DEPS = $(foreach part, app layout, $(ROOT)/src/application/collect_and_forward/generated/$(part).o)
 DEPS += $(ROOT)/src/operating_system/tinyos/ec_pal/libec_pal.a $(ROOT)/src/compiler/libcompiler.a $(ROOT)/src/operating_system/tinyos/mockup/libmockup.a 
-ifdef MEASURE
+ifdef CROSS
 	DEPS += $(ROOT)/src/infra/empty/libempty.a
 else
 	DEPS += $(ROOT)/src/infra/infra/libinfra.a

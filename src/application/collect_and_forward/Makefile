@@ -1,4 +1,4 @@
-ifdef MEASURE
+ifdef CROSS
 DIRS = hand-written generated avrora
 else
 DIRS = hand-written thread-based generated avrora tc-based

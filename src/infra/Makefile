@@ -1,4 +1,4 @@
-ifdef MEASURE
+ifdef CROSS
 DIRS = empty
 else
 DIRS = infra

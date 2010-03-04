@@ -8,7 +8,7 @@ distclean: module-distclean
 CFLAGS += -I$(ROOT)/src/operating_system/tinyos/raw
 include ../../../../mak/module.mak
 
-ifdef MEASURE
+ifdef CROSS
 	DEPS=$(ROOT)/src/operating_system/tinyos/empty/libempty.a $(ROOT)/src/infra/empty/libempty.a
 else
 	LDFLAGS += -lpthread

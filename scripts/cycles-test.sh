@@ -69,8 +69,8 @@ summary_report()
 }
 
 cd $ROOT
-make distclean MEASURE=true
-make all MEASURE=true $options
+make distclean CROSS=true
+make all CROSS=true $options
 
 [ $? -eq 0 ] || exit 1
 
