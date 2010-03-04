@@ -1,6 +1,6 @@
 class Config(object):
     applicationCommands = {
-        "events": "application/collect_and_forward/event-based/event-based",
+        "hand-written": "application/collect_and_forward/hand-written/hand-written",
         "mockup": "application/collect_and_forward/mockup/main.py",
         "threads": "application/collect_and_forward/thread-based/thread-based",
         "generated": "application/collect_and_forward/generated/generated",

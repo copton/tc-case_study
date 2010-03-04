@@ -85,21 +85,21 @@ make all MEASURE=true $options
 header
 
 echo "# measuring code size"
-lib_section_size src/application/collect_and_forward/event-based/libevent-based.a
+lib_section_size src/application/collect_and_forward/hand-written/libhand-written.a
 lib_section_size src/application/collect_and_forward/generated/libgenerated.a
 lib_section_size src/operating_system/tinyos/ec_pal/libec_pal.a
 
 echo "# measuring memory consumption"
-app_section_size src/application/collect_and_forward/event-based/event-based
+app_section_size src/application/collect_and_forward/hand-written/hand-written
 app_section_size src/application/collect_and_forward/generated/generated
 
 if [ $simulate -eq 1 ]; then 
 	echo "# measuring cycles"
-	avrora_cycles src/application/collect_and_forward/avrora/event-based/event-based.od
+	avrora_cycles src/application/collect_and_forward/avrora/hand-written/hand-written.od
 	avrora_cycles src/application/collect_and_forward/avrora/generated/generated.od
 
 	echo "# measuring stack"
-	#avrora_stack src/application/collect_and_forward/avrora/event-based/event-based.od
+	#avrora_stack src/application/collect_and_forward/avrora/hand-written/hand-written.od
 	avrora_stack src/application/collect_and_forward/avrora/generated/generated.od
 else
 	echo "# skipping simluations as requested"

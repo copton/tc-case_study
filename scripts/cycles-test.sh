@@ -37,7 +37,7 @@ avrora_cycles_pure_app()
     if [ $# -eq 2 -a $1 == "-gen" ]; then
 	echo "# cycles without pal for generated $2"
     elif [ $# -eq 2 -a $1 == "-evt" ]; then
-	echo "# cycles without raw for event-based $2"
+	echo "# cycles without raw for hand-written $2"
     fi
     java avrora.Main -colors=false -monitors=calls -seconds=2 $2 | $ROOT/scripts/avrora-cycles-pure-app.py - $1
 }
@@ -54,7 +54,7 @@ avrora_count_cycles()
         cat  $mytmp | sed '/^ec_sub/!d' |
         awk 'BEGIN{sum=0} {sum+=$2} END {print "total count cycles gen: " sum}'
     elif [ $# -eq 2 -a $1 == "-evt" ]; then
-        echo "# count cycles for event-based $2"
+        echo "# count cycles for hand-written $2"
         cat $mytmp | sed '/^function/d; /^collect_init/d; /^receive_init/d; /^send_init#1/d; /^main/d'
 
         cat $mytmp | sed '/^function/d; /^collect_init/d; /^receive_init/d; /^send_init#1/d; /^main/d' |
@@ -78,10 +78,10 @@ make all MEASURE=true $options
 echo "# building with CFLAGS '$CFLAGS'"
 
 avrora_cycles_pure_app -gen src/application/collect_and_forward/avrora/generated/generated.od
-avrora_cycles_pure_app -evt src/application/collect_and_forward/avrora/event-based/event-based.od
+avrora_cycles_pure_app -evt src/application/collect_and_forward/avrora/hand-written/hand-written.od
 
 #avrora_count_cycles -gen src/application/collect_and_forward/generated/libgenerated.a 
-#avrora_count_cycles -evt src/application/collect_and_forward/event-based/libevent-based.a 
+#avrora_count_cycles -evt src/application/collect_and_forward/hand-written/libhand-written.a 
 ) > $results 2>&1
 
 (

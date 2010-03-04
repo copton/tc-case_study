@@ -1,3 +1,3 @@
-DIRS = event-based generated
+DIRS = hand-written generated
 
 include ../../../../mak/recurse.mak

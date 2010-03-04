@@ -39,7 +39,7 @@ libevent = sum("collect.o", "main.o", "receive.o", "send.o")
 libpal = sum("layout.o", "logr.o", "logw.o", "pal.o", "receive.o#2", "send.o#2", "sensor.o", "timer.o")
 libgen = sum("app.o", "main.o#2")
 
-appevent = sum("src/application/collect_and_forward/event-based/event-based")
+appevent = sum("src/application/collect_and_forward/hand-written/hand-written")
 appgen = sum("src/application/collect_and_forward/generated/generated")
 
 

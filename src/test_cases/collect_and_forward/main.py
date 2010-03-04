@@ -10,12 +10,19 @@ from logs import Logs
 import os
 import os.path
 import random
+import sys
          
 def getLogfileName():
     return Config.logfileName
 
 def getApplicationCommand():
-    return os.path.join(os.environ["ROOT"], "src", Config.applicationCommands[Args.application])
+    try:
+        return os.path.join(os.environ["ROOT"], "src", Config.applicationCommands[Args.application])
+    except KeyError, e:
+        sys.stderr.write("Application %s not found. Valid values for option -a are: " % e.args[0])
+        sys.stderr.write(", ".join(Config.applicationCommands.keys()))
+        sys.stderr.write("\n")
+        sys.exit(1)
 
 def getApplicationParameter():
     return {}

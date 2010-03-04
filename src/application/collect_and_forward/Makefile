@@ -1,7 +1,7 @@
 ifdef MEASURE
-DIRS = event-based generated avrora
+DIRS = hand-written generated avrora
 else
-DIRS = event-based thread-based generated avrora tc-based
+DIRS = hand-written thread-based generated avrora tc-based
 endif
 
 include ../../../mak/recurse.mak
