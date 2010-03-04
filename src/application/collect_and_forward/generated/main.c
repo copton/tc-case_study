@@ -7,7 +7,9 @@
 int main()
 {
 	pal_init();
-    RUN_THREADS(EC_NUMBEROF_THREADS, run_collect, run_receive, run_send);
+    RUN_THREAD(run_collect);
+    RUN_THREAD(run_receive);
+    RUN_THREAD(run_send);
 	pal_run();
     assert (false);
 

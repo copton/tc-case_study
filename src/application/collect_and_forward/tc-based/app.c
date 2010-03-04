@@ -132,7 +132,9 @@ static void run_collect()
 
 int main()
 {
-	RUN_THREADS(run_send, run_receive, run_collect);
+	RUN_THREAD(run_send);
+	RUN_THREAD(run_receive);
+	RUN_THREAD(run_collect);
 	assert (false);
 
 	return 0;
