@@ -39,7 +39,7 @@ avrora_cycles_pure_app()
     elif [ $# -eq 2 -a $1 == "-evt" ]; then
 	echo "# cycles without raw for event-based $2"
     fi
-    java avrora.Main -monitors=calls -seconds=2 $2 | $ROOT/scripts/avrora-cycles-pure-app.py - $1
+    java avrora.Main -colors=false -monitors=calls -seconds=2 $2 | $ROOT/scripts/avrora-cycles-pure-app.py - $1
 }
 
 avrora_count_cycles()
@@ -75,7 +75,7 @@ make all MEASURE=true $options
 [ $? -eq 0 ] || exit 1
 
 (
-echo "# building with '$options'"
+echo "# building with CFLAGS '$CFLAGS'"
 
 avrora_cycles_pure_app -gen src/application/collect_and_forward/avrora/generated/generated.od
 avrora_cycles_pure_app -evt src/application/collect_and_forward/avrora/event-based/event-based.od
