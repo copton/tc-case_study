@@ -1,0 +1,114 @@
+This project aims to support the development of the TC->EC compiler.
+
+Project Structure
+=================
+
+	.
+	|-- doc
+	|-- mak
+	|-- platform
+	|   |-- avr
+	|   `-- msp430
+	|-- scripts
+	`-- src
+		|-- application
+		|   `-- collect_and_forward
+		|       |-- avrora
+		|       |   |-- hand-written
+		|       |   `-- generated
+		|       |-- hand-written
+		|       |-- generated
+		|       |-- mockup
+		|       |-- tc-based
+		|       `-- thread-based
+		|-- compiler
+		|-- hardware_simulation
+		|-- infra
+		|   |-- empty
+		|   `-- infra
+		|-- operating_system
+		|   `-- tinyos
+		|       |-- ec_pal
+		|       |-- empty
+		|       |-- mockup
+		|       |-- raw
+		|       |-- tc
+		|       `-- threads
+		|-- test_cases
+		|   `-- collect_and_forward
+		`-- test_environment
+
+* doc: documentation
+* mak: build system files
+* platform: platform depended files
+* avr: files for the avr-gcc platform
+* msp430: files for the msp430-gcc platform. (currently unsupported)
+* scripts: various scripts executing measurements and perfoming result aggregation
+* src: source code
+* application: components of the application layer
+  * collect\_and\_forward: the single example for the case study
+	* avrora: variants for running the application in the Avrora emulator
+	  * hand-written: avrora variant of the hand-written application
+	  * generated: avrora variant of the generated application
+	* hand-written: the hand-written variant of the application
+	* generated: the generated variant of the application
+	* mockup: a mockup application to test the test\_environment
+	* tc-based: input files for the code transformation
+	* thread-based: thread-based variant of the application
+* compiler: interfaces and implementations concerning the code transformation
+* hardware\_simulation: interfacing part for the test\_environment
+* infra: infrastructure files
+  * empty: empty implementation of the infrastructure for cross-compile measurements
+  * infra: common implementation of the infrastructure 
+* operating\_system: components of the operating system layer
+  * tinyos: mimicry of TinyOS 
+	* ec\_pal: the platform abstraction layer
+	* empty: empty implementation of the OS
+	* mockup: simple event-dispatcher implementation
+	* raw: event-based API and implementation
+	* tc: interfaces for the TC code
+	* threads: thread-based API and implementation
+* test\_cases: black box tests for the applications
+  * collect\_and\_forward: tests for the collect\_and\_forward application
+* test\_environment: interfacing the test cases with the hardware simulation
+
+Dependencies
+============
+  * Avrora: AVR Simulation and Analysis Framework
+    * http://compilers.cs.ucla.edu/avrora/
+    * download [avrora.jar](http://compilers.cs.ucla.edu/avrora/jars/avrora-beta-1.7.106.jar) into the lib directory
+  * Python 2.6
+  * avr-gcc 4.1.2
+  * GNU make 3.81
+
+Setup
+=====
+
+	$ source ./setup.sh
+	$ source platform/avr/setup.sh # if doing cross-compiling
+
+Building
+========
+Without cross-compiling just `make`. With cross-compiling some targets are not supported. In this case call `make all CROSS=true`.
+
+Running the Tests
+=================
+
+	$ cd src/test_environment
+	# run test for the collect_and_forward appliation, in particular the hand-written variant
+	# other possible variants are "threads" and "generated"
+	$ ./main.py -t collect_and_forward -r -- -a hand-written
+	# verify the recorded traces
+	$ ./main.py -t collect_and_forward -v
+
+Perform the Measurements
+========================
+
+	$ cd scripts
+	$ ./measure.sh
+
+	usage: ./measure.sh [-o] [-b buffer size] [-s]
+	-o: set the optimization (default: O0)
+	-b: set the I/O buffer size (default: 30)
+	-s: run the simulations (default: no)
+

@@ -7,10 +7,6 @@ problems
   - add variables which are passed by pointer to a blocking function to the state struct.
   - provide meta-information to the blocking functions.
 
-- not only variables which are written to before and read from after a blocking
-  call must be saved in the state struct. Additionally variables which are used
-  in more than one sub-function must be in the state struct.
-
 PAL
 ====
 - PAL must be partially generated because it depends on the number of threads
@@ -26,15 +22,7 @@ PAL
 optimization
 ============
 - sometimes caller can operate directly on the state struct of the callee instead of instantiating it's own copies of the variable.
-- thread-id mapping can omitted if there is only one caller
-- storing the continuation can be omitted if there is only one caller
-- on call of blocking functions, parameters which go to the state struct anyway
-  are directly stored there by the caller instead of passing them as normal
-  parameters.
 - sub-functions which do nothing but call another sub-function can be omitted (e.g. receive_run_4)
-- for the union optimization, map should return the pointer to the state
-  struct, because different elements of an array could go into different
-  unions.
 
 open questions
 ==============
