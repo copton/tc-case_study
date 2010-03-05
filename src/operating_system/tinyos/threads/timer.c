@@ -42,7 +42,7 @@ error_t timer_sleep(void* h, uint32_t until)
     if (until > now) {
         diff = until - now;
     } else {
-        diff = until + (0xFFFFFFFFFFFFFFFFLL - now);
+        diff = until + (0xFFFFFFFFFFFFFFFFull - now);
     }
     struct timespec req = { diff / 1000, (diff % 1000) * 1000 * 1000 };
     int res = nanosleep(&req, NULL);

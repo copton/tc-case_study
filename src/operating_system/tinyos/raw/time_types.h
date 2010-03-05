@@ -31,7 +31,7 @@ inline RelTime at_to_rt(AbsTime in)
 
 inline AbsTime at_getFrame(AbsTime in)
 {
-	AbsTime out = { (in.t & 0xFFFFFFFF00000000L) };
+	AbsTime out = { (in.t & 0xFFFFFFFF00000000ull) };
 	return out;
 }
 
