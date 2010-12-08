@@ -75,7 +75,7 @@ void send_run(const char* channel, const char* file1, const char* file2, unsigne
     void* logr2_handle = logr_wire(file2);
     void* send_handle = send_wire(channel);
 	void* timer_handle = timer_wire();
-    uint32_t now = timer_getNow(timer_wire);
+    uint32_t now = timer_getNow(timer_handle);
 
     while (true) {
         timer_sleep(timer_handle, now + dt);
