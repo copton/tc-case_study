@@ -3,7 +3,7 @@
 
 #include "states.h"
 
-typedef struct {
+struct {
     ec_struct_collect_run collect_run;
     union {
         ec_struct_timer_sleep timer_sleep;
@@ -13,10 +13,9 @@ typedef struct {
             ec_struct_logw_append logw_append;
         } struct1;
     } union1;
-} ec_structs_collect;
-extern ec_structs_collect ec_states_collect;
+} ec_tstack_1;
 
-typedef struct {
+struct {
     ec_struct_receive_run receive_run;
     union {
         ec_struct_receive_receive receive_receive;
@@ -25,10 +24,9 @@ typedef struct {
             ec_struct_logw_append logw_append;
         } struct1;
     } union1;
-} ec_structs_receive;
-extern ec_structs_receive ec_states_receive;
+} ec_tstack_2;
 
-typedef struct {
+struct {
     ec_struct_send_run send_run;
     union {
         ec_struct_timer_sleep timer_sleep;
@@ -41,7 +39,6 @@ typedef struct {
             ec_struct_send_send send_send;
         } state2;
     } union1;
-} ec_structs_send;
-extern ec_structs_send ec_states_send;
+} ec_tstack_3;
 
 #endif

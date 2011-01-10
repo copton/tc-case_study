@@ -31,7 +31,6 @@ typedef struct {
 	uint32_t now;
 	sensor_val_t val;
 } ec_struct_collect_run;
-
 typedef struct {
 	ec_continuation_t ec_continuation;
 	//signature
