@@ -7,29 +7,27 @@
 static void sendDone(void* handle, net_message_t* msg, error_t error)
 {
 	DEBUGOUT("%d: ec_pal_send_send(...)", ec_tid());
-    ec_set_tid(findThread(handle));
-    assert (ec_tid() != ec_invalid_tid);
-	ec_struct_send_send*const ec_p_send_send = ec_map_send_send();
+    ec_stack_send_send* stack = load(handle);
+    assert (stack != NULL);
 
     if (error == SUCCESS) {
-        assert (msg == ec_p_send_send->msg);
+        assert (msg == stack->msg);
     }
 
-    ec_p_send_send->ec_result = error;
+    stack->ec_result = error;
 	DEBUGOUT("%d: ec_pal_send_send(...) returns", ec_tid());
-    ec_p_send_send->ec_continuation();
+    ec_events(stack->ec_cont);
 }
 
-void ec_pal_send_send(void* handle, uint8_t len)
+void ec_pal_send_send(ec_stack_send_send* stack, void* handle, uint8_t len)
 {
 	DEBUGOUT("%d: ec_pal_send_send(...) called", ec_tid());
-	ec_struct_send_send*const ec_p_send_send = ec_map_send_send();
-    error_t res = send_send(handle, ec_p_send_send->msg, len);
+    error_t res = send_send(handle, stack->msg, len);
     if (res != SUCCESS) {
-        ec_p_send_send->ec_result = res;
-        ec_p_send_send->ec_continuation();
+        stack->ec_result = res;
+        ec_events(stack->ec_cont);
     } else {
-        setHandle(handle);
+        store(handle, stack);
     }
 } 
 

@@ -2,9 +2,8 @@
 #include <stdarg.h>
 #include "infra/debug.h"
 
-ec_tid_t the_tid = ec_invalid_tid;
+static ec_tid_t the_tid = 0;
 
-/*
 ec_tid_t ec_tid()
 {
     return the_tid;
@@ -15,14 +14,11 @@ void ec_set_tid(ec_tid_t tid)
     DEBUGOUT("%d: setting tid to %d", the_tid, tid);
     the_tid = tid;
 }
-*/
 
-static ec_tid_t tid = 0;
-
-void RUN_THREAD(ec_continuation_t start_function)
+void EC_RUN_THREAD(void* stack)
 {
-	DEBUGOUT("running thread %d", tid);
-    ec_set_tid(tid);
-    start_function();
-    tid++;
+    ec_set_tid(ec_tid() + 1);
+	DEBUGOUT("running thread %d", ec_tid());
+    ec_continuation_t cont = {0,stack};
+    ec_events(cont);
 }

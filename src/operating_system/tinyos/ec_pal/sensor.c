@@ -8,29 +8,27 @@
 static void readDone(void* handle, error_t result, sensor_val_t val)
 {
     DEBUGOUT("%d: ec_pal_sensor_read(...)", ec_tid());
-    ec_set_tid(findThread(handle));
-    assert (ec_tid() != ec_invalid_tid);
-	ec_struct_sensor_read*const ec_p_sensor_read = ec_map_sensor_read();
+    ec_stack_sensor_read* stack = load(handle);
+    assert (stack != NULL);
 
     if (result == SUCCESS) {
-        *(ec_p_sensor_read->val) = val;
+        *(stack->val) = val;
     }
 
-    ec_p_sensor_read->ec_result = result;
+    stack->ec_result = result;
     DEBUGOUT("%d: ec_pal_sensor_read(...) returns", ec_tid());
-    ec_p_sensor_read->ec_continuation();
+    ec_events(stack->ec_cont);
 }
 
-void ec_pal_sensor_read(void* handle)
+void ec_pal_sensor_read(ec_stack_sensor_read* stack, void* handle)
 {
     DEBUGOUT("%d: ec_pal_sensor_read(...) called", ec_tid());
-	ec_struct_sensor_read*const ec_p_sensor_read = ec_map_sensor_read();
     error_t res = sensor_read(handle);
     if (res != SUCCESS) {
-        ec_p_sensor_read->ec_result = res;
-        ec_p_sensor_read->ec_continuation();
+        stack->ec_result = res;
+        ec_events(stack->ec_cont);
     } else {
-        setHandle(handle);
+        store(handle, stack);
     }
 }
 

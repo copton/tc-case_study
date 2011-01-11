@@ -6,6 +6,12 @@ typedef struct {
     void* stack;
 } ec_continuation_t;
 
-void RUN_THREAD(ec_continuation_t start_function); 
+void ec_events(ec_continuation_t cont);
+
+typedef int ec_tid_t;
+ec_tid_t ec_tid();
+void ec_set_tid(ec_tid_t);
+
+void EC_RUN_THREAD(void* stack);
 
 #endif

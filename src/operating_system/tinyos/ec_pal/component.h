@@ -4,24 +4,31 @@
 #include "infra/debug.h"
 #include <stdlib.h>
 
-static void* handles[EC_NUMBEROF_THREADS];
+typedef struct {
+    void* handle;
+    void* stack;
+} Entry;
 
-static void setHandle(void* handle)
+static Entry context_store[EC_NUMBEROF_THREADS];
+
+static void store(void* handle, void* stack)
 {
-    assert(handles[ec_tid()] == NULL);
-    handles[ec_tid()] = handle;
+    Entry* entry = context_store + ec_tid();
+    assert (entry->handle == NULL);
+    entry->handle = handle;
+    entry->stack = stack;
 }
 
-static ec_tid_t findThread(void* handle)
+static void* load(void* handle)
 {
-	ec_tid_t i;
-    for (i=0; i<EC_NUMBEROF_THREADS; i++) {
-        if (handle == handles[i]) {
-            handles[i] = NULL;
-            return i;
+    for (ec_tid_t i=0; i<EC_NUMBEROF_THREADS; i++) {
+        if (handle == context_store[i].handle) {
+            ec_set_tid(i);
+            context_store[i].handle = NULL;
+            return context_store[i].stack;
         }
     }
-    return ec_invalid_tid;
+    return NULL;
 }
 
 #endif

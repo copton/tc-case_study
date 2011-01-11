@@ -1,68 +1,91 @@
-#include "layout.h"
+#include "tstack.h"
 #include "main.h"
+#include "infra/debug.h"
 
-#define S1 ((ec_struct_log_to*) continuation.stack)
-#define S2 ((ec_struct_collect_run*) continuation.stack)
-#define S3 ((ec_struct_aggregate_from*) continuation.stack)
-#define S4 ((ec_struct_send_via*) continuation.stack)
-#define S5 ((ec_struct_send_run*) continuation.stack)
-#define S6 ((ec_struct_receive_run*) continuation.stack)
+#define S6 ((ec_stack_6*) cont.stack)
+#define S7 ((ec_stack_7*) cont.stack)
+#define S8 ((ec_stack_8*) cont.stack)
 
 
-void ec_events(ec_continuation_t continuation)
+// from config.h
+/* static const char* fn_receive = "/tmp/tc/receive.sock"; */
+/* static const char* fn_send = "/tmp/tc/send.sock"; */
+static const char* fn_collect ="/tmp/tc/collect.sock";
+/* static const char* fn_flash_receive_source = "/tmp/tc/flash-receive-source.sock"; */
+/* static const char* fn_flash_collect_source = "/tmp/tc/flash-collect-source.sock"; */
+/* static const char* fn_flash_receive_sink = "/tmp/tc/flash-receive-sink.sock"; */
+static const char* fn_flash_collect_sink = "/tmp/tc/flash-collect-sink.sock";
+static const int dt_collect = 500;
+static const int dt_send = 2000;
+
+void ec_events(ec_continuation_t cont)
 {
     union {
-        struct {
+	    struct {
+			error_t res;			
+		} _6;	
+		struct {
+			error_t res;
             const char* sensor;
             const char* file;
-            unsigned dt;
-        } _2;
+		} _7;
 
-        struct {
-            const char* channel;
-            const char* file1;
-            const char* file2;
-            unsigned dt;
-        } _5;
-
-        struct {
-            const char* channel;
-            const char* file;
-        } _6;
     } s;
 
-    if (continuation.label != 0) goto *continuation.label;
+    if (cont.label != 0) goto *cont.label;
 
-    if (tid == 0) {
-        s._5.channel = fn_flash_send;
-        s._5.file1 = fn_flash_receive_source;
-        s._5.file2 = fn_flash_collect_source;
-        s._5.dt = dt_send;
-        continuation.stack = 
-        goto _5_1;
+    if (ec_tid() == 1) {
     }
-    if (tid == 1) {
-        s._6.channel = fn_receive;
-        s._6.file = fn_flash_receive_sink;
-        goto _6_1;
+    if (ec_tid() == 2) {
     }
-    if (tid == 2) {
-        s._2.sensor = fn_collect;
-        s._2.file = fn_flash_collect_sink;
-        s._2.dt = dt_collect;
-        goto _2_1;
+    if (ec_tid() == 3) {
+        s._7.sensor = fn_collect;
+        s._7.file = fn_flash_collect_sink;
+        S8->frames.ec_frame_7.dt = dt_collect;
+        cont.stack = &S8->frames.ec_frame_7;
+        goto _7_0;
     }
+	assert (false);
+	return;
 
-	{
-_2_1: 
-        S2->sensor_handle = sensor_wire(s._2.sensor);
-        S2->logw_handle = logw_wire(s._2.file);
-        S2->timer_handle = timer_wire();
-        S2->now = timer_getNow(S2->timer_handle);
-_2_2:
-        if (! true) goto XXX;
-        
-        
-collection_run_3: ;
-	}
+_6_0:	S6->frames.ec_frame_0.ec_cont.label = &&_6_1;
+		S6->frames.ec_frame_0.ec_cont.stack = S6;
+        S6->frames.ec_frame_0.buf = S6->buf;
+        S6->frames.ec_frame_0.res_len = &S6->res_len;
+        S6->frames.ec_frame_0.recordsLost = &S6->recordsLost;
+		ec_pal_0(&S6->frames.ec_frame_0, S6->handle, S6->len);
+		return;
+_6_1:	s._6.res = S6->frames.ec_frame_0.ec_result;
+		assert (s._6.res == SUCCESS);
+		assert (S6->res_len == S6->len);
+		cont.stack = S6->ec_cont.stack;
+		goto *S6->ec_cont.label;
+
+_7_0:	S7->sensor_handle = pal_sensor_wire(S7->sensor);
+		S7->logw_handle = pal_logw_wire(S7->file);
+		S7->timer_handle = pal_timer_wire();
+		S7->now = pal_timer_getNow(S7->timer_handle);
+_7_1:	if (! true) goto _7_5;
+		S7->frames.ec_frame_5.ec_cont.label = &&_7_2;
+		S7->frames.ec_frame_5.ec_cont.stack = S7;
+		ec_pal_5(&S7->frames.ec_frame_5, S7->timer_handle, S7->now + S7->dt);
+		return;
+_7_2:	S7->now += S7->dt;
+		S7->frames.ec_frame_4.ec_cont.label = &&_7_3;
+		S7->frames.ec_frame_4.ec_cont.stack = S7;
+        S7->frames.ec_frame_4.val = &S7->val;
+		ec_pal_4(&S7->frames.ec_frame_4, S7->sensor_handle);
+		return;
+_7_3:	s._7.res = S7->frames.ec_frame_4.ec_result;
+		assert(s._7.res == SUCCESS);
+		S7->frames.ec_frame_6.ec_cont.label = &&_7_4;
+		S7->frames.ec_frame_6.ec_cont.stack = S7;
+		S7->frames.ec_frame_6.handle = S7->logw_handle;
+		S7->frames.ec_frame_6.buf = &S7->val;
+		S7->frames.ec_frame_6.len = sizeof(sensor_val_t);
+		cont.stack = &S7->frames.ec_frame_6;
+		goto _6_0;
+_7_4:	goto _7_1;
+_7_5:	cont.stack = S7->ec_cont.stack;
+		goto *S7->ec_cont.label;
 }

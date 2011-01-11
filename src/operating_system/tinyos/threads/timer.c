@@ -4,10 +4,12 @@ typedef struct {
 
 #include "component.h"
 
+#include <time.h>
+int nanosleep(const struct timespec *req, struct timespec *rem); //XXX
+
 #include "Timer.h"
 #include <errno.h>
 
-#include <time.h>
 #include <sys/time.h>
 #include <stdlib.h>
 

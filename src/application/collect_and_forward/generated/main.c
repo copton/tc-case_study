@@ -1,19 +1,23 @@
 #include "main.h"
+#include "tstack.h"
 #include "Pal.h"
 #include <assert.h>
+#include "compiler/ec.h"
+
+ec_stack_8 tstack_3;
+
+int argc;
+char** argv;
 
 int main(int _argc, char** _argv)
 {
     argc = _argc;
     argv = _argv;
-    ec_continuation_t continuation = {0,0};
-    void* stacks[] = {&ec_tstack_1; &ec_tstack_2; &ec_tstack_3, 0};
 
 	pal_init();
-    for (tid = 0; stacks[tid] != 0; ++tid) {
-        continuation.stack = stacks[tid];
-        ec_events(continuation);
-    }
+	/* EC_RUN_THREAD(&ec_stack_XX); */
+	/* EC_RUN_THREAD(&ec_stack_XX); */
+    EC_RUN_THREAD(&tstack_3);
     pal_run();
 
     assert (false);

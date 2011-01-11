@@ -1,8 +1,7 @@
 #ifndef ASEICOPHOHZOOQUEEPHU
 #define ASEICOPHOHZOOQUEEPHU
 
-typedef void (*tc_run_method)();
-
-void RUN_THREAD(tc_run_method);
+typedef struct { } TC_RUN_THREAD_t;
+typedef TC_RUN_THREAD_t* TC_RUN_THREAD;
 
 #endif
