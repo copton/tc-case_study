@@ -34,7 +34,7 @@ typedef struct ec_stack_log_to {
 // local
 	storage_len_t res_len;
 	bool recordsLost;
-// next frame 
+// frames
     union {
         ec_stack_0 ec_frame_0;
    } frames;
@@ -52,7 +52,7 @@ typedef struct ec_stack_collect_run {
     void* timer_handle;
     uint32_t now;
     sensor_val_t val;
-// next frame
+// frames
     union {
         ec_stack_5 ec_frame_5;
         ec_stack_4 ec_frame_4;
@@ -65,5 +65,26 @@ typedef struct ec_stack_run_collect {
         ec_stack_7 ec_frame_7;
     } frames;
 } ec_stack_8;
+
+typedef struct ec_stack_receive_run {
+    ec_continuation_t ec_cont;
+// local
+    void* receive_handle;
+    void* logw_handle;
+    net_message_t msg;
+    void* payload;
+    uint8_t len; 
+// frames
+    union {
+        ec_stack_1 ec_frame_1;
+        ec_stack_6 ec_frame_6;
+    } frames;
+} ec_stack_9;
+
+typedef struct ec_stack_run_receive {
+    union {
+        ec_stack_9 ec_frame_9;
+    } frames;
+} ec_stack_10;
 
 #endif

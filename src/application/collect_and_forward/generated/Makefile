@@ -9,6 +9,7 @@ CFLAGS += -I$(ROOT)/src/operating_system/tinyos/ec_pal -I$(ROOT)/src/operating_s
 include ../../../../mak/module.mak
 
 ifdef CROSS
+	LDFLAGS += -u ec_events
 	DEPS=$(ROOT)/src/operating_system/tinyos/ec_pal/libec_pal.a $(ROOT)/src/operating_system/tinyos/empty/libempty.a $(ROOT)/src/infra/empty/libempty.a $(ROOT)/src/compiler/libcompiler.a
 else
 	LDFLAGS += -lpthread -u ec_events

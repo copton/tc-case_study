@@ -6,10 +6,10 @@ clean: module-clean app-clean
 depend: module-depend
 distclean: module-distclean
 
-CFLAGS += -I$(ROOT)/src/operating_system/tinyos/ -I$(ROOT)/src/application/collect_and_forward/
+CFLAGS += -I$(ROOT)/src/operating_system/tinyos -I$(ROOT)/src/operating_system/tinyos/ec_pal -I$(ROOT)/src/application/collect_and_forward/
 include ../../../../../mak/module.mak
 
-DEPS = $(foreach part, app layout, $(ROOT)/src/application/collect_and_forward/generated/$(part).o)
+DEPS = $(ROOT)/src/application/collect_and_forward/generated/app.o
 DEPS += $(ROOT)/src/operating_system/tinyos/ec_pal/libec_pal.a $(ROOT)/src/compiler/libcompiler.a $(ROOT)/src/operating_system/tinyos/mockup/libmockup.a 
 ifdef CROSS
 	DEPS += $(ROOT)/src/infra/empty/libempty.a
