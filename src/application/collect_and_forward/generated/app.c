@@ -229,6 +229,7 @@ _13_0:	S13->logr1_handle = pal_logr_wire(s._13.file1);
 		S13->logr2_handle = pal_logr_wire(s._13.file2);
 		S13->send_handle = pal_send_wire(s._13.channel);
 		S13->timer_handle = pal_timer_wire();	
+		S13->now = pal_timer_getNow(S13->timer_handle);
 _13_1:	if (! true) goto _13_6;
 		S13->frames.ec_frame_5.ec_cont.label = &&_13_2;
 		S13->frames.ec_frame_5.ec_cont.stack = S13;
