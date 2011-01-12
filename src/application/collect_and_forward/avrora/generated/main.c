@@ -5,7 +5,7 @@
 #include "infra/debug.h"
 #include "generated/tstack.h"
 
-int tstack_1; // XXX
+ec_stack_14 tstack_1;
 ec_stack_10 tstack_2;
 ec_stack_8 tstack_3;
 

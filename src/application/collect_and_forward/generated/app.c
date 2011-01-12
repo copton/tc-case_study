@@ -27,6 +27,7 @@ static const int dt_send = 2000;
 
 void ec_events(ec_continuation_t cont)
 {
+	DEBUGOUT("ec_events({%x, %x})", cont.label, cont.stack);
     union {
 	    struct {
 			error_t res;			
@@ -60,32 +61,65 @@ void ec_events(ec_continuation_t cont)
     if (cont.label != 0) goto *cont.label;
 
     if (ec_tid() == 1) {
-		goto _14_0;
+		DEBUGOUT("_6_0: %x", &&_6_0);	
+		DEBUGOUT("_6_1: %x", &&_6_1);	
+		DEBUGOUT("_7_0: %x", &&_7_0);	
+		DEBUGOUT("_7_1: %x", &&_7_1);	
+		DEBUGOUT("_7_2: %x", &&_7_2);	
+		DEBUGOUT("_7_3: %x", &&_7_3);	
+		DEBUGOUT("_7_4: %x", &&_7_4);	
+		DEBUGOUT("_7_5: %x", &&_7_5);	
+		DEBUGOUT("_8_0: %x", &&_8_0);	
+		DEBUGOUT("_8_1: %x", &&_8_1);	
+		DEBUGOUT("_9_0: %x", &&_9_0);	
+		DEBUGOUT("_9_1: %x", &&_9_1);	
+		DEBUGOUT("_9_2: %x", &&_9_2);	
+		DEBUGOUT("_9_3: %x", &&_9_3);	
+		DEBUGOUT("_9_4: %x", &&_9_4);	
+		DEBUGOUT("_10_0: %x", &&_10_0);	
+		DEBUGOUT("_10_1: %x", &&_10_1);	
+		DEBUGOUT("_11_0: %x", &&_11_0);	
+		DEBUGOUT("_11_1: %x", &&_11_1);	
+		DEBUGOUT("_12_0: %x", &&_12_0);	
+		DEBUGOUT("_12_1: %x", &&_12_1);	
+		DEBUGOUT("_12_2: %x", &&_12_2);	
+		DEBUGOUT("_12_3: %x", &&_12_3);	
+		DEBUGOUT("_13_0: %x", &&_13_0);	
+		DEBUGOUT("_13_1: %x", &&_13_1);	
+		DEBUGOUT("_13_2: %x", &&_13_2);	
+		DEBUGOUT("_13_3: %x", &&_13_3);	
+		DEBUGOUT("_13_4: %x", &&_13_4);	
+		DEBUGOUT("_13_5: %x", &&_13_5);	
+		DEBUGOUT("_13_6: %x", &&_13_6);	
+		DEBUGOUT("_14_0: %x", &&_14_0);	
+		DEBUGOUT("_14_1: %x", &&_14_1);	
+		goto _8_0;
     }
     if (ec_tid() == 2) {
 		goto _10_0;
     }
     if (ec_tid() == 3) {
-		goto _8_0;	
+		goto _14_0;	
     }
 	assert (false);
 	return;
 
-_6_0:	S6->frames.ec_frame_0.ec_cont.label = &&_6_1;
-		S6->frames.ec_frame_0.ec_cont.stack = S6;
-        S6->frames.ec_frame_0.buf = S6->buf;
+_6_0:	S6->frames.ec_frame_0.buf = S6->buf;
         S6->frames.ec_frame_0.res_len = &S6->res_len;
         S6->frames.ec_frame_0.recordsLost = &S6->recordsLost;
+        S6->frames.ec_frame_0.ec_cont.label = &&_6_1;
+		S6->frames.ec_frame_0.ec_cont.stack = S6;
 		ec_pal_0(&S6->frames.ec_frame_0, S6->handle, S6->len);
 		return;
 _6_1:	s._6.res = S6->frames.ec_frame_0.ec_result;
 		assert (s._6.res == SUCCESS);
 		assert (S6->res_len == S6->len);
+		cont.label = S6->ec_cont.label;
 		cont.stack = S6->ec_cont.stack;
-		goto *S6->ec_cont.label;
+		goto *cont.label;
 
-_7_0:	S7->sensor_handle = pal_sensor_wire(S7->sensor);
-		S7->logw_handle = pal_logw_wire(S7->file);
+_7_0:	S7->sensor_handle = pal_sensor_wire(s._7.sensor);
+		S7->logw_handle = pal_logw_wire(s._7.file);
 		S7->timer_handle = pal_timer_wire();
 		S7->now = pal_timer_getNow(S7->timer_handle);
 _7_1:	if (! true) goto _7_5;
@@ -94,23 +128,24 @@ _7_1:	if (! true) goto _7_5;
 		ec_pal_5(&S7->frames.ec_frame_5, S7->timer_handle, S7->now + S7->dt);
 		return;
 _7_2:	S7->now += S7->dt;
+        S7->frames.ec_frame_4.val = &S7->val;
 		S7->frames.ec_frame_4.ec_cont.label = &&_7_3;
 		S7->frames.ec_frame_4.ec_cont.stack = S7;
-        S7->frames.ec_frame_4.val = &S7->val;
 		ec_pal_4(&S7->frames.ec_frame_4, S7->sensor_handle);
 		return;
 _7_3:	s._7.res = S7->frames.ec_frame_4.ec_result;
 		assert(s._7.res == SUCCESS);
-		S7->frames.ec_frame_6.ec_cont.label = &&_7_4;
-		S7->frames.ec_frame_6.ec_cont.stack = S7;
 		S7->frames.ec_frame_6.handle = S7->logw_handle;
 		S7->frames.ec_frame_6.buf = &S7->val;
 		S7->frames.ec_frame_6.len = sizeof(sensor_val_t);
+		S7->frames.ec_frame_6.ec_cont.label = &&_7_4;
+		S7->frames.ec_frame_6.ec_cont.stack = S7;
 		cont.stack = &S7->frames.ec_frame_6;
 		goto _6_0;
 _7_4:	goto _7_1;
-_7_5:	cont.stack = S7->ec_cont.stack;
-		goto *S7->ec_cont.label;
+_7_5:	cont.label = S7->ec_cont.label;
+		cont.stack = S7->ec_cont.stack;
+		goto *cont.label;
 
 _8_0:	(void)argc;
 		(void)argv;
@@ -144,8 +179,9 @@ _9_2:	s._9.res = S9->frames.ec_frame_1.ec_result;
 		cont.stack = &S9->frames.ec_frame_6;	
 		goto _6_0;
 _9_3:	goto _9_1;
-_9_4:	cont.stack = S9->ec_cont.stack;
-		goto *S9->ec_cont.label;		
+_9_4:	cont.label = S9->ec_cont.label;
+		cont.stack = S9->ec_cont.stack;
+		goto *cont.label;
 
 _10_0:	s._9.channel = fn_receive;
 		s._9.file = fn_flash_receive_sink;
@@ -159,15 +195,16 @@ _10_1:	assert (false);
 _11_0:	s._11.payload = pal_send_getPayload(S11->handle, &S11->msg, 2 * sizeof(int32_t));
 		memcpy(s._11.payload, &S11->min, sizeof(int32_t));
 		memcpy(s._11.payload + sizeof(int32_t), &S11->max, sizeof(int32_t));
+		S11->frames.ec_frame_2.msg = &S11->msg;
 		S11->frames.ec_frame_2.ec_cont.label = &&_11_1;
 		S11->frames.ec_frame_2.ec_cont.stack = S11;
-		S11->frames.ec_frame_2.msg = &S11->msg;
 		ec_pal_2(&S11->frames.ec_frame_2, S11->handle, 2*sizeof(int32_t));
 		return;
 _11_1:	s._11.res = S11->frames.ec_frame_2.ec_result;
 		assert(s._11.res == SUCCESS);
+		cont.label = S11->ec_cont.label;
 		cont.stack = S11->ec_cont.stack;
-		goto *S11->ec_cont.label;
+		goto *cont.label;
 
 _12_0:	S12->frames.ec_frame_3.buf = S12->read_buffer;
 		S12->frames.ec_frame_3.res_len = &S12->len;
@@ -177,15 +214,16 @@ _12_0:	S12->frames.ec_frame_3.buf = S12->read_buffer;
 		return;
 _12_1:	s._12.res = S12->frames.ec_frame_3.ec_result;
 		assert(s._12.res == SUCCESS);
-		assert((S12->len & sizeof(int32_t)) == 0);
+		assert((S12->len % sizeof(int32_t)) == 0);
 		s._12.i = 0;
 _12_2:	if (!(s._12.i < S12->len/sizeof(int32_t))) goto _12_3;
 		memcpy(&s._12.tmp, S12->read_buffer + s._12.i * sizeof(int32_t), sizeof(int32_t));
 		if (s._12.tmp < *S12->min) *S12->min=s._12.tmp;
 		if (s._12.tmp > *S12->max) *S12->max=s._12.tmp;
 		goto _12_2;
-_12_3:  cont.stack = S12->ec_cont.stack;
-		goto *S12->ec_cont.label;
+_12_3:  cont.label = S12->ec_cont.label;
+		cont.stack = S12->ec_cont.stack;
+		goto *cont.label;
 
 _13_0:	S13->logr1_handle = pal_logr_wire(s._13.file1);
 		S13->logr2_handle = pal_logr_wire(s._13.file2);
@@ -218,8 +256,9 @@ _13_4:	S13->frames.ec_frame_11.handle = S13->send_handle;
 		S13->frames.ec_frame_11.ec_cont.stack = S13;
 		goto _11_0;
 _13_5:	goto _13_1;
-_13_6:	cont.stack = S13->ec_cont.stack;
-		goto *S13->ec_cont.label;
+_13_6:	cont.label = S13->ec_cont.label;
+		cont.stack = S13->ec_cont.stack;
+		goto *cont.label;
 
 _14_0:	s._13.channel = fn_send;
 		s._13.file1 = fn_flash_receive_source;

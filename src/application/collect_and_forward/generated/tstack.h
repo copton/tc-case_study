@@ -43,8 +43,6 @@ typedef struct ec_stack_log_to {
 typedef struct ec_stack_collect_run {
     ec_continuation_t ec_cont;
 // signature
-    const char* sensor;
-    const char* file;
     unsigned dt;
 // local
     void* sensor_handle;

@@ -2,27 +2,9 @@ threads
 =======
 | tid | task    |
 +-----+---------+
-| 0   | collect |
-| 1   | receive |
-| 2   | send    |
-
-
-call map
-=========
-
-| call            | task    |  index |
-+-----------------+---------+--------+
-| timer_sleep     | collect |   0    |
-| timer_sleep     | send    |   1    |
-| logw_append     | collect |   0    |
-| logw_append     | receive |   1    |
-| receive_receive | receive |   0    |
-| logr_read       | send    |   0    |
-| send_send       | send    |   0    |
-| collect_run     | collect |   0    | 
-| receive_run     | receive |   0    | 
-| aggretage_from  | send    |   0    |
-| send_via        | send    |   0    |
+| 1   | collect |
+| 2   | receive |
+| 3   | send    |
 
 call graph
 ==========
@@ -49,3 +31,24 @@ send
                 logr_read
             send_via
                 send_send
+
+critical functions
+==================
+
+| function        | id  |
++-----------------+-----+
+| logw_append     |  0  |
+| receive_receive |  1  |
+| send_send		  |  2  |
+| logr_read       |  3  |
+| sensor_read     |  4  |
+| timer_sleep     |  5  |
+| log_to          |  6  |
+| collect_run     |  7  |
+| run_collect     |  8  |
+| receive_run     |  9  |
+| run_receive     | 10  |
+| send_via        | 11  |
+| aggregate_from  | 12  |
+| send_run        | 13  |
+| run_send        | 14  |

@@ -4,6 +4,7 @@
 #include "infra/debug.h"
 #include "compiler/ec.h"
 
+ec_stack_14 tstack_1;
 ec_stack_10 tstack_2;
 ec_stack_8 tstack_3;
 
@@ -16,6 +17,7 @@ int main(int _argc, char** _argv)
     argv = _argv;
 
 	pal_init();
+    EC_RUN_THREAD(&tstack_1);
     EC_RUN_THREAD(&tstack_2);
     EC_RUN_THREAD(&tstack_3);
     pal_run();
