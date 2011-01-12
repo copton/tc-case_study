@@ -87,4 +87,59 @@ typedef struct ec_stack_run_receive {
     } frames;
 } ec_stack_10;
 
+typedef struct ec_stack_send_via {
+    ec_continuation_t ec_cont;
+// signature
+    void* handle;
+    int32_t min;
+    int32_t max;
+// local
+    net_message_t msg;
+// frames
+    union {
+        ec_stack_2 ec_frame_2;
+    } frames;
+} ec_stack_11;
+
+typedef struct ec_stack_aggregate_from {
+    ec_continuation_t ec_cont;
+// signature
+    void* handle;
+    int32_t* min;
+    int32_t* max;
+// local
+    unsigned char read_buffer[log_buffer_size];
+    storage_len_t len;
+// frames
+    union {
+        ec_stack_3 ec_frame_3;
+    } frames;
+} ec_stack_12;
+
+typedef struct ec_stack_send_run {
+    ec_continuation_t ec_cont;
+// signature
+    unsigned dt;
+// local
+    void* logr1_handle;
+    void* logr2_handle;
+    void* send_handle;
+    void* timer_handle;
+    uint32_t now;
+    int32_t min;
+    int32_t max;
+// frames
+    union {
+        ec_stack_5 ec_frame_5;
+        ec_stack_12 ec_frame_12;
+        ec_stack_11 ec_frame_11;
+    } frames;
+} ec_stack_13;
+
+typedef struct ec_stack_run_send {
+    union {
+        ec_stack_13 ec_frame_13;
+    } frames;
+} ec_stack_14;
+
 #endif

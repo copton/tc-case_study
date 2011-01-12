@@ -15,5 +15,6 @@ typedef struct  {
 } ec_stack_send_send;
 
 void ec_pal_send_send(ec_stack_send_send* stack, void* handle, uint8_t len);
+void* pal_send_getPayload(void* handle, net_message_t* msg, uint8_t len);
 
 #endif
