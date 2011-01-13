@@ -181,20 +181,20 @@ static void* run(void* h)
 		handle->shared.newSettings = false;
         if (handle->shared.run) {
             struct timespec abstime = toTimeSpec(handle);
-			DEBUGOUT("timer__run(%p):i'm waiting until %ld %ld", h, abstime.tv_sec, abstime.tv_nsec);
+			DEBUGOUT("%p: timer__run: i'm waiting until %ld %ld", h, abstime.tv_sec, abstime.tv_nsec);
             pthread_cond_timedwait(&handle->thread.cond, &handle->thread.mutex, &abstime);    
         } else {
-			DEBUGOUT("timer__run(%p) i'm waiting.", h);
+			DEBUGOUT("%p: timer__run: i'm waiting.", h);
             pthread_cond_wait(&handle->thread.cond, &handle->thread.mutex);
         }
-		DEBUGOUT("timer__run(%p): i woke up", h);
+		DEBUGOUT("%p: timer__run: i woke up", h);
 
         if (handle->shared.newSettings) {
-			DEBUGOUT("timer__run(%p): got new settings", h);
+			DEBUGOUT("%p: timer__run: got new settings", h);
         } else {
             handle->shared.t0 = rt_plus(handle->shared.t0, handle->shared.dt);
             cb_lock_acquire();
-			DEBUGOUT("timer__run(%p): fireing callback", h);
+			DEBUGOUT("%p: timer__run: fireing callback", h);
             handle->callback->fired(handle);
             cb_lock_release();
 

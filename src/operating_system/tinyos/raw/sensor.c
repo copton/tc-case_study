@@ -27,7 +27,7 @@ void* sensor_wire(sensor_Callback* callback, const char* device)
 
 error_t sensor_read(void* h)
 {
-	DEBUGOUT("sensor_read(%p)", h);
+	DEBUGOUT("%p: sensor_read", h);
 	HANDLE;
 	error_t res;
 	LOCK;
@@ -39,7 +39,7 @@ error_t sensor_read(void* h)
 		res = SUCCESS;
 	}
 	UNLOCK;
-	DEBUGOUT("sensor_read(...) -> %d", res);
+	DEBUGOUT("%p: sensor_read(...) -> %d", h, res);
 	return res;
 }
 
@@ -53,16 +53,16 @@ static sensor_val_t read(int fd)
 
 static void* run(void* h)
 {
-	DEBUGOUT("sensor__run(%p)", h);
+	DEBUGOUT("%p: sensor__run", h);
     HANDLE;
     os_sem_down();
     LOCK;
 	int fd = handle->shared.fd;
     while(1) {
         if (handle->shared.running == false) {
-            DEBUGOUT("sensor__run i'm waiting...");
+            DEBUGOUT("%p: sensor__run: i'm waiting...", h);
             WAIT;
-            DEBUGOUT("sensor__run dumdidum...");
+            DEBUGOUT("%p: sensor__run: i woke up", h);
         }
 		handle->shared.running = false;
 		UNLOCK;

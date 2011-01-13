@@ -17,7 +17,7 @@ static void store(void* handle, void* stack)
     assert (entry->handle == NULL);
     entry->handle = handle;
     entry->stack = stack;
-//    DEBUGOUT("%d: storing %x -> %x [%x]", ec_tid(), handle, stack, context_store);
+    DEBUGOUT("%d: storing %p -> %p [%p]", ec_tid(), handle, stack, context_store);
 }
 
 static void* load(void* handle)
@@ -26,11 +26,11 @@ static void* load(void* handle)
         if (handle == context_store[i].handle) {
             ec_set_tid(i+1);
             context_store[i].handle = NULL;
-//            DEBUGOUT("%d: loading %x -> %x [%x]", ec_tid(), handle, context_store[i].stack, context_store);
+            DEBUGOUT("%d: loading %p -> %p [%p]", ec_tid(), handle, context_store[i].stack, context_store);
             return context_store[i].stack;
         }
     }
-//    DEBUGOUT("%d: loading %x -> NULL [%x]", ec_tid(), handle, context_store);
+    DEBUGOUT("%d: loading %p -> NULL [%p]", ec_tid(), handle, context_store);
     return NULL;
 }
 

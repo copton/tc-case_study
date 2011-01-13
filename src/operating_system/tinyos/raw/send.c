@@ -70,15 +70,15 @@ void* send_getPayload(void* handle, net_message_t* msg, uint8_t len)
 
 static void* run(void* h)
 {
-	DEBUGOUT("send__run(%p)", h);
+	DEBUGOUT("%p: send__run", h);
     HANDLE;
     os_sem_down();
     LOCK;
     while(1) {
         if (handle->shared.msg == NULL) {
-            DEBUGOUT("send__run i'm waiting...");
+            DEBUGOUT("%p: send__run: i'm waiting...", h);
             WAIT;
-            DEBUGOUT("send__run dumdidum...");
+            DEBUGOUT("%p: send__run: i woke up", h);
         }
         assert (handle->shared.msg);
 

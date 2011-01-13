@@ -23,7 +23,7 @@ static void readDone(void* handle, void* buf, storage_len_t len, error_t error)
 
 void ec_pal_logr_read(ec_stack_logr_read* stack, void* handle, storage_len_t len)
 {
-    DEBUGOUT("%d: ec_pal_logr_read(...) called", ec_tid());
+    DEBUGOUT("%d: ec_pal_logr_read(%p, %p, %ld) called", ec_tid(), stack, handle, len);
     error_t res = logr_read(handle, stack->buf, len);
     if (res != SUCCESS) {
         stack->ec_result = res;

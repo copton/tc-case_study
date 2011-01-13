@@ -4,9 +4,9 @@
 #include "infra/debug.h"
 #include "compiler/ec.h"
 
-ec_stack_14 tstack_1;
+ec_stack_8 tstack_1;
 ec_stack_10 tstack_2;
-ec_stack_8 tstack_3;
+ec_stack_14 tstack_3;
 
 int argc;
 char** argv;

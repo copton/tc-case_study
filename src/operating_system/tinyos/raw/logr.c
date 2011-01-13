@@ -30,7 +30,7 @@ void* logr_wire(logr_Callback* callback, const char* file)
 
 error_t logr_read(void* h, void* buf, storage_len_t len)
 {
-	DEBUGOUT("logr_read(%p, %p, %u)", h, buf, len);
+	DEBUGOUT("%p: logr_read(%p, %p, %u)", h, h, buf, len);
 	HANDLE;
 	error_t res;
 	LOCK;
@@ -43,7 +43,7 @@ error_t logr_read(void* h, void* buf, storage_len_t len)
 		res = SUCCESS;
 	}
 	UNLOCK;
-	DEBUGOUT("logr_read(...) -> %d", res);
+	DEBUGOUT("%p: logr_read(...) -> %d", h, res);
 	return res;
 }
 
@@ -67,15 +67,15 @@ storage_len_t logr_getSize(void* h)
 
 static void* run(void* h)
 {
-	DEBUGOUT("logr__run(%p)", h);
+	DEBUGOUT("%p: logr__run", h);
     HANDLE;
     os_sem_down();
     LOCK;
     while(1) {
         if (handle->shared.buf == NULL) {
-            DEBUGOUT("logr__run i'm waiting...");
+            DEBUGOUT("%p: logr__run: i'm waiting...", h);
             WAIT;
-            DEBUGOUT("logr__run dumdidum...");
+            DEBUGOUT("%p: logr__run: i woke up", h);
         }
         assert (handle->shared.buf);
 

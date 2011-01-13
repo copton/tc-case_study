@@ -11,7 +11,7 @@ ec_tid_t ec_tid()
 
 void ec_set_tid(ec_tid_t tid)
 {
-    DEBUGOUT("%d: setting tid to %d", the_tid, tid);
+    DEBUGOUT("setting tid from %d to %d", the_tid, tid);
     the_tid = tid;
 }
 

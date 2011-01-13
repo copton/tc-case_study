@@ -29,7 +29,7 @@ void* logw_wire(logw_Callback* callback, const char* file)
 
 error_t logw_append(void* h, void* buf, storage_len_t len)
 {
-	DEBUGOUT("logw_append(%p, %p, %u)", h, buf, len);
+	DEBUGOUT("%p: logw_append(%p, %p, %u)", h, h, buf, len);
     HANDLE;
     error_t res;
     LOCK;
@@ -42,7 +42,7 @@ error_t logw_append(void* h, void* buf, storage_len_t len)
         res = SUCCESS;
     }
     UNLOCK;
-	DEBUGOUT("logw_append(...) -> %d", res);
+	DEBUGOUT("%p: logw_append(...) -> %d", h, res);
     return res;
 }
 
@@ -66,15 +66,15 @@ error_t logw_sync(void* h)
 
 static void* run(void* h)
 {
-	DEBUGOUT("logw__run(%p)", h);
+	DEBUGOUT("%p: logw__run", h);
     HANDLE;
     os_sem_down();
     LOCK;
     while(1) {
 		if (handle->shared.buf == NULL) {
-			DEBUGOUT("logw__run i'm waiting...");
+			DEBUGOUT("%p: logw__run: i'm waiting...", h);
 			WAIT;
-			DEBUGOUT("logw__run dumdidum...");
+			DEBUGOUT("%p: logw__run: i woke up", h);
 		}
         assert (handle->shared.buf);
 

@@ -1,0 +1,15 @@
+#!/bin/bash
+
+cmd=`tempfile`
+
+cat << EOF > $cmd
+break main
+run
+watch tstack_2.frames.ec_frame_9.logw_handle
+continue 
+continue 
+kill
+quit
+EOF
+
+exec gdb /home/alex/scm/tc-case_study/src/application/collect_and_forward/generated/generated -x $cmd

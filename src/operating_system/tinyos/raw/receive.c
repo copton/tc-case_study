@@ -25,7 +25,7 @@ void* receive_wire(receive_Callback* callback, const char* channel)
 
 static void* run(void* h)
 {
-	DEBUGOUT("receive__run(%p)", h);
+	DEBUGOUT("%p: receive__run", h);
     HANDLE;
 	os_sem_down();
 
@@ -35,8 +35,9 @@ static void* run(void* h)
 	net_message_t first_msg;
     net_message_t* msg = &first_msg;
     while(1) {
+		DEBUGOUT("%p: receive__run: reading...", h);
 		size_t res = hs_receive(fd, (unsigned char*)msg, sizeof(net_message_t));
-		DEBUGOUT("receive__run dumdidum...");
+		DEBUGOUT("%p: receive__run: received something", h);
 		cb_lock_acquire();
 		msg = handle->callback->receive(handle, msg, &msg->buffer, res);
 		cb_lock_release();
