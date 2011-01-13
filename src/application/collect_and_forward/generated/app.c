@@ -220,6 +220,7 @@ _12_2:	if (!(s._12.i < S12->len/sizeof(int32_t))) goto _12_3;
 		memcpy(&s._12.tmp, S12->read_buffer + s._12.i * sizeof(int32_t), sizeof(int32_t));
 		if (s._12.tmp < *S12->min) *S12->min=s._12.tmp;
 		if (s._12.tmp > *S12->max) *S12->max=s._12.tmp;
+		s._12.i++;
 		goto _12_2;
 _12_3:  cont.label = S12->ec_cont.label;
 		cont.stack = S12->ec_cont.stack;
