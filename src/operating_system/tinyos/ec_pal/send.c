@@ -6,7 +6,7 @@
 
 static void sendDone(void* handle, net_message_t* msg, error_t error)
 {
-	DEBUGOUT("%d: ec_pal_send_send(...)", ec_tid());
+	DEBUGOUT("?: ec_pal_send_send continous");
     ec_stack_send_send* stack = load(handle);
     assert (stack != NULL);
 

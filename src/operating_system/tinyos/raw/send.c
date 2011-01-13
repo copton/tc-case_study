@@ -13,7 +13,7 @@ typedef struct {
 
 void* send_wire(send_Callback* callback, const char* channel)
 {
-	DEBUGOUT("send_wire(%p)", callback);
+	DEBUGOUT("send_wire(%p, %s)", callback, channel);
 	Handle* handle = malloc(sizeof(Handle));
 	handle->callback = callback;
 

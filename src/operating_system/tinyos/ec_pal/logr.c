@@ -7,7 +7,7 @@
 
 static void readDone(void* handle, void* buf, storage_len_t len, error_t error)
 {
-    DEBUGOUT("%d: ec_pal_logr_read(...)", ec_tid());
+    DEBUGOUT("?: ec_pal_logr_read continous");
     ec_stack_logr_read* stack = load(handle);
     assert(stack!=NULL);
 

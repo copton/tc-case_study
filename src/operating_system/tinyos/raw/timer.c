@@ -178,21 +178,23 @@ static void* run(void* h)
     os_sem_down();
     LOCK;
     while(1) {
+		handle->shared.newSettings = false;
         if (handle->shared.run) {
-			DEBUGOUT("timer__run i'm waiting until ...");
             struct timespec abstime = toTimeSpec(handle);
+			DEBUGOUT("timer__run(%p):i'm waiting until %ld %ld", h, abstime.tv_sec, abstime.tv_nsec);
             pthread_cond_timedwait(&handle->thread.cond, &handle->thread.mutex, &abstime);    
         } else {
-			DEBUGOUT("timer__run i'm waiting...");
+			DEBUGOUT("timer__run(%p) i'm waiting.", h);
             pthread_cond_wait(&handle->thread.cond, &handle->thread.mutex);
         }
-		DEBUGOUT("timer__run dumdidum...");
+		DEBUGOUT("timer__run(%p): i woke up", h);
 
         if (handle->shared.newSettings) {
-            handle->shared.newSettings = false;
+			DEBUGOUT("timer__run(%p): got new settings", h);
         } else {
             handle->shared.t0 = rt_plus(handle->shared.t0, handle->shared.dt);
             cb_lock_acquire();
+			DEBUGOUT("timer__run(%p): fireing callback", h);
             handle->callback->fired(handle);
             cb_lock_release();
 

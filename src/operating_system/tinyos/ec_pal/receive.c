@@ -7,7 +7,7 @@
 
 static net_message_t* receive(void* handle, net_message_t* msg, void* payload, uint8_t len)
 {
-	DEBUGOUT("%d: ec_pal_receive_receive(...)", ec_tid());
+	DEBUGOUT("?: ec_pal_receive_receive continious");
     ec_stack_receive_receive* stack = load(handle);  
     if (stack != NULL) {
         stack->ec_result = SUCCESS;

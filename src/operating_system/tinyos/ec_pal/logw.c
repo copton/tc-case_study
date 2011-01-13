@@ -6,7 +6,7 @@
 
 static void appendDone(void* handle, void* buf, storage_len_t len, bool recordsLost, error_t error) 
 {
-    DEBUGOUT("%d: ec_pal_logw_append(...)", ec_tid());
+    DEBUGOUT("?: ec_pal_logw_append continous");
     ec_stack_logw_append* stack = load(handle);
     assert (stack!=NULL);
 

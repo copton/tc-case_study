@@ -36,7 +36,7 @@ void debugout(const char* format, ...)
 	fflush(stdout);
 
     if (pthread_mutex_unlock(&mutex) != 0) { 
-        errorExit("lock"); 
+        errorExit("unlock"); 
     }
     va_end(ap);
 }

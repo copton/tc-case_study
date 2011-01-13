@@ -7,7 +7,7 @@
 
 static void readDone(void* handle, error_t result, sensor_val_t val)
 {
-    DEBUGOUT("%d: ec_pal_sensor_read(...)", ec_tid());
+    DEBUGOUT("?: ec_pal_sensor_read continous");
     ec_stack_sensor_read* stack = load(handle);
     assert (stack != NULL);
 

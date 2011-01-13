@@ -6,8 +6,9 @@
 
 static void fired(void* handle)
 {
-	DEBUGOUT("%d: ec_pal_timer_sleep()", ec_tid());
+	DEBUGOUT("?: ec_pal_timer_sleep continues");
     ec_stack_timer_sleep* stack = load(handle);
+	assert (stack != NULL);
 	DEBUGOUT("%d: ec_pal_timer_sleep() returns", ec_tid());
     ec_events(stack->ec_cont);
 }
