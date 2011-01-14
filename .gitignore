@@ -4,3 +4,4 @@
 *.o
 lib*.a
 depend.mak
+lib/

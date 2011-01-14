@@ -54,7 +54,7 @@ avrora_cycles()
 {
     echo "# cycles for the the event $1" 
 	echo -n "# "
-    java avrora.Main -monitors=calls -seconds=1 $1 | $ROOT/scripts/avrora-cycles-diff.py -
+    java avrora.Main -monitors=calls -seconds=5 $1 | $ROOT/scripts/avrora-cycles-diff.py -
     [ $? -eq 0 ] || exit 1
     echo
 }
@@ -63,7 +63,7 @@ avrora_stack()
 {
 	echo "# max. stack size for event $1"
 	echo -n "# "
-	java avrora.Main -action=analyze-stack -seconds=1 $1 | awk '/Maximum stack depth/ {print $5}'
+	java avrora.Main -action=analyze-stack -seconds=5 $1 | awk '/Maximum stack depth/ {print $5}'
     [ $? -eq 0 ] || exit 1
     echo
 }
@@ -77,7 +77,7 @@ header()
 header
 cd $ROOT
 make distclean CROSS=true
-make all CROSS=true $options
+make all CROSS=true MEASURE=true $options
 
 [ $? -eq 0 ] || exit 1
 
@@ -98,9 +98,9 @@ if [ $simulate -eq 1 ]; then
 	avrora_cycles src/application/collect_and_forward/avrora/hand-written/hand-written.od
 	avrora_cycles src/application/collect_and_forward/avrora/generated/generated.od
 
-	echo "# measuring stack"
-	#avrora_stack src/application/collect_and_forward/avrora/hand-written/hand-written.od
-	avrora_stack src/application/collect_and_forward/avrora/generated/generated.od
+#	echo "# measuring stack"
+#	avrora_stack src/application/collect_and_forward/avrora/hand-written/hand-written.od
+#	avrora_stack src/application/collect_and_forward/avrora/generated/generated.od
 else
 	echo "# skipping simluations as requested"
 fi

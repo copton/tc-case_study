@@ -36,7 +36,7 @@ def sum(*keys):
     return dict((select, _sum(select)) for select in ["text", "data", "bss"])
 
 libevent = sum("collect.o", "main.o", "receive.o", "send.o")
-libpal = sum("layout.o", "logr.o", "logw.o", "pal.o", "receive.o#2", "send.o#2", "sensor.o", "timer.o")
+libpal = sum("logr.o", "logw.o", "pal.o", "receive.o#2", "send.o#2", "sensor.o", "timer.o")
 libgen = sum("app.o", "main.o#2")
 
 appevent = sum("src/application/collect_and_forward/hand-written/hand-written")
