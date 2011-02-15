@@ -38,4 +38,6 @@ module-distclean: clean
 module-depend: depend.mak
 
 depend.mak:
+ifneq ($(SRC_FILES),)
 	$(CC) $(CFLAGS) -M $(SRC_FILES) > $@ || rm -f $@
+endif

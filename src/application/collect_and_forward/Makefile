@@ -1,7 +1,7 @@
 ifdef CROSS
-DIRS = hand-written generated avrora
+DIRS = hand-written generated 
 else
-DIRS = hand-written thread-based generated tc-based
+DIRS = hand-written thread-based generated
 endif
 
 include ../../../mak/recurse.mak
