@@ -17,7 +17,6 @@ int main()
  	receive_init("", "");
 	receive_input();	
 	q_next();
-	q_next();
 
  	send_init("", "", "", 0);
 	q_next();
