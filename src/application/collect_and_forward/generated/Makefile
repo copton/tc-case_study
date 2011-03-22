@@ -2,17 +2,17 @@
 
 all: module-all app-all
 clean: module-clean app-clean
+	rm -f app-ec.c
 depend: module-depend
 distclean: module-distclean
 
-DEPS=app-ec.o
-
-app-ec.o: app-ec.o
+app-ec.o: app-ec.c
 
 app-ec.c: app-tc.c
 	ocram -c "$(CFLAGS)" -i $< -o $@
 
 CFLAGS += -I$(ROOT)/src/operating_system/tinyos/threads
+SRC_FILES=app-ec.c
 include ../../../../mak/module.mak
 
 ifdef CROSS

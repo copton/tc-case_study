@@ -19,7 +19,7 @@ CC=$(TOOLCHAIN)/$(CC_PREFIX)gcc
 %.o: %.c
 	$(CC) $(CFLAGS) -c $<
 
-SRC_FILES=$(wildcard *.c)
+SRC_FILES?=$(wildcard *.c)
 O_FILES=$(patsubst %.c,%.o,$(SRC_FILES))
 TARGET=lib$(shell basename $(shell pwd)).a
 
