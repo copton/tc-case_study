@@ -1,6 +1,7 @@
 #ifndef XOREECEOBEKENGIEQUID
 #define XOREECEOBEKENGIEQUID
 
+#include "compiler/tc.h"
 #include "Types.h"
 #include "LogTypes.h"
 
@@ -25,7 +26,7 @@ void* logw_wire(const char* file);
 *   <li>ESIZE if the (linear) log us full.
 *   <li>FAIL for other errors.
 */
-error_t logw_append(void* handle, void* buf, storage_len_t len, storage_len_t* res_len, bool* recordsLost);
+TC_BLOCKING error_t logw_append(void* handle, void* buf, storage_len_t len, storage_len_t* res_len, bool* recordsLost);
 
 /**
 * Return a "cookie" representing the current append offset within the

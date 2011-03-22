@@ -3,6 +3,7 @@
 
 // from tos/interfaces/Receive.nc
 
+#include "compiler/tc.h"
 #include "Types.h"
 #include "NetTypes.h"
 
@@ -21,6 +22,6 @@ void* receive_wire(const char* channel);
 *   <li>SUCCESS if the receive() was successful
 *   <li>EBUSY if a request is already being processed.
 */
-error_t receive_receive(void* handle, net_message_t* msg, void** payload, uint8_t* len);
+TC_BLOCKING error_t receive_receive(void* handle, net_message_t* msg, void** payload, uint8_t* len);
 
 #endif

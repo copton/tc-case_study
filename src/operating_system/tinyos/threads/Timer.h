@@ -4,6 +4,7 @@
 // from tos/lib/timer/Timer.nc
 // a unit is a millisecond
 
+#include "compiler/tc.h"
 #include "Types.h"
 
 // emulation of nesc wire statements
@@ -14,7 +15,7 @@ void* timer_wire();
  * sleep until a future point in time.
  *
  */
-error_t timer_sleep(void* handle, uint32_t until);
+TC_BLOCKING error_t timer_sleep(void* handle, uint32_t until);
 
 /**
 * Return the current time.

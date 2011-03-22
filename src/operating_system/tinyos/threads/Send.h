@@ -3,6 +3,7 @@
 
 // from tos/interfaces/Send.nc
 
+#include "compiler/tc.h"
 #include "Types.h"
 #include "NetTypes.h"
 
@@ -22,7 +23,7 @@ void* send_wire(const char* channel);
 *   <li>FAIL if it was not.
 *   <li>EBUSY if a request is already being processed.
 */ 
-error_t send_send(void* handle, net_message_t* msg, uint8_t len);
+TC_BLOCKING error_t send_send(void* handle, net_message_t* msg, uint8_t len);
 
 /**
 * Cancel a requested transmission. Returns SUCCESS if the 

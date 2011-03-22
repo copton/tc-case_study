@@ -5,14 +5,14 @@ clean: module-clean app-clean
 depend: module-depend
 distclean: module-distclean
 
-CFLAGS += -I$(ROOT)/src/operating_system/tinyos/raw -DEC_NUMBEROF_THREADS=3
-DEPS=app.o
+DEPS=app-ec.o
 
-app.o: app.c
+app-ec.o: app-ec.o
 
-app.c: ../tc-based/app.c
-	ocram $(CFLAGS) $< > $@
+app-ec.c: app-tc.c
+	ocram -c "$(CFLAGS)" -i $< -o $@
 
+CFLAGS += -I$(ROOT)/src/operating_system/tinyos/threads
 include ../../../../mak/module.mak
 
 ifdef CROSS

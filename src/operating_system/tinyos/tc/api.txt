@@ -1,7 +1,0 @@
-timer_getNow
-timer_sleep
-sensor_read
-logw_append
-receive_receive
-logr_read
-send_send

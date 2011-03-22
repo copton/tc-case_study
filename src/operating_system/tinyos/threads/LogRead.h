@@ -1,6 +1,7 @@
 #ifndef OOFOOYOHIEPINGETOGOO
 #define OOFOOYOHIEPINGETOGOO
 
+#include "compiler/tc.h"
 #include "Types.h"
 #include "LogTypes.h"
 
@@ -22,7 +23,7 @@ void* logr_wire(const char* file);
 *   <li>EBUSY if a request is already being processed.
 *   <li>FAIL otherwise.
 */
-error_t logr_read(void* handle, void* buf, storage_len_t len, storage_len_t* res_len);
+TC_BLOCKING error_t logr_read(void* handle, void* buf, storage_len_t len, storage_len_t* res_len);
 
 /**
 * Return a "cookie" representing the current read offset within the

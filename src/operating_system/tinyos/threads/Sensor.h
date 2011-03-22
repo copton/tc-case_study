@@ -3,6 +3,7 @@
 
 // from tos/interfaces/Reader.nc
 
+#include "compiler/tc.h"
 #include "Types.h"
 #include "SensorTypes.h"
 
@@ -19,6 +20,6 @@ void* sensor_wire(const char* device);
 *   <li>SUCCESS if the read() was successful
 *   <li>EBUSY if a request is already being processed.
 */
-error_t sensor_read(void* handle, sensor_val_t* val);
+TC_BLOCKING error_t sensor_read(void* handle, sensor_val_t* val);
 
 #endif
