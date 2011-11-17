@@ -10,7 +10,8 @@ endif
 
 TOOLCHAIN?=/usr/bin
 
-CFLAGS += -I$(ROOT)/src -Wall -Werror -std=c99
+CPPFLAGS += -I$(ROOT)/src
+CFLAGS += $(CPPFLAGS) -Wall -Werror -std=c99
 
 AR=$(TOOLCHAIN)/$(CC_PREFIX)ar
 RANLIB=$(TOOLCHAIN)/$(CC_PREFIX)ranlib

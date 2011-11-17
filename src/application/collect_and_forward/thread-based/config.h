@@ -1,15 +1,15 @@
 #ifndef UECHAIMIECOOKUKEECHE
 #define UECHAIMIECOOKUKEECHE
 
-const char* fn_receive = "/tmp/tc/receive.sock";
-const char* fn_send = "/tmp/tc/send.sock";
-const char* fn_collect ="/tmp/tc/collect.sock";
-const char* fn_flash_receive_source = "/tmp/tc/flash-receive-source.sock";
-const char* fn_flash_collect_source = "/tmp/tc/flash-collect-source.sock";
-const char* fn_flash_receive_sink = "/tmp/tc/flash-receive-sink.sock";
-const char* fn_flash_collect_sink = "/tmp/tc/flash-collect-sink.sock";
+extern const char* fn_receive;
+extern const char* fn_send;
+extern const char* fn_collect;
+extern const char* fn_flash_receive_source;
+extern const char* fn_flash_collect_source;
+extern const char* fn_flash_receive_sink;
+extern const char* fn_flash_collect_sink;
 
-const int dt_collect = 500;
-const int dt_send = 2000;
+extern const int dt_collect;
+extern const int dt_send;
 
 #endif

@@ -1,7 +1,5 @@
 #include <pthread.h>
-#include "send.h"
-#include "receive.h"
-#include "collect.h"
+#include "app.h"
 #include "infra/types.h"
 #include "infra/debug.h"
 #include "config.h"
